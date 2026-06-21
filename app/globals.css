@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FAFAFA;
+  --color-foreground: #1A1A1A;
+  --color-primary: #583A83;
+  --color-primary-foreground: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #1A1A1A;
+  --color-secondary: #F3F4F6;
+  --color-secondary-foreground: #1A1A1A;
+  --color-muted: #F3F4F6;
+  --color-muted-foreground: #6B7280;
+  --color-accent: #DDA77B;
+  --color-accent-foreground: #FFFFFF;
+  --color-accent-cyan: #4EA8C7;
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-input: #E5E7EB;
+  --color-ring: #583A83;
+  --color-text-secondary: #6B7280;
+  --color-surface: #FFFFFF;
+  --color-slate-50: #F8FAFC;
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+}
+
+/* Custom Utility Classes */
+
+.section-padding {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+
+.glow-primary {
+  box-shadow: 0 0 40px rgba(88, 58, 131, 0.08);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 40px rgba(78, 168, 199, 0.08);
+}
+
+.glow-accent {
+  box-shadow: 0 0 40px rgba(221, 167, 123, 0.08);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(88, 58, 131, 0.06);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(88, 58, 131, 0.12);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(88, 58, 131, 0.06);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}

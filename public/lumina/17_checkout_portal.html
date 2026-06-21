@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17 - Checkout Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(20, 10, 40, 0.8);
+            --magic-border: rgba(139, 92, 246, 0.4);
+            --magic-cyan: #00F0FF; 
+            --text-pure: #FFFFFF;
+            --text-dim: #A78BFA; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.6);
+            --glow-purple: 0 0 40px rgba(139, 92, 246, 0.6);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1519072970581-229d453b0f59?q=80&w=1440');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+            mix-blend-mode: screen;
+         animation: slowBreath 30s infinite alternate ease-in-out; }
+
+        @keyframes slowBreath { 0% { transform: scale(1); filter: contrast(1.2) brightness(0.8); } 100% { transform: scale(1.05); filter: contrast(1.4) brightness(0.6); } }
+
+        .portal-panel {
+            z-index: 20; width: 600px;
+            background: var(--magic-panel); border: 1px solid var(--magic-border);
+            border-radius: 32px; padding: 64px; backdrop-filter: var(--blur-heavy);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .portal-header { text-align: center; margin-bottom: 40px; }
+        .portal-title { font-family: var(--font-magic); font-size: 32px; margin-bottom: 8px; }
+
+        .input-group { margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; }
+        .magic-label { font-size: 14px; font-weight: 500; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .magic-input {
+            width: 100%; padding: 16px; background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px;
+            color: var(--text-pure); font-size: 16px;
+        }
+
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+
+        .magic-btn-solid {
+            width: 100%; padding: 20px; margin-top: 16px;
+            background: var(--magic-cyan); color: #000;
+            border: none; border-radius: 12px;
+            font-size: 18px; font-weight: 600; cursor: pointer;
+            box-shadow: var(--glow-cyan);
+        }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="bg-layer"></div>
+        
+        <div class="portal-panel">
+            <div class="portal-header">
+                <h1 class="portal-title">Secure Exchange Portal</h1>
+                <p style="color: var(--text-dim);">Seal the pact for 55 ⟡</p>
+            </div>
+
+            <div class="input-group">
+                <label class="magic-label">Cardholder Engraving</label>
+                <input type="text" class="magic-input" placeholder="Name on card">
+            </div>
+
+            <div class="input-group">
+                <label class="magic-label">Artifact Number</label>
+                <input type="text" class="magic-input" placeholder="0000 0000 0000 0000">
+            </div>
+
+            <div class="card-grid">
+                <div class="input-group">
+                    <label class="magic-label">Expiration Rune</label>
+                    <input type="text" class="magic-input" placeholder="MM/YY">
+                </div>
+                <div class="input-group">
+                    <label class="magic-label">CVC Seal</label>
+                    <input type="password" class="magic-input" placeholder="•••">
+                </div>
+            </div>
+
+            <button class="magic-btn-solid">Transfer Aura (Pay Now)</button>
+            <p style="text-align: center; color: var(--text-dim); margin-top: 24px; font-size: 14px;">🔒 Enchanted 256-bit Secure Gateway</p>
+        </div>
+    </main>
+</body>
+</html>

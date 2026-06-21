@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Unsealing The Sanctum</title>
+    <!-- Fonts - Hogwarts & Cinematic Grade -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #020205;
+            --hogwarts-gold: #D4AF37;
+            --hogwarts-crimson: #740001;
+            --surface: rgba(15, 15, 25, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(50px);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* html.to.design Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--void);
+            color: #FFFFFF;
+            font-family: var(--font-sans);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- THE MAGICAL BACKGROUND --- */
+        .master-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=2560') center/cover;
+            filter: brightness(0.15) saturate(1.2) blur(3px);
+        }
+        .embers-container { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+        .ember { position: absolute; width: 2px; height: 2px; background: var(--hogwarts-gold); border-radius: 50%; opacity: 0.4; animation: float-up 12s infinite linear; }
+        @keyframes float-up { from { transform: translateY(110vh) scale(1); opacity: 0; } 50% { opacity: 0.5; } to { transform: translateY(-10vh) scale(0.5); opacity: 0; } }
+
+        /* --- LOGIN CARD --- */
+        .auth-card {
+            width: 100%;
+            max-width: 500px;
+            background: var(--surface);
+            backdrop-filter: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 48px;
+            padding: 80px 64px;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            animation: cardEntrance 1s var(--ease-out-expo);
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-header { text-align: center; }
+        .auth-logo { font-family: var(--font-display); font-size: 20px; color: var(--hogwarts-gold); letter-spacing: 0.4em; margin-bottom: 12px; }
+        .auth-title { font-family: var(--font-display); font-size: 40px; font-weight: 900; line-height: 1; }
+
+        /* --- FORM --- */
+        .auth-form { display: flex; flex-direction: column; gap: 28px; }
+
+        .input-group { display: flex; flex-direction: column; gap: 10px; }
+        .input-label { font-family: var(--font-display); font-size: 10px; letter-spacing: 2px; color: var(--hogwarts-gold); opacity: 0.8; }
+        .input-field {
+            width: 100%; height: 64px; background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border); border-radius: 16px;
+            padding: 0 24px; color: #FFF; font-size: 15px;
+            transition: 0.4s var(--ease-out-expo);
+            outline: none;
+        }
+        .input-field:focus { border-color: var(--hogwarts-gold); background: rgba(255,255,255,0.08); box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); }
+
+        .btn-magic {
+            width: 100%; height: 72px; background: var(--hogwarts-gold);
+            color: #000; border: none; border-radius: 16px;
+            font-weight: 900; font-size: 14px; text-transform: uppercase;
+            letter-spacing: 3px; cursor: pointer; transition: 0.5s;
+        }
+        .btn-magic:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3); }
+
+        .auth-footer { text-align: center; font-size: 14px; color: rgba(255,255,255,0.4); }
+        .auth-link { color: var(--hogwarts-gold); text-decoration: none; font-weight: 800; }
+
+    </style>
+</head>
+<body>
+
+    <div class="master-bg">
+        <div class="embers-container" id="embers"></div>
+    </div>
+
+    <!-- MAIN AUTH FRAME -->
+    <main class="auth-card">
+        <header class="auth-header">
+            <div class="auth-logo">LUMINA</div>
+            <h1 class="auth-title">Unseal Your<br>Archives</h1>
+            <p style="color: rgba(255,255,255,0.4); margin-top: 12px; font-size: 14px;">Present your secret sigil to continue your journey.</p>
+        </header>
+
+        <form class="auth-form" onsubmit="event.preventDefault(); window.location.href='06_magical_home.html';">
+            <div class="input-group">
+                <label class="input-label">Identity (Email)</label>
+                <input type="email" class="input-field" placeholder="wizard@multiverse.com" required>
+            </div>
+
+            <div class="input-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label class="input-label">Secret Sigil</label>
+                    <a href="#" class="auth-link" style="font-size: 11px; opacity: 0.6;">Lost Sigil?</a>
+                </div>
+                <input type="password" class="input-field" placeholder="••••••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-magic">ENTER THE SANCTUM</button>
+        </form>
+
+        <footer class="auth-footer">
+            New to the Multiverse? <a href="04_magical_register.html" class="auth-link">Join The Covenant</a>
+        </footer>
+    </main>
+
+    <script>
+        const eContainer = document.getElementById('embers');
+        for(let i = 0; i < 40; i++) {
+            const e = document.createElement('div');
+            e.className = 'ember';
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.animationDelay = Math.random() * 10 + 's';
+            eContainer.appendChild(e);
+        }
+    </script>
+</body>
+</html>

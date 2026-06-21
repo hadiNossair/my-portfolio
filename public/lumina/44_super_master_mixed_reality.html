@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Realities Converged</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-tech: 'Space Grotesk', sans-serif;
+            --glass: blur(40px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* --- SPLIT REALITY ENGINE --- */
+        .reality-half {
+            position: absolute; width: 60%; height: 100%; top: 0;
+            transition: 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+            overflow: hidden;
+        }
+
+        .realm-fantasy {
+            left: 0; z-index: 10;
+            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200') center/cover;
+            clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+            border-right: 2px solid var(--purple);
+            filter: brightness(0.5);
+        }
+
+        .realm-scifi {
+            right: 0; z-index: 5;
+            background: url('https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=1200') center/cover;
+            filter: brightness(0.4) saturate(1.5);
+        }
+
+        .reality-half::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), transparent);
+            mix-blend-mode: overlay;
+        }
+
+        /* Interactive Focus States */
+        body:has(.realm-fantasy:hover) .realm-fantasy { width: 85%; filter: brightness(0.8); z-index: 20; }
+        body:has(.realm-scifi:hover) .realm-fantasy { width: 15%; filter: brightness(0.2); }
+
+        /* --- OVERLAY UI --- */
+        .master-ui {
+            position: absolute; inset: 0; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle, transparent 0%, rgba(0,0,0,0.6) 100%);
+            pointer-events: none;
+        }
+
+        .master-badge {
+            padding: 8px 32px; background: rgba(0,0,0,0.8); border: 1px solid #FFF;
+            border-radius: 100px; font-weight: 800; font-size: 12px; letter-spacing: 4px;
+            text-transform: uppercase; margin-bottom: 32px; backdrop-filter: var(--glass);
+        }
+
+        .master-title {
+            font-family: var(--font-display); font-size: clamp(40px, 10vw, 120px);
+            text-align: center; line-height: 0.9; margin-bottom: 64px;
+            text-shadow: 0 0 50px rgba(255,255,255,0.4);
+        }
+
+        .convergence-selector {
+            display: flex; gap: 40px; pointer-events: auto;
+        }
+
+        .select-card {
+            width: 320px; padding: 40px; border-radius: 32px;
+            background: rgba(0,0,0,0.6); border: 1px solid var(--border);
+            backdrop-filter: var(--glass); text-align: center;
+            cursor: pointer; transition: 0.4s;
+        }
+
+        .card-fantasy { border-color: var(--purple); box-shadow: 0 0 30px rgba(139, 92, 246, 0.2); }
+        .card-fantasy h3 { font-family: var(--font-display); color: var(--purple); font-size: 24px; margin-bottom: 12px; }
+        .card-fantasy:hover { background: rgba(139, 92, 246, 0.15); transform: translateY(-10px); }
+
+        .card-scifi { border-color: var(--cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.2); }
+        .card-scifi h3 { font-family: var(--font-tech); color: var(--cyan); font-size: 24px; margin-bottom: 12px; }
+        .card-scifi:hover { background: rgba(0, 240, 255, 0.15); transform: translateY(-10px); }
+
+        .btn-return {
+            position: absolute; bottom: 64px; left: 50%; transform: translateX(-50%);
+            color: rgba(255,255,255,0.4); font-weight: 700; text-decoration: none;
+            letter-spacing: 2px; font-size: 12px; transition: 0.3s; pointer-events: auto;
+        }
+        .btn-return:hover { color: #FFF; text-shadow: 0 0 10px #FFF; }
+
+    </style>
+</head>
+<body>
+    
+    <div class="reality-half realm-fantasy"></div>
+    <div class="reality-half realm-scifi"></div>
+
+    <main class="master-ui">
+        <div class="master-badge">Master Realities Converged</div>
+        <h1 class="master-title">CONVERGENCE</h1>
+
+        <div class="convergence-selector">
+            <div class="select-card card-fantasy" onclick="window.location.href='11_fantasy_detail.html'">
+                <h3>FOCUS ARCANUM</h3>
+                <p style="font-size: 14px; color: rgba(255,255,255,0.6);">Shift visual bias to Magic & Lore</p>
+            </div>
+            
+            <div class="select-card card-scifi">
+                <h3>FOCUS TECHNE</h3>
+                <p style="font-size: 14px; color: rgba(255,255,255,0.6);">Shift visual bias to Cyber & Tech</p>
+            </div>
+        </div>
+
+        <a href="06_magical_home.html" class="btn-return">← RETURN TO GRAND HALL</a>
+    </main>
+
+</body>
+</html>

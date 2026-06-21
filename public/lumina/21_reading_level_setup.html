@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21 - Reading Level Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(20, 10, 40, 0.4);
+            --magic-border: rgba(139, 92, 246, 0.3);
+            --magic-cyan: #00F0FF; 
+            --text-pure: #FFFFFF;
+            --text-dim: #A78BFA; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            padding: 100px;
+        }
+
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1440');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+            mix-blend-mode: screen;
+         animation: slowBreath 30s infinite alternate ease-in-out; }
+
+        @keyframes slowBreath { 0% { transform: scale(1); filter: contrast(1.2) brightness(0.8); } 100% { transform: scale(1.05); filter: contrast(1.4) brightness(0.6); } }
+
+        .header-content {
+            position: relative; z-index: 20; text-align: center; margin-bottom: 64px;
+        }
+
+        .magic-title { font-family: var(--font-magic); font-size: 48px; margin-bottom: 16px; }
+        .magic-subtitle { font-size: 18px; color: var(--text-dim); }
+
+        .level-grid {
+            position: relative; z-index: 20;
+            display: flex; gap: 32px; max-width: 1000px; width: 100%;
+        }
+
+        .level-card {
+            flex: 1;
+            background: var(--magic-panel);
+            border: 1px solid var(--magic-border);
+            border-radius: 24px;
+            padding: 48px 32px;
+            text-align: center;
+            backdrop-filter: var(--blur-heavy);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .level-card.active {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--magic-cyan);
+            box-shadow: var(--glow-cyan);
+            transform: translateY(-10px);
+        }
+
+        .level-icon { font-size: 48px; margin-bottom: 24px; }
+        .level-title { font-family: var(--font-magic); font-size: 24px; color: var(--text-pure); margin-bottom: 16px; }
+        .level-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+        .magic-btn-solid {
+            position: relative; z-index: 20;
+            padding: 20px 64px; margin-top: 64px;
+            background: var(--magic-cyan); color: #000;
+            border: none; border-radius: 100px;
+            font-size: 20px; font-weight: 600; cursor: pointer; box-shadow: var(--glow-cyan);
+        }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="bg-layer"></div>
+        
+        <div class="header-content">
+            <h1 class="magic-title">Assess Your Wisdom</h1>
+            <p class="magic-subtitle">Choose your reading intensity so the AI can calibrate your grimoire.</p>
+        </div>
+
+        <div class="level-grid">
+            <div class="level-card">
+                <div class="level-icon">🌱</div>
+                <h2 class="level-title">Novice Mage</h2>
+                <p class="level-desc">Light reads, fast-paced stories, and shorter artifacts. Perfect for casual exploration.</p>
+            </div>
+            
+            <div class="level-card active">
+                <div class="level-icon">🔥</div>
+                <h2 class="level-title">Adept Scholar</h2>
+                <p class="level-desc">Standard length novels, complex magic systems, and engaging character arcs.</p>
+            </div>
+
+            <div class="level-card">
+                <div class="level-icon">👁️</div>
+                <h2 class="level-title">Grandmaster</h2>
+                <p class="level-desc">Massive epic fantasies, heavy world-building, and profound philosophical tomes.</p>
+            </div>
+        </div>
+
+        <button class="magic-btn-solid">Calibrate Library</button>
+    </main>
+</body>
+</html>

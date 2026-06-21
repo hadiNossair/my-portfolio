@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Mode - Dracula</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Nosifer&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Vampire / Gothic Theme */
+            --bg-normal: #080808;
+            --bg-blood: #1a0202;
+            --text-normal: #dcd0b3;
+            --text-blood: #ffb3b3;
+            --blood-red: #8a0303;
+            --blood-glow: 0 0 25px rgba(138, 3, 3, 0.8);
+            
+            --font-magic: 'Cinzel Decorative', serif;
+            --font-text: 'Crimson Text', serif;
+            --font-horror: 'Nosifer', cursive;
+            
+            /* Dynamic variables for JS toggle */
+            --current-bg: var(--bg-normal);
+            --current-text: var(--text-normal);
+            --current-accent: var(--blood-red);
+            --base-size: 22px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--current-bg);
+            color: var(--current-text);
+            font-family: var(--font-text);
+            overflow-x: hidden;
+            transition: background-color 1.5s ease, color 1.5s ease;
+            position: relative;
+        }
+
+        /* WATERMARK - POV IMMERSION */
+        .watermark {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-family: 'Brush Script MT', cursive, var(--font-magic);
+            font-size: 10vw;
+            color: rgba(138, 3, 3, 0.04);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+        body.blood-mode .watermark { color: rgba(255, 0, 0, 0.06); }
+
+        /* FOG EFFECT */
+        .mist {
+            position: fixed;
+            bottom: -50px; left: 0; width: 100%; height: 40vh;
+            background: linear-gradient(to top, rgba(10, 0, 0, 0.9), transparent);
+            filter: blur(20px);
+            pointer-events: none;
+            z-index: 5;
+            animation: drift 20s infinite alternate ease-in-out;
+            opacity: 0.8;
+        }
+        body.blood-mode .mist { background: linear-gradient(to top, rgba(50, 0, 0, 0.6), transparent); }
+
+        @keyframes drift {
+            0% { transform: translateX(-5%) scaleY(1); }
+            100% { transform: translateX(5%) scaleY(1.2); }
+        }
+
+        /* TOP NAVIGATION UX */
+        .reading-nav {
+            position: fixed; top: 20px; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px;
+            background: linear-gradient(to bottom, var(--current-bg) 50%, transparent);
+            z-index: 100;
+            transition: 1.5s;
+        }
+        .nav-back {
+            color: var(--current-text); text-decoration: none; 
+            font-family: var(--font-magic); font-size: 16px; 
+            display: flex; align-items: center; gap: 8px; opacity: 0.7; transition: 0.3s;
+        }
+        .nav-back:hover { opacity: 1; transform: translateX(-5px); color: var(--blood-red); text-shadow: var(--blood-glow); }
+
+        /* VAMPIRE SIGHT TOGGLE & FONT UX */
+        .spell-toggle {
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+            font-family: var(--font-magic); font-size: 14px; opacity: 0.7; transition: 0.3s;
+        }
+        .spell-toggle:hover { opacity: 1; text-shadow: var(--blood-glow); color: #ff3333; }
+        .wand-icon {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 1px solid var(--current-text);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 14px;
+        }
+        
+        .font-controls {
+            display: flex; gap: 10px; align-items: center;
+            margin-right: 20px;
+        }
+        .font-btn {
+            background: none; border: 1px solid rgba(255,255,255,0.2);
+            color: var(--current-text); border-radius: 4px; padding: 4px 8px;
+            cursor: pointer; font-family: var(--font-text); font-size: 16px; transition: 0.2s;
+        }
+        .font-btn:hover { background: rgba(138,3,3,0.3); border-color: var(--blood-red); }
+
+        /* BLOOD PROGRESS BAR */
+        .progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.05); z-index: 200;
+        }
+        .progress-bar {
+            height: 100%; background: var(--blood-red); width: 0%;
+            box-shadow: 0 0 15px var(--blood-red);
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        /* Drip effect on the end of the progress bar */
+        .progress-bar::after {
+            content: ''; position: absolute; right: 0; top: 0;
+            width: 4px; height: 10px; background: var(--blood-red);
+            border-radius: 0 0 4px 4px; box-shadow: 0 0 10px var(--blood-red);
+        }
+
+        /* LORE TOOLTIPS (TRICKS FOR READERS) */
+        .lore-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed var(--current-accent);
+            color: var(--current-accent);
+            font-weight: 600;
+        }
+        .lore-tooltip::after {
+            content: attr(data-lore);
+            position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) translateY(10px);
+            background: #000; color: #ffb3b3; padding: 12px 18px; border-radius: 6px;
+            font-size: 16px; font-family: var(--font-text); font-weight: normal;
+            width: max-content; max-width: 250px; text-align: center;
+            box-shadow: 0 5px 20px rgba(138,3,3,0.5); border: 1px solid var(--blood-red);
+            opacity: 0; pointer-events: none; transition: 0.3s ease; z-index: 100;
+        }
+        .lore-tooltip:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* BAT DINKUS (SECTION DIVIDERS) */
+        .dinkus {
+            text-align: center; margin: 50px 0; opacity: 0.6;
+        }
+        .dinkus svg {
+            width: 50px; height: 50px; fill: var(--blood-red);
+        }
+
+        /* READING CONTAINER */
+        .book-container {
+            position: relative;
+            z-index: 10;
+            max-width: 720px; /* Golden reading width */
+            margin: 120px auto 100px auto;
+            padding: 60px 80px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(138,3,3,0.1);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            transition: 1.5s;
+        }
+        body.blood-mode .book-container {
+            background: rgba(20, 0, 0, 0.6);
+            border-color: rgba(138,3,3,0.3);
+            box-shadow: 0 20px 80px rgba(138,3,3,0.2);
+        }
+
+        /* TYPOGRAPHY */
+        .chapter-title {
+            font-family: var(--font-magic);
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(138,3,3,0.8);
+        }
+
+        .scene-title {
+            text-align: center;
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 60px;
+            opacity: 0.6;
+            color: var(--text-normal);
+        }
+
+        .text-content {
+            font-size: var(--base-size);
+            line-height: 1.85; /* Eye comfort */
+            text-align: justify;
+        }
+
+        /* Bloody Drop Cap for first letter */
+        .text-content > p:first-of-type::first-letter {
+            float: left;
+            font-family: var(--font-horror);
+            font-size: 60px;
+            line-height: 60px;
+            padding-top: 15px;
+            padding-right: 15px;
+            color: var(--blood-red);
+            text-shadow: 0 0 10px rgba(138,3,3,0.8);
+        }
+
+        .text-content p {
+            margin-bottom: 24px;
+        }
+
+        .date-header {
+            font-family: var(--font-magic);
+            font-size: 22px;
+            color: var(--blood-red);
+            display: block;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(138,3,3,0.3);
+            padding-bottom: 5px;
+        }
+        
+    </style>
+</head>
+<body class="normal-mode">
+
+    <div class="watermark">Jonathan Harker's Journal</div>
+    <div class="mist"></div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="readingProgress"></div>
+    </div>
+
+    <nav class="reading-nav">
+        <a href="31_horror_world.html" class="nav-back">
+            <span>←</span> Escape the Castle
+        </a>
+        <div style="display: flex; align-items: center;">
+            <div class="font-controls">
+                <button class="font-btn" onclick="changeFontSize(-2)">A-</button>
+                <button class="font-btn" onclick="changeFontSize(2)">A+</button>
+            </div>
+            <div class="spell-toggle" onclick="toggleVampireSight()">
+                <span id="spellText">Vampire Sight (Off)</span>
+                <div class="wand-icon">🦇</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="book-container">
+        <h1 class="chapter-title">CHAPTER I</h1>
+        <h2 class="scene-title">Jonathan Harker's Journal</h2>
+
+        <div class="text-content">
+            
+            <span class="date-header">3 May. Bistritz.</span>
+            
+            <p>
+                Left Munich at 8:35 P. M., on 1st May, arriving at Vienna early next morning; should have arrived at 6:46, but train was an hour late. Buda-Pesth seems a wonderful place, from the glimpse which I got of it from the train and the little I could walk through the streets. I feared to go very far from the station, as we had arrived late and would start as near the correct time as possible.
+            </p>
+
+            <p>
+                The impression I had was that we were leaving the West and entering the East; the most western of splendid bridges over the Danube, which is here of noble width and depth, took us among the traditions of Turkish rule.
+            </p>
+
+            <p>
+                We left in pretty good time, and came after nightfall to Klausenburgh. Here I stopped for the night at the Hotel Royale. I had for dinner, or rather supper, a chicken done up some way with red pepper, which was very good but thirsty. (<span class="lore-tooltip" data-lore="A traditional Hungarian/Romanian dish using paprika.">Mem.</span>, get recipe for Mina.) I asked the waiter, and he said it was called "paprika hendl," and that, as it was a national dish, I should be able to get it anywhere along the <span class="lore-tooltip" data-lore="A mountain range forming an arc across Central and Eastern Europe.">Carpathians</span>.
+            </p>
+
+            <div class="dinkus">
+                <!-- Bat SVG -->
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M256 96c-35.35 0-64 28.65-64 64 0 9.77 2.23 19.01 6.13 27.34C151.72 173.06 96 144 96 144s0 32 48 96c-38.64-16.1-96-32-96-32s16 48 80 80c-48.44-8.07-96-16-96-16s32 64 128 48c0 0-48 64-16 80 32 16 64-64 64-64 16 32 64 32 96 32 32 0 80-32 80-32 32 16-16-48-16-48 96 16 128-48 128-48s-47.56 7.93-96 16c64-32 80-80 80-80s-57.36 15.9-96 32c48-64 48-96 48-96s-55.72 29.06-102.13 43.34c3.9-8.33 6.13-17.57 6.13-27.34 0-35.35-28.65-64-64-64z"/>
+                </svg>
+            </div>
+
+            <p>
+                I found my smattering of German very useful here; indeed, I don't know how I should be able to get on without it. Having had some time at my disposal when in London, I had visited the British Museum, and made search among the books and maps in the library regarding <span class="lore-tooltip" data-lore="A historical region in central Romania, famous for vampire lore.">Transylvania</span>.
+            </p>
+
+            <p>
+                It had struck me that some foreknowledge of the country could hardly fail to have some importance in dealing with a nobleman of that country. I find that the district he named is in the extreme east of the country, just on the borders of three states, Transylvania, Moldavia and Bukovina, in the midst of the Carpathian mountains; one of the wildest and least known portions of Europe.
+            </p>
+            
+            <span class="date-header">4 May.</span>
+
+            <p>
+                I did not sleep well, though my bed was comfortable enough, for I had all sorts of queer dreams. There was a dog howling all night under my window, which may have had something to do with it; or it may have been the paprika, for I had to drink up all the water in my carafe, and was still thirsty. Towards morning I slept and was wakened by the continuous knocking at my door, so I guess I must have been sleeping soundly then.
+            </p>
+
+            <p>
+                When I got on the coach the driver had not taken his seat, and I saw him talking with the landlady. They were evidently talking of me, for every now and then they looked at me, and some of the people who were sitting on the bench outside the door—which they call by a name meaning "word-bearer"—came and listened, and then looked at me, most of them pityingly.
+            </p>
+
+            <p>
+                Just before I was leaving, the old lady came up to my window and said in a very hysterical way:
+                "Must you go? Oh! young Herr, must you go?"
+            </p>
+            
+            <p>
+                She was in such an excited state that she seemed to have lost her grip of what German she knew, and mixed it all up with some other language which I did not know at all. I was just able to follow her by asking many questions. When I told her that I must go at once, and that I was engaged on important business, she asked again:
+            </p>
+
+            <p style="font-style: italic; color: #ff3333; text-shadow: 0 0 10px rgba(255,0,0,0.5);">
+                "Do you know what day it is?"
+            </p>
+
+            <p>
+                I answered that it was the fourth of May. She shook her head as she said again:
+                "Oh, yes! I know that! I know that, but do you know what day it is?"
+            </p>
+
+            <p>
+                On my saying that I did not understand, she went on:
+                "It is the eve of St. George's Day. Do you not know that to-night, when the clock strikes midnight, all the evil things in the world will have full sway? Do you know where you are going, and what you are going to?"
+            </p>
+
+            <div style="text-align: center; margin-top: 60px; font-family: var(--font-horror); color: var(--blood-red);">
+                ~ Welcome to Transylvania ~
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Vampire Sight Toggle Logic (Blood Mode)
+        let isBloodMode = false;
+        const body = document.body;
+        const spellText = document.getElementById('spellText');
+
+        function toggleVampireSight() {
+            isBloodMode = !isBloodMode;
+            if (isBloodMode) {
+                body.classList.replace('normal-mode', 'blood-mode');
+                body.style.setProperty('--current-bg', 'var(--bg-blood)');
+                body.style.setProperty('--current-text', 'var(--text-blood)');
+                spellText.innerText = "Vampire Sight (On)";
+            } else {
+                body.classList.replace('blood-mode', 'normal-mode');
+                body.style.setProperty('--current-bg', 'var(--bg-normal)');
+                body.style.setProperty('--current-text', 'var(--text-normal)');
+                spellText.innerText = "Vampire Sight (Off)";
+            }
+        }
+
+        // Blood Progress Bar
+        const progressBar = document.getElementById('readingProgress');
+        
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollPos / docHeight) * 100;
+            
+            progressBar.style.width = scrollPercent + '%';
+        });
+
+        // Font Size Controls
+        let currentSize = 22;
+        function changeFontSize(delta) {
+            currentSize += delta;
+            if (currentSize < 16) currentSize = 16;
+            if (currentSize > 32) currentSize = 32;
+            document.documentElement.style.setProperty('--base-size', currentSize + 'px');
+        }
+    </script>
+</body>
+</html>

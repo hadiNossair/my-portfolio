@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>41 - AAA Super Home Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #05050A; 
+            --magic-panel: rgba(15, 15, 25, 0.4);
+            --magic-border: rgba(255, 255, 255, 0.1);
+            --magic-cyan: #00F0FF; 
+            --magic-purple: #8B5CF6;
+            --magic-gold: #FFD700;
+            --text-pure: #FFFFFF;
+            --text-dim: #94A3B8; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-omni: 0 0 80px rgba(0, 240, 255, 0.4);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure); overflow-x: hidden;  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 2000px; /* Long scrolling cinematic page */
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* -----------------------------------
+           1. STICKY IMMERSIVE NAV
+        ------------------------------------ */
+        .super-nav {
+            position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 1440px; z-index: 100;
+            padding: 24px 64px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(180deg, rgba(5,5,10,0.9) 0%, transparent 100%);
+            backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-logo { font-family: var(--font-magic); font-size: 32px; font-weight: 900; letter-spacing: 4px; text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-item { color: var(--text-pure); text-decoration: none; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; position: relative; padding-bottom: 8px; transition: 0.3s; }
+        .nav-item::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--magic-cyan); transition: 0.3s; box-shadow: 0 0 10px var(--magic-cyan); }
+        .nav-item:hover::after, .nav-item.active::after { width: 100%; }
+        .nav-item:hover { color: var(--magic-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.5); }
+
+        /* -----------------------------------
+           2. MASSIVE CINEMATIC HERO
+        ------------------------------------ */
+        .hero-section {
+            position: relative; width: 100%; height: 900px;
+            display: flex; align-items: flex-end; padding: 100px 64px;
+        }
+
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1440'); /* Epic sci-fi / fantasy landscape */
+            background-size: cover; background-position: center; z-index: 0;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        .hero-content { position: relative; z-index: 20; max-width: 800px; }
+        .hero-badge { display: inline-block; padding: 8px 16px; background: rgba(0,0,0,0.6); border: 1px solid var(--magic-cyan); color: var(--magic-cyan); border-radius: 100px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(0,240,255,0.2); }
+        
+        .hero-title { font-family: var(--font-magic); font-size: 96px; line-height: 1; margin-bottom: 24px; text-shadow: 0 10px 40px rgba(0,0,0,0.8); letter-spacing: -2px; }
+        .hero-desc { font-size: 20px; color: #E2E8F0; line-height: 1.6; margin-bottom: 40px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+
+        .btn-group { display: flex; gap: 24px; }
+        .btn-play { padding: 20px 48px; background: #FFF; color: #000; border: none; border-radius: 100px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; }
+        .btn-play:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.6); }
+        .btn-info { padding: 20px 48px; background: rgba(255,255,255,0.1); color: #FFF; border: 1px solid rgba(255,255,255,0.3); border-radius: 100px; font-size: 18px; font-weight: 600; cursor: pointer; backdrop-filter: blur(20px); transition: 0.3s; }
+        .btn-info:hover { background: rgba(255,255,255,0.2); border-color: #FFF; }
+
+        /* -----------------------------------
+           3. LIVING SHELVES (Trending)
+        ------------------------------------ */
+        .shelf-section { position: relative; z-index: 20; padding: 0 64px 100px 64px; margin-top: -60px; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
+        .section-title { font-family: var(--font-magic); font-size: 32px; }
+        
+        .card-row { display: flex; gap: 24px; overflow-x: visible; }
+        
+        .super-card {
+            width: 280px; aspect-ratio: 2/3; position: relative; border-radius: 16px;
+            background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer;
+        }
+
+        .super-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 60%); z-index: 1; transition: 0.5s; opacity: 0.8; }
+        
+        .super-card:hover { transform: translateY(-20px) scale(1.05); z-index: 30; border-color: var(--magic-cyan); box-shadow: 0 20px 50px rgba(0,0,0,0.8), var(--glow-omni); }
+        .super-card:hover::before { opacity: 1; background: linear-gradient(0deg, rgba(0,240,255,0.4) 0%, transparent 80%); }
+
+        .card-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 24px; z-index: 2; transform: translateY(20px); transition: 0.5s; }
+        .super-card:hover .card-content { transform: translateY(0); }
+
+        .card-title { font-family: var(--font-magic); font-size: 24px; line-height: 1.1; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .card-meta { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: flex; gap: 8px; opacity: 0; transition: 0.5s; }
+        .super-card:hover .card-meta { opacity: 1; }
+
+        /* Floating Particles */
+        .particle { position: absolute; background: #FFF; border-radius: 50%; animation: floatUp 10s infinite linear; opacity: 0.5; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-100vh); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <!-- Floating Ambient Particles -->
+        <div class="particle" style="width: 4px; height: 4px; left: 10%; animation-duration: 15s;"></div>
+        <div class="particle" style="width: 2px; height: 2px; left: 30%; animation-duration: 20s;"></div>
+        <div class="particle" style="width: 5px; height: 5px; left: 70%; animation-duration: 12s; background: var(--magic-cyan);"></div>
+        <div class="particle" style="width: 3px; height: 3px; left: 90%; animation-duration: 18s; background: var(--magic-purple);"></div>
+
+        <nav class="super-nav">
+            <div class="nav-logo">LUMINA</div>
+            <div class="nav-links">
+                <a href="#" class="nav-item active">Home</a>
+                <a href="#" class="nav-item">Realms</a>
+                <a href="#" class="nav-item">Cinematics</a>
+                <a href="#" class="nav-item">My Grimoire</a>
+            </div>
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: #FFF; border: 2px solid var(--magic-cyan);"></div>
+        </nav>
+
+        <section class="hero-section">
+            <div class="hero-bg"></div>
+            
+            <div class="hero-content">
+                <div class="hero-badge">#1 Trending Universe</div>
+                <h1 class="hero-title">Dune:<br>The Awakening</h1>
+                <p class="hero-desc">Enter the harsh desert world of Arrakis. Experience the epic sci-fi masterpiece enhanced with AI lore, timeline tracking, and full cinematic movie integration.</p>
+                
+                <div class="btn-group">
+                    <button class="btn-play">▶ Enter Reality</button>
+                    <button class="btn-info">View Lore Data</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="shelf-section">
+            <div class="section-header">
+                <h2 class="section-title">AI-Curated Realities</h2>
+                <a href="#" style="color: var(--text-dim); text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 14px; letter-spacing: 1px;">View All Multiverses →</a>
+            </div>
+
+            <div class="card-row">
+                <!-- Card 1 -->
+                <div class="super-card" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600');">
+                    <div class="card-content">
+                        <h3 class="card-title">The Way of Kings</h3>
+                        <div class="card-meta"><span>Fantasy</span> <span>★ 4.9</span></div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="super-card" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600'); border-color: rgba(139,92,246,0.5);">
+                    <div class="card-content">
+                        <h3 class="card-title">Harry Potter</h3>
+                        <div class="card-meta"><span>Magic</span> <span>★ 4.8</span></div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="super-card" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=600');">
+                    <div class="card-content">
+                        <h3 class="card-title">Neuromancer</h3>
+                        <div class="card-meta"><span>Cyberpunk</span> <span>★ 4.7</span></div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="super-card" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600');">
+                    <div class="card-content">
+                        <h3 class="card-title">The Martian</h3>
+                        <div class="card-meta"><span>Sci-Fi</span> <span>★ 4.9</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24 - Sci-Fi Mode Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* SCI-FI MODE VARIABLES */
+        :root {
+            --magic-void: #050B14; 
+            --magic-panel: rgba(10, 20, 40, 0.7);
+            --magic-border: rgba(0, 255, 255, 0.4);
+            --magic-accent: #00FFFF; 
+            --text-pure: #FFFFFF;
+            --text-dim: #8AB4F8; 
+            --font-magic: 'Rajdhani', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-accent: 0 0 30px rgba(0, 255, 255, 0.6);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .grid-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: 0;
+        }
+
+        /* Sidebar Hologram */
+        .sidebar {
+            width: 280px; background: rgba(5, 11, 20, 0.9); border-right: 2px solid var(--magic-border);
+            backdrop-filter: var(--blur-heavy); padding: 40px 32px; display: flex; flex-direction: column; z-index: 20;
+            box-shadow: 20px 0 40px rgba(0,255,255,0.05);
+        }
+
+        .logo { font-family: var(--font-magic); font-size: 40px; font-weight: 700; color: var(--magic-accent); letter-spacing: 4px; margin-bottom: 64px; text-shadow: var(--glow-accent); text-transform: uppercase; }
+
+        .nav-item { font-family: var(--font-magic); font-size: 18px; padding: 16px; border: 1px solid transparent; color: var(--text-dim); text-decoration: none; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+        .nav-item.active { background: rgba(0, 255, 255, 0.1); color: var(--magic-accent); border-color: var(--magic-accent); box-shadow: inset 0 0 20px rgba(0,255,255,0.2); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 40px 64px; z-index: 10; display: flex; flex-direction: column; gap: 48px; }
+
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .mode-indicator { font-family: var(--font-magic); padding: 8px 16px; border: 1px solid var(--magic-accent); background: rgba(0,255,255,0.1); color: var(--magic-accent); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Digital Hero */
+        .hero-banner {
+            width: 100%; height: 360px;
+            background: var(--magic-panel); border: 2px solid var(--magic-border);
+            display: flex; align-items: center; padding: 64px; position: relative;
+            box-shadow: inset 0 0 50px rgba(0,255,255,0.1);
+        }
+        
+        .holo-scanline { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--magic-accent); opacity: 0.3; box-shadow: var(--glow-accent); }
+
+        .hero-content { position: relative; z-index: 2; max-width: 600px; }
+        .hero-title { font-family: var(--font-magic); font-size: 64px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; line-height: 1; color: #FFF; }
+        .hero-desc { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.6; }
+
+        .btn-init { font-family: var(--font-magic); padding: 16px 40px; background: rgba(0,255,255,0.2); color: var(--magic-accent); border: 2px solid var(--magic-accent); font-size: 20px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: var(--glow-accent); }
+
+        /* Grid */
+        .slider-title { font-family: var(--font-magic); font-size: 24px; color: var(--magic-accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; }
+        .grid-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .data-card { background: rgba(0,0,0,0.5); border: 1px solid var(--magic-border); padding: 16px; backdrop-filter: var(--blur-heavy); }
+        .data-cover { width: 100%; aspect-ratio: 2/3; background-size: cover; margin-bottom: 16px; border: 1px solid rgba(0,255,255,0.2); }
+        .data-title { font-family: var(--font-magic); font-size: 20px; color: #FFF; text-transform: uppercase; }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="grid-bg"></div>
+        
+        <aside class="sidebar">
+            <div class="logo">SYS.CORE</div>
+            <nav>
+                <a href="#" class="nav-item active">Main Terminal</a>
+                <a href="#" class="nav-item">Cybernetics</a>
+                <a href="#" class="nav-item">Space Travel</a>
+                <a href="#" class="nav-item">Data Archives</a>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="header">
+                <div class="mode-indicator">SYSTEM: SCI-FI UI OVERRIDE</div>
+            </header>
+
+            <section class="hero-banner">
+                <div class="holo-scanline"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title">Neuromancer</h1>
+                    <p class="hero-desc">The matrix has its roots in primitive arcade games... Cyberspace. A consensual hallucination experienced daily by billions of legitimate operators.</p>
+                    <button class="btn-init">INITIALIZE DATALINK</button>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="slider-title">SIMILAR ARCHIVES</h2>
+                <div class="grid-row">
+                    <div class="data-card">
+                        <div class="data-cover" style="background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=400')"></div>
+                        <h3 class="data-title">Snow Crash</h3>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-cover" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400')"></div>
+                        <h3 class="data-title">Foundation</h3>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-cover" style="background-image: url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=400')"></div>
+                        <h3 class="data-title">Dune</h3>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-cover" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=400')"></div>
+                        <h3 class="data-title">Altered Carbon</h3>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

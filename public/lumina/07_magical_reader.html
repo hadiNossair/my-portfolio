@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Arcane Reading Room</title>
+    <!-- Fonts: Literary, Cinematic & Academic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #020205;
+            --deep-sanctum: #0A0A1F;
+            --hogwarts-gold: #D4AF37;
+            --parchment: #F3E5AB;
+            --glass-bg: rgba(15, 15, 25, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Cinzel', serif;
+            --font-book: 'Playfair Display', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-ui: 'Outfit', sans-serif;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* html.to.design Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--hogwarts-gold); border-radius: 10px; }
+
+        body {
+            background-color: var(--void);
+            color: rgba(255, 255, 255, 0.85);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* --- THE MASTERPIECE BACKGROUND ENGINE --- */
+        .cinematic-bg-engine {
+            position: fixed; inset: 0; z-index: -100;
+            background: var(--void); overflow: hidden;
+        }
+        .layer-base { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #050510 0%, var(--void) 100%); opacity: 0.9; }
+        .layer-environment { position: absolute; inset: -10%; background: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2560') center/cover; filter: blur(150px) brightness(0.1); opacity: 0.4; }
+        .light-rays { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 100px, rgba(212, 175, 55, 0.01) 110px, transparent 120px); mask-image: radial-gradient(circle at center, black, transparent 80%); animation: raysMove 60s infinite linear; }
+        @keyframes raysMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+        .film-grain { position: absolute; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.08; pointer-events: none; mix-blend-mode: soft-light; }
+
+        /* --- READER LAYOUT --- */
+        .reader-sidebar {
+            width: 320px; height: 100vh; border-right: 1px solid var(--border);
+            padding: 40px; display: flex; flex-direction: column; gap: 40px;
+            background: rgba(2, 2, 5, 0.5); backdrop-filter: blur(20px);
+            position: relative; z-index: 100; transition: 0.5s var(--ease-out-expo);
+        }
+
+        .reader-main {
+            flex-grow: 1; height: 100vh; overflow-y: auto;
+            position: relative; display: flex; flex-direction: column; align-items: center;
+            padding: 120px 0;
+        }
+
+        .lore-panel {
+            width: 380px; height: 100vh; border-left: 1px solid var(--border);
+            padding: 40px; display: flex; flex-direction: column; gap: 32px;
+            background: rgba(2, 2, 5, 0.5); backdrop-filter: blur(20px);
+            position: relative; z-index: 100;
+        }
+
+        /* --- TOP NAV --- */
+        .reader-nav {
+            position: fixed; top: 0; left: 320px; right: 380px; height: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 60px; z-index: 1000;
+            background: linear-gradient(180deg, var(--void) 0%, transparent 100%);
+        }
+
+        .nav-title { font-family: var(--font-display); font-size: 14px; letter-spacing: 4px; color: var(--hogwarts-gold); }
+
+        /* --- TEXT COLUMN --- */
+        .text-column {
+            width: 100%;
+            max-width: 800px;
+            animation: textEntrance 1.5s var(--ease-out-expo);
+        }
+        @keyframes textEntrance { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        .book-chapter { font-family: var(--font-display); font-size: 11px; letter-spacing: 5px; color: var(--hogwarts-gold); margin-bottom: 24px; text-transform: uppercase; }
+        .book-title { font-family: var(--font-book); font-size: 64px; font-weight: 900; line-height: 1; margin-bottom: 60px; color: #FFF; }
+        
+        .book-text {
+            font-family: var(--font-book);
+            font-size: 24px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: justify;
+        }
+        .book-text p { margin-bottom: 40px; }
+        .book-text b { color: var(--hogwarts-gold); font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .book-text b:hover { text-shadow: 0 0 15px var(--hogwarts-gold); }
+
+        /* --- LORE CARDS --- */
+        .lore-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+            border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 16px;
+            transition: 0.4s; cursor: pointer;
+        }
+        .lore-card:hover { border-color: var(--hogwarts-gold); background: rgba(212, 175, 55, 0.05); transform: translateX(-5px); }
+        .lore-h { font-family: var(--font-display); font-size: 12px; letter-spacing: 2px; color: var(--hogwarts-gold); }
+        .lore-p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+        /* --- CONTROLS --- */
+        .control-group { display: flex; flex-direction: column; gap: 20px; }
+        .control-label { font-size: 10px; font-weight: 900; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+        .btn-control {
+            width: 100%; height: 50px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 12px; color: #FFF; font-size: 12px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.3s;
+        }
+        .btn-control:hover { background: rgba(255,255,255,0.1); border-color: var(--hogwarts-gold); }
+
+        /* --- PROGRESS --- */
+        .floating-progress {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            padding: 16px 32px; background: rgba(15, 15, 25, 0.8); backdrop-filter: blur(20px);
+            border-radius: 100px; border: 1px solid var(--border); display: flex; align-items: center; gap: 24px;
+            z-index: 1000;
+        }
+        .progress-stat { font-size: 11px; font-weight: 900; letter-spacing: 2px; color: var(--hogwarts-gold); }
+
+    </style>
+</head>
+<body>
+
+    <!-- MASTER CINEMATIC ENGINE -->
+    <div class="cinematic-bg-engine">
+        <div class="layer-base"></div>
+        <div class="layer-environment"></div>
+        <div class="light-rays"></div>
+        <div class="film-grain"></div>
+    </div>
+
+    <!-- LEFT SIDEBAR: NAVIGATION & ARCHIVE -->
+    <aside class="reader-sidebar">
+        <a href="06_magical_home.html" style="text-decoration: none; color: var(--hogwarts-gold); font-family: var(--font-display); font-size: 18px; letter-spacing: 4px;">LUMINA</a>
+        
+        <div class="control-group">
+            <span class="control-label">Chronicle Details</span>
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=200" style="width: 80px; border-radius: 12px; border: 1px solid var(--border);">
+                <div>
+                    <h4 style="font-family: var(--font-display); font-size: 14px; color: #FFF;">The Final Empire</h4>
+                    <p style="font-size: 11px; color: var(--hogwarts-gold); margin-top: 4px;">Mistborn Saga</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <span class="control-label">Reading Mode</span>
+            <button class="btn-control">✦ CINEMATIC IMMERSION</button>
+            <button class="btn-control">✧ FOCUS MODE</button>
+        </div>
+
+        <div class="control-group">
+            <span class="control-label">Atmosphere</span>
+            <button class="btn-control">🔊 AMBIENT RAIN</button>
+            <button class="btn-control">🔊 ANCIENT HALLS</button>
+        </div>
+    </aside>
+
+    <!-- MAIN READER AREA -->
+    <main class="reader-main">
+        <nav class="reader-nav">
+            <div class="nav-title">CHAPTER XIV: THE ASH FALLS</div>
+            <div style="display: flex; gap: 24px;">
+                <span style="font-weight: 800; font-size: 12px; cursor: pointer;">Aa</span>
+                <span style="font-weight: 800; font-size: 12px; cursor: pointer;">🔖</span>
+            </div>
+        </nav>
+
+        <section class="text-column">
+            <div class="book-chapter">Archive Entry #42</div>
+            <h1 class="book-title">The Mist<br>and The Shadow</h1>
+            
+            <article class="book-text">
+                <p>
+                    Ash fell from the sky. Vin watched it, drifting down like dark snow. It blanketed the cobblestones of <b>Luthadel</b>, a soot-colored shroud that covered the misery of the skaa. She stood atop the iron gate of the Keep Venture, her cloak flapping in the wind. 
+                </p>
+                <p>
+                    The <b>Lord Ruler</b> had reigned for a thousand years. A thousand years of ash, a thousand years of servitude. But tonight, the mists felt different. They didn't just swirl; they pulsed. As if the heartbeat of the world itself was slowing.
+                </p>
+                <p>
+                    "You're late," a voice whispered from the shadows. <b>Kelsier</b> stepped into the dim light of the lanterns. He looked as he always did—confident, scarred, and dangerously calm. "The Ministry is moving. We have three hours before the high-guard reaches the square."
+                </p>
+                <p>
+                    Vin looked at her hands. She could feel the <b>Steel</b> burning in her stomach, a cold, metallic fire ready to be extinguished. "I'm ready," she said, her voice barely a whisper.
+                </p>
+                <p>
+                    Ash fell from the sky. It always fell. But for the first time in a millennium, the people of Luthadel were looking up.
+                </p>
+            </article>
+        </section>
+
+        <div class="floating-progress">
+            <span class="progress-stat">PROGRESS: 84%</span>
+            <div style="width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+                <div style="width: 84%; height: 100%; background: var(--hogwarts-gold); box-shadow: 0 0 10px var(--hogwarts-gold);"></div>
+            </div>
+            <span class="progress-stat">4 MINUTES REMAINING</span>
+        </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR: LORE ARCHIVE -->
+    <aside class="lore-panel">
+        <h3 style="font-family: var(--font-display); font-size: 14px; letter-spacing: 4px; border-bottom: 1px solid var(--border); padding-bottom: 20px;">LORE SCANNER</h3>
+        
+        <div class="lore-card">
+            <h4 class="lore-h">LUTHADEL</h4>
+            <p class="lore-p">The capital of the Final Empire. Built upon the ruins of the old world, it is the seat of the Lord Ruler's power.</p>
+        </div>
+
+        <div class="lore-card">
+            <h4 class="lore-h">ALLOMANCY: STEEL</h4>
+            <p class="lore-p">A physical Internal metal. Allows the user to Push on nearby metal sources. Requires refined steel ingestion.</p>
+        </div>
+
+        <div class="lore-card">
+            <h4 class="lore-h">THE LORD RULER</h4>
+            <p class="lore-p">The Slivers of Infinity. An immortal god-king who has ruled for a millennium. Origin: Unknown.</p>
+        </div>
+
+        <div style="margin-top: auto; padding: 24px; background: rgba(212, 175, 55, 0.05); border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.2);">
+            <p style="font-size: 11px; font-weight: 800; color: var(--hogwarts-gold); text-align: center; letter-spacing: 1px;">SYNCING WITH MULTIVERSE LORE ARCHIVE...</p>
+        </div>
+    </aside>
+
+    <script>
+        // Floating Embers
+        const pContainer = document.querySelector('.cinematic-bg-engine');
+        for(let i = 0; i < 20; i++) {
+            const e = document.createElement('div');
+            e.style.position = 'absolute';
+            e.style.width = '2px';
+            e.style.height = '2px';
+            e.style.background = '#D4AF37';
+            e.style.borderRadius = '50%';
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.top = Math.random() * 100 + 'vh';
+            e.style.opacity = '0.3';
+            e.style.boxShadow = '0 0 10px #D4AF37';
+            pContainer.appendChild(e);
+        }
+    </script>
+</body>
+</html>

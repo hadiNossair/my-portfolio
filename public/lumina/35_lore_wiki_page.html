@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>35 - Lore Wiki Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(20, 10, 40, 0.8);
+            --magic-border: rgba(139, 92, 246, 0.3);
+            --magic-cyan: #00F0FF; 
+            --text-pure: #FFFFFF;
+            --text-dim: #A78BFA; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-purple: 0 0 40px rgba(139, 92, 246, 0.4);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            padding: 64px 100px;
+            gap: 64px;
+        }
+
+        .bg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1440');
+            background-size: cover; background-position: center;
+            opacity: 0.15; z-index: 0; mix-blend-mode: screen;
+         animation: slowBreath 30s infinite alternate ease-in-out; }
+
+        @keyframes slowBreath { 0% { transform: scale(1); filter: contrast(1.2) brightness(0.8); } 100% { transform: scale(1.05); filter: contrast(1.4) brightness(0.6); } }
+
+        .wiki-sidebar {
+            width: 320px; position: relative; z-index: 20;
+            background: var(--magic-panel); border: 1px solid var(--magic-border);
+            border-radius: 24px; padding: 32px; backdrop-filter: var(--blur-heavy);
+            height: fit-content; box-shadow: var(--glow-purple);
+        }
+
+        .entity-image {
+            width: 100%; aspect-ratio: 1; border-radius: 16px; border: 2px solid var(--magic-cyan);
+            background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400');
+            background-size: cover; margin-bottom: 24px;
+        }
+
+        .data-table { width: 100%; font-size: 14px; }
+        .data-table tr { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .data-table td { padding: 12px 0; }
+        .data-label { color: var(--text-dim); font-weight: 500; }
+        .data-val { text-align: right; font-weight: 600; }
+
+        .wiki-content {
+            flex: 1; position: relative; z-index: 20;
+            background: var(--magic-panel); border: 1px solid var(--magic-border);
+            border-radius: 24px; padding: 64px; backdrop-filter: var(--blur-heavy);
+            overflow-y: auto;
+        }
+
+        .wiki-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--magic-border); padding-bottom: 24px; margin-bottom: 40px; }
+        .wiki-title { font-family: var(--font-magic); font-size: 48px; color: var(--text-pure); line-height: 1; }
+        .wiki-category { font-size: 14px; padding: 6px 12px; background: rgba(0,240,255,0.1); color: var(--magic-cyan); border: 1px solid var(--magic-cyan); border-radius: 100px; text-transform: uppercase; font-weight: 600; }
+
+        h2 { font-family: var(--font-magic); font-size: 28px; margin-bottom: 24px; color: var(--magic-cyan); }
+        p { font-size: 18px; line-height: 1.8; color: #E2E8F0; margin-bottom: 24px; }
+
+        .wiki-link { color: var(--magic-cyan); text-decoration: none; border-bottom: 1px dashed var(--magic-cyan); cursor: pointer; }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="bg-layer"></div>
+        
+        <aside class="wiki-sidebar">
+            <div class="entity-image"></div>
+            <table class="data-table">
+                <tr>
+                    <td class="data-label">Planet</td>
+                    <td class="data-val">Roshar</td>
+                </tr>
+                <tr>
+                    <td class="data-label">Magic System</td>
+                    <td class="data-val">Surgebinding</td>
+                </tr>
+                <tr>
+                    <td class="data-label">Shard</td>
+                    <td class="data-val">Honor, Cultivation</td>
+                </tr>
+                <tr>
+                    <td class="data-label">Main Faction</td>
+                    <td class="data-val">Knights Radiant</td>
+                </tr>
+            </table>
+        </aside>
+
+        <div class="wiki-content">
+            <div class="wiki-header">
+                <div>
+                    <div style="color: var(--text-dim); margin-bottom: 8px;">Cosmere Database / Roshar System</div>
+                    <h1 class="wiki-title">Knights Radiant</h1>
+                </div>
+                <div class="wiki-category">Organization</div>
+            </div>
+
+            <h2>Overview</h2>
+            <p>The Knights Radiant are an organization of <a href="#" class="wiki-link">Surgebinders</a> on the planet Roshar who have formed a Nahel bond with spren. They were formed to fight in the Desolations against the Voidbringers.</p>
+            
+            <p>They are divided into ten separate Orders, each of which has access to two of the ten Surges. All Orders share one Surge with the Order preceding it and the other with the Order following it, forming a circular chain of shared abilities.</p>
+
+            <h2>The Ten Orders</h2>
+            <p>Each order is dedicated to specific ideals and attracts individuals of certain temperaments. The first ideal, shared by all orders, is:</p>
+            <p style="padding: 24px; background: rgba(0,0,0,0.5); border-left: 4px solid var(--magic-cyan); font-family: var(--font-magic); font-size: 24px; font-style: italic;">"Life before death, strength before weakness, journey before destination."</p>
+
+            <h2>Recreance</h2>
+            <p>Centuries ago, the original Knights Radiant abandoned their oaths and broke their bonds with their spren in an event known as the Recreance. Their Shardblades and Shardplate were left behind and became highly sought-after relics by modern lighteyes.</p>
+        </div>
+    </main>
+</body>
+</html>

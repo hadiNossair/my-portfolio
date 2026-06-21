@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | VR Mode Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --font-display: 'Cinzel', serif;
+            --font-tech: 'Space Grotesk', sans-serif;
+            --glass: blur(40px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-tech);
+            height: 100vh;
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .bg-video {
+            position: fixed; inset: 0;
+            background: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000') center/cover;
+            filter: brightness(0.3) saturate(2); z-index: 1;
+        }
+        .scanline {
+            position: fixed; inset: 0; z-index: 2;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+
+        .portal-ui {
+            position: relative; z-index: 10; text-align: center;
+            width: 100%; max-width: 600px;
+        }
+
+        .hmd-icon {
+            font-size: 80px; color: var(--cyan); margin-bottom: 32px;
+            animation: float 4s infinite ease-in-out;
+            text-shadow: 0 0 30px var(--cyan);
+        }
+        @keyframes float { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+
+        .title { font-family: var(--font-display); font-size: 40px; margin-bottom: 16px; letter-spacing: 10px; }
+        .desc { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 48px; text-transform: uppercase; letter-spacing: 4px; }
+
+        .device-card {
+            background: rgba(0,0,0,0.8); border: 1px solid var(--cyan);
+            border-radius: 20px; padding: 40px; backdrop-filter: var(--glass);
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+        }
+
+        .status-dot { display: inline-block; width: 10px; height: 10px; background: #FF4B4B; border-radius: 50%; margin-right: 12px; }
+        .status-dot.active { background: #00E676; box-shadow: 0 0 10px #00E676; }
+
+        .btn-engage {
+            width: 100%; padding: 20px; background: var(--cyan); color: #000;
+            border: none; border-radius: 100px; font-weight: 800; font-size: 16px;
+            letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            margin-top: 32px;
+        }
+        .btn-engage:hover { background: #FFF; box-shadow: 0 0 30px #FFF; transform: scale(1.05); }
+
+        .back-link { position: fixed; bottom: 40px; color: rgba(255,255,255,0.4); text-decoration: none; font-size: 12px; letter-spacing: 2px; }
+
+    </style>
+</head>
+<body>
+    
+    <div class="bg-video"></div>
+    <div class="scanline"></div>
+
+    <main class="portal-ui">
+        <div class="hmd-icon">🥽</div>
+        <h1 class="title">SPATIAL MODE</h1>
+        <p class="desc">Synchronizing Optical Interface</p>
+
+        <div class="device-card">
+            <p style="font-size: 14px; margin-bottom: 24px; color: rgba(255,255,255,0.8);">Please connect your Dimensional Headset (Vision Pro, Quest 3, or Varjo) to proceed.</p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 24px;">
+                <p><span class="status-dot active"></span> ARCHIVE SYNC</p>
+                <p><span class="status-dot"></span> HMD LINK</p>
+            </div>
+            
+            <button class="btn-engage">WAITING FOR LINK...</button>
+        </div>
+
+        <a href="20_mixed_reality_hub.html" class="back-link">← RETURN TO NEXUS</a>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Sovereign Dashboard</title>
+    <!-- Fonts: Cinematic & UI Grade (Aligned with Interests Page) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* FIGMA DESIGN TOKENS (UNIFIED) */
+            --void: #020205;
+            --deep-sanctum: #0A0A1F;
+            --hogwarts-gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --hogwarts-crimson: #740001;
+            --cyan-neon: #00F0FF;
+            --border: rgba(255, 255, 255, 0.08);
+            
+            /* TYPOGRAPHY */
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-ui: 'Outfit', sans-serif;
+            
+            /* SPACING & RADIUS */
+            --space-xl: 80px;
+            --radius-lg: 24px;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- LIGHTWEIGHT MASTER RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 0px; }
+        body { 
+            background-color: var(--void); 
+            color: #FFFFFF; 
+            font-family: var(--font-sans); 
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, var(--deep-sanctum) 0%, var(--void) 100%);
+        }
+
+        /* --- UNIFIED BACKGROUND ENGINE (SLIM) --- */
+        .figma-bg-engine { position: fixed; inset: 0; z-index: -100; pointer-events: none; }
+        .bg-atmosphere { 
+            position: absolute; inset: 0; 
+            background: url('https://images.weserv.nl/?url=https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=40&w=1200') center/cover; 
+            filter: blur(60px) brightness(0.15); opacity: 0.5; 
+        }
+        .embers-container { position: absolute; inset: 0; }
+        .ember { position: absolute; width: 2px; height: 2px; background: var(--hogwarts-gold); border-radius: 50%; opacity: 0.2; animation: float-up 12s infinite linear; }
+        @keyframes float-up { from { transform: translateY(110vh); opacity: 0; } 50% { opacity: 0.4; } to { transform: translateY(-10vh); opacity: 0; } }
+
+        /* --- HEADER NAVIGATION (FIGMA COMPONENT) --- */
+        .nav {
+            position: sticky; top: 0; height: 90px; width: 100%;
+            padding: 0 var(--space-xl); display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(2,2,5,0.85); backdrop-filter: blur(30px); border-bottom: 1px solid var(--border);
+        }
+        .nav-logo { font-family: var(--font-display); font-size: 28px; font-weight: 900; letter-spacing: 0.4em; color: var(--hogwarts-gold); text-decoration: none; text-shadow: 0 0 20px var(--gold-glow); }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-link { text-decoration: none; color: rgba(255,255,255,0.5); font-weight: 700; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; transition: 0.3s var(--ease); }
+        .nav-link:hover, .nav-link.active { color: #FFF; text-shadow: 0 0 10px #FFF; }
+        .profile { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--hogwarts-gold); background: url('https://images.weserv.nl/?url=https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=40&w=100') center/cover; cursor: pointer; }
+
+        /* --- HERO BILLBOARD --- */
+        .hero { position: relative; height: 85vh; padding: 0 var(--space-xl); display: flex; align-items: center; overflow: hidden; }
+        .hero-visual { position: absolute; inset: 0; background: url('https://images.weserv.nl/?url=https://images.unsplash.com/photo-1506466010722-395aa2bef877?q=60&w=1600') center/cover; filter: brightness(0.35); z-index: -1; transition: 1s var(--ease); }
+        .hero:hover .hero-visual { transform: scale(1.05); }
+        .hero-gradient { position: absolute; inset: 0; background: linear-gradient(90deg, var(--void) 0%, transparent 70%); z-index: 0; }
+        
+        .hero-content { position: relative; z-index: 10; max-width: 800px; animation: slideIn 1s var(--ease); }
+        .hero-tag { font-family: var(--font-accent); font-style: italic; color: var(--hogwarts-gold); font-size: 24px; margin-bottom: 12px; }
+        .hero-h1 { font-family: var(--font-display); font-size: 96px; font-weight: 900; line-height: 0.9; letter-spacing: 2px; margin-bottom: 30px; }
+        .hero-h1 span { color: var(--hogwarts-gold); text-shadow: 0 0 40px var(--gold-glow); }
+        
+        .btn-group { display: flex; gap: 24px; margin-top: 40px; }
+        .btn { padding: 22px 50px; border-radius: 14px; font-weight: 900; font-size: 13px; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; transition: 0.4s var(--ease); border: 1px solid transparent; }
+        .btn-gold { background: #FFF; color: #000; box-shadow: 0 15px 40px rgba(255,255,255,0.1); }
+        .btn-gold:hover { background: var(--hogwarts-gold); transform: translateY(-5px); box-shadow: 0 20px 50px var(--gold-glow); }
+        .btn-glass { background: rgba(255,255,255,0.1); color: #FFF; border-color: var(--border); backdrop-filter: blur(10px); }
+        .btn-glass:hover { border-color: #FFF; transform: translateY(-5px); }
+
+        /* --- REALM SECTORS (Personalized from Interests) --- */
+        .realms-section { padding: 60px var(--space-xl); }
+        .realms-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .realm-portal { 
+            aspect-ratio: 16/9; border-radius: var(--radius-lg); border: 1px solid var(--border); 
+            position: relative; overflow: hidden; cursor: pointer; transition: 0.6s var(--ease); 
+            background: var(--deep-sanctum);
+        }
+        .realm-portal img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6) grayscale(0.5); transition: 0.6s var(--ease); }
+        .realm-portal:hover { transform: scale(1.05) translateY(-10px); border-color: var(--hogwarts-gold); box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 30px var(--gold-glow); }
+        .realm-portal:hover img { filter: brightness(1) grayscale(0); transform: scale(1.1); }
+        .realm-title { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; letter-spacing: 4px; font-weight: 900; z-index: 5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
+
+        /* --- CAROUSEL ROWS --- */
+        .row { padding: 40px var(--space-xl); }
+        .row-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+        .row-title { font-family: var(--font-display); font-size: 26px; letter-spacing: 2px; }
+        .row-title span { font-family: var(--font-accent); font-style: italic; color: var(--hogwarts-gold); }
+        
+        .carousel { display: flex; gap: 24px; overflow-x: auto; padding: 20px 0; }
+        .carousel::-webkit-scrollbar { display: none; }
+        .card { 
+            flex: 0 0 320px; aspect-ratio: 16/9; border-radius: var(--radius-lg); 
+            border: 1px solid var(--border); overflow: hidden; position: relative; cursor: pointer; transition: 0.5s var(--ease);
+        }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s var(--ease); }
+        .card-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 60%); padding: 24px; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0.7; transition: 0.3s; }
+        .card:hover { transform: scale(1.15); z-index: 100; border-color: var(--hogwarts-gold); box-shadow: 0 40px 100px rgba(0,0,0,0.9); }
+        .card:hover .card-overlay { opacity: 1; }
+        .progress { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 15px; overflow: hidden; }
+        .fill { height: 100%; background: var(--hogwarts-gold); box-shadow: 0 0 15px var(--hogwarts-gold); transition: 1s var(--ease); }
+
+        /* --- CROSSOVER FEATURE --- */
+        .crossover { padding: 120px var(--space-xl); display: flex; align-items: center; gap: 80px; background: rgba(255,255,255,0.02); margin: 60px 0; border-top: 1px solid var(--border); }
+        .visual-stack { width: 450px; height: 500px; position: relative; display: flex; align-items: center; }
+        .stack-img { width: 300px; aspect-ratio: 2/3; border-radius: 28px; position: absolute; border: 1px solid var(--border); box-shadow: 0 40px 80px rgba(0,0,0,0.7); transition: 0.8s var(--ease); }
+        .s1 { transform: rotate(-10deg); z-index: 1; }
+        .s2 { transform: rotate(10deg); right: 0; z-index: 2; border-color: var(--hogwarts-gold); }
+        .crossover:hover .s1 { transform: rotate(-15deg) translateX(-40px); opacity: 0.5; }
+        .crossover:hover .s2 { transform: rotate(0deg) scale(1.1); z-index: 10; box-shadow: 0 60px 120px rgba(0,0,0,0.9); }
+
+        .c-content h2 { font-family: var(--font-display); font-size: 64px; line-height: 1.1; margin: 25px 0; }
+        .c-content span { color: var(--hogwarts-gold); font-family: var(--font-accent); font-style: italic; }
+
+        /* --- FOOTER --- */
+        .footer { padding: 120px var(--space-xl); text-align: center; border-top: 1px solid var(--border); }
+        .footer-logo { font-family: var(--font-display); font-size: 64px; letter-spacing: 0.5em; color: var(--hogwarts-gold); margin-bottom: 24px; text-shadow: 0 0 40px var(--gold-glow); }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body figma-frame="Lumina_Sovereign_Dashboard">
+
+    <!-- MAGICAL BACKGROUND ENGINE -->
+    <div class="figma-bg-engine">
+        <div class="bg-atmosphere"></div>
+        <div class="embers-container" id="embers"></div>
+    </div>
+
+    <!-- HEADER NAVIGATION -->
+    <nav class="nav" figma-component="GlobalNav">
+        <a href="#" class="nav-logo">LUMINA</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">Multiverse</a>
+            <a href="#" class="nav-link">Chronicles</a>
+            <a href="#" class="nav-link">Lore</a>
+            <a href="#" class="nav-link">Sanctum</a>
+        </div>
+        <div class="profile" figma-component="UserBadge"></div>
+    </nav>
+
+    <main>
+        <!-- HERO BILLBOARD -->
+        <section class="hero" figma-section="HeroBanner">
+            <div class="hero-visual"></div>
+            <div class="hero-gradient"></div>
+            <div class="hero-content">
+                <p class="hero-tag">Multiversal Selection Manifested</p>
+                <h1 class="hero-h1">The <span>Sovereign</span><br>Legacy</h1>
+                <div class="btn-group">
+                    <a href="#" class="btn btn-gold">▶ COMMENCE ARCHIVE</a>
+                    <a href="#" class="btn btn-glass">ⓘ LORE DATA</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- YOUR REALMS (Personalized from Interests Selection) -->
+        <section class="realms-section" figma-section="PersonalizedRealms">
+            <div class="row-header"><h2 class="row-title">Your <span>Manifested Realms</span></h2></div>
+            <div class="realms-grid">
+                <div class="realm-portal" figma-component="RealmItem">
+                    <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=50&w=400">
+                    <div class="realm-title">HIGH FANTASY</div>
+                </div>
+                <div class="realm-portal" figma-component="RealmItem">
+                    <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=50&w=400">
+                    <div class="realm-title">INTERSTELLAR</div>
+                </div>
+                <div class="realm-portal" figma-component="RealmItem">
+                    <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=50&w=400">
+                    <div class="realm-title">FORBIDDEN VOID</div>
+                </div>
+                <div class="realm-portal" figma-component="RealmItem">
+                    <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=50&w=400">
+                    <div class="realm-title">MYSTERY</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTINUE WATCHING / READING -->
+        <section class="row" figma-section="ContinueSection">
+            <div class="row-header"><h2 class="row-title">Continue <span>Arcana</span></h2></div>
+            <div class="carousel">
+                <div class="card" figma-component="MediaCard">
+                    <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1512820790803-83ca734da794?q=50&w=400">
+                    <div class="card-overlay">
+                        <span style="font-size: 11px; font-weight: 900; color: var(--hogwarts-gold); letter-spacing: 2px;">READING • 82%</span>
+                        <h3 style="font-family: var(--font-display); font-size: 18px; margin: 10px 0;">Philosopher's Stone</h3>
+                        <div class="progress"><div class="fill" style="width: 82%;"></div></div>
+                    </div>
+                </div>
+                <div class="card" figma-component="MediaCard">
+                    <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=50&w=400">
+                    <div class="card-overlay">
+                        <span style="font-size: 11px; font-weight: 900; color: var(--cyan-neon); letter-spacing: 2px;">WATCHING • 45%</span>
+                        <h3 style="font-family: var(--font-display); font-size: 18px; margin: 10px 0;">Dune: Messiah</h3>
+                        <div class="progress"><div class="fill" style="width: 45%; background: var(--cyan-neon); box-shadow: 0 0 15px var(--cyan-neon);"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CROSSOVER SYNC -->
+        <section class="crossover" figma-section="CrossoverFeature">
+            <div class="visual-stack">
+                <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1476275466078-4007374efbbe?q=50&w=400" class="stack-img s1">
+                <img src="https://images.weserv.nl/?url=https://images.unsplash.com/photo-1536440136627-41b2a2d4b647?q=50&w=400" class="stack-img s2">
+            </div>
+            <div class="c-content">
+                <span style="background: var(--hogwarts-crimson); padding: 8px 20px; border-radius: 8px; font-weight: 900; font-size: 10px; letter-spacing: 4px;">MULTIVERSAL SYNC</span>
+                <h2>From <span>Chronicle</span><br>To Silver Screen</h2>
+                <p style="color: rgba(255,255,255,0.4); font-size: 18px; line-height: 1.6; max-width: 600px; margin-bottom: 40px;">Witness the absolute synchronization between written lore and its cinematic adaptation.</p>
+                <div class="btn-group">
+                    <a href="#" class="btn btn-gold">▶ READ LORE</a>
+                    <a href="#" class="btn btn-glass">WATCH CINEMA</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" figma-component="Footer">
+        <h2 class="footer-logo">LUMINA</h2>
+        <p style="color: rgba(255,255,255,0.2); font-size: 12px; letter-spacing: 8px;">THE SOVEREIGN MULTIVERSE ARCHIVE</p>
+    </footer>
+
+    <script>
+        // SLIM EMBER ENGINE (High Performance)
+        const eContainer = document.getElementById('embers');
+        for(let i = 0; i < 30; i++) {
+            const e = document.createElement('div');
+            e.className = 'ember';
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.top = Math.random() * 100 + 'vh';
+            e.style.animationDelay = Math.random() * 8 + 's';
+            eContainer.appendChild(e);
+        }
+    </script>
+</body>
+</html>

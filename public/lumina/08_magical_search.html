@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Universal Search (HBO Style)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --surface: rgba(15, 15, 25, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+        }
+
+        /* Figma Optimized Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        /* --- GLOBAL NAVIGATION (Auto Layout Frame) --- */
+        .top-nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 24px 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        .back-link { text-decoration: none; color: rgba(255,255,255,0.5); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; }
+
+        /* --- SEARCH INTERFACE (Main Frame) --- */
+        .search-hero {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 48px; /* Figma Auto Layout Gap */
+            padding: 0 40px;
+            z-index: 10;
+        }
+
+        .search-branding { text-align: center; display: flex; flex-direction: column; gap: 8px; }
+        .search-title { font-family: var(--font-display); font-size: 40px; font-weight: 900; letter-spacing: 0.1em; }
+        .search-subtitle { font-size: 12px; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.3em; }
+
+        /* HBO Style Search Bar */
+        .search-bar-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            height: 80px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0 80px;
+            color: #FFF;
+            font-size: 24px;
+            font-family: var(--font-sans);
+            backdrop-filter: var(--glass);
+            outline: none;
+            transition: 0.4s;
+        }
+        .search-input:focus { border-color: var(--cyan); background: rgba(255,255,255,0.08); box-shadow: 0 0 30px rgba(0, 240, 255, 0.2); }
+        .search-icon { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); font-size: 28px; opacity: 0.4; }
+
+        /* Filter Row -> Auto Layout Frame */
+        .filter-row {
+            display: flex;
+            gap: 16px;
+        }
+        .filter-pill {
+            padding: 10px 24px;
+            border-radius: 100px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .filter-pill.active { background: var(--cyan); color: #000; border-color: var(--cyan); font-weight: 800; }
+
+        /* --- RESULTS GRID (Netflix Style) --- */
+        .results-container {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 64px 80px 64px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px;
+        }
+
+        .result-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+        .result-card:hover { transform: scale(1.05); }
+
+        .result-poster {
+            width: 100%;
+            aspect-ratio: 2/3;
+            border-radius: 16px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border);
+        }
+        .result-card:hover .result-poster { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
+
+        .result-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+        .result-meta { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 800; text-transform: uppercase; }
+
+    </style>
+</head>
+<body>
+    
+    <nav class="top-nav">
+        <a href="06_magical_home.html" class="back-link">← BACK TO HALL</a>
+        <div style="font-family: var(--font-display); font-size: 14px; letter-spacing: 0.2em;">LUMINA NEXUS</div>
+    </nav>
+
+    <main class="search-hero">
+        <div class="search-branding">
+            <p class="search-subtitle">Universal Archive</p>
+            <h1 class="search-title">Search The Nexus</h1>
+        </div>
+
+        <div class="search-bar-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search movies, books, or series..." value="Lord of the Rings">
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-pill active">All Results</div>
+            <div class="filter-pill">Movies</div>
+            <div class="filter-pill">Series</div>
+            <div class="filter-pill">Books</div>
+            <div class="filter-pill">Lore Wiki</div>
+        </div>
+    </main>
+
+    <!-- Results Area -> Converts to a Clean Grid in Figma -->
+    <section class="results-container">
+        <h2 style="font-family: var(--font-display); font-size: 20px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">Matches for "Lord of the Rings"</h2>
+        
+        <div class="results-grid">
+            <!-- Card 1 -->
+            <div class="result-card" onclick="window.location.href='11_fantasy_detail.html'">
+                <div class="result-poster" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400')"></div>
+                <div class="result-content">
+                    <h3 class="result-name">Fellowship of the Ring</h3>
+                    <p class="result-meta">Movie • 2001</p>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="result-card">
+                <div class="result-poster" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"></div>
+                <div class="result-content">
+                    <h3 class="result-name">The Two Towers</h3>
+                    <p class="result-meta">Book • 1954</p>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="result-card">
+                <div class="result-poster" style="background-image: url('https://images.unsplash.com/photo-1621112904887-419379ce6824?q=80&w=400')"></div>
+                <div class="result-content">
+                    <h3 class="result-name">Rings of Power</h3>
+                    <p class="result-meta">Series • 2022</p>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="result-card">
+                <div class="result-poster" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400')"></div>
+                <div class="result-content">
+                    <h3 class="result-name">The Return of the King</h3>
+                    <p class="result-meta">Movie • 2003</p>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="result-card">
+                <div class="result-poster" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400')"></div>
+                <div class="result-content">
+                    <h3 class="result-name">The Hobbit</h3>
+                    <p class="result-meta">Movie • 2012</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22 - AI Recommendation Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #050B14; 
+            --magic-panel: rgba(10, 20, 40, 0.6);
+            --magic-border: rgba(0, 255, 255, 0.4);
+            --magic-cyan: #00FFFF; 
+            --text-pure: #FFFFFF;
+            --text-dim: #8AB4F8; 
+            --font-magic: 'Rajdhani', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 40px rgba(0, 255, 255, 0.6);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
+            z-index: 0;
+         animation: slowBreath 30s infinite alternate ease-in-out; }
+
+        @keyframes slowBreath { 0% { transform: scale(1); filter: contrast(1.2) brightness(0.8); } 100% { transform: scale(1.05); filter: contrast(1.4) brightness(0.6); } }
+
+        .ai-core {
+            position: relative; z-index: 20;
+            width: 200px; height: 200px; border-radius: 50%;
+            background: rgba(0, 255, 255, 0.1); border: 2px solid var(--magic-cyan);
+            box-shadow: var(--glow-cyan), inset 0 0 40px rgba(0, 255, 255, 0.4);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .ai-pulse {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: var(--magic-cyan); box-shadow: var(--glow-cyan);
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .text-panel {
+            z-index: 20; text-align: center; max-width: 600px;
+        }
+
+        .magic-title { font-family: var(--font-magic); font-size: 48px; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 16px; color: var(--magic-cyan); text-shadow: var(--glow-cyan); }
+        .magic-subtitle { font-size: 18px; color: var(--text-dim); line-height: 1.6; margin-bottom: 40px; }
+
+        .progress-bar {
+            width: 100%; height: 4px; background: rgba(0,255,255,0.1); border-radius: 2px; overflow: hidden; margin-bottom: 16px;
+        }
+        .progress-fill { width: 65%; height: 100%; background: var(--magic-cyan); box-shadow: var(--glow-cyan); }
+
+        .system-log { font-family: var(--font-magic); font-size: 14px; color: var(--text-dim); letter-spacing: 2px; }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="bg-layer"></div>
+        
+        <div class="ai-core">
+            <div class="ai-pulse"></div>
+        </div>
+
+        <div class="text-panel">
+            <h1 class="magic-title">Neural Alignment</h1>
+            <p class="magic-subtitle">The Lore Master AI is currently scanning the multiverse to construct your personalized dashboard...</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            
+            <div class="system-log">LOADING ARTIFACTS... 65%</div>
+        </div>
+    </main>
+</body>
+</html>

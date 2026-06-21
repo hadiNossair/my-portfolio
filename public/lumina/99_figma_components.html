@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Design System & Variants</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #020205;
+            --hogwarts-gold: #D4AF37;
+            --hogwarts-crimson: #740001;
+            --cyan: #00F0FF;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+        }
+
+        body {
+            background-color: #050508;
+            color: #FFF;
+            font-family: var(--font-sans);
+            padding: 100px;
+        }
+
+        .ds-section { margin-bottom: 120px; }
+        .ds-h1 { font-family: var(--font-display); font-size: 64px; color: var(--hogwarts-gold); margin-bottom: 16px; }
+        .ds-p { color: rgba(255,255,255,0.4); margin-bottom: 60px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; font-size: 12px; }
+
+        .variant-group { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 40px; 
+            background: rgba(255,255,255,0.02); 
+            padding: 60px; 
+            border-radius: 40px; 
+            border: 1px solid var(--border);
+        }
+
+        .variant-box { display: flex; flex-direction: column; gap: 20px; }
+        .variant-label { font-size: 11px; color: var(--hogwarts-gold); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* --- COMPONENT: BUTTONS --- */
+        .btn { 
+            padding: 18px 40px; border-radius: 12px; font-weight: 900; 
+            font-size: 12px; letter-spacing: 2px; text-transform: uppercase; 
+            cursor: pointer; transition: 0.4s; border: none; text-align: center;
+        }
+        .btn-gold { background: var(--hogwarts-gold); color: #000; }
+        .btn-gold:hover { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); transform: translateY(-3px); }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--hogwarts-gold); color: var(--hogwarts-gold); }
+        .btn-outline:hover { background: rgba(212, 175, 55, 0.05); }
+
+        .btn-crimson { background: var(--hogwarts-crimson); color: #FFF; }
+        
+        /* --- COMPONENT: CARDS --- */
+        .card { 
+            width: 100%; border-radius: 32px; border: 1px solid var(--border); 
+            background: rgba(15, 15, 25, 0.6); backdrop-filter: var(--glass);
+            overflow: hidden; cursor: pointer; transition: 0.4s;
+        }
+        .card-img { width: 100%; aspect-ratio: 16/9; background-size: cover; background-position: center; }
+        .card-body { padding: 24px; }
+        
+        .card-hover:hover { border-color: var(--hogwarts-gold); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        /* --- COMPONENT: INPUTS --- */
+        .input-f {
+            width: 100%; height: 60px; background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 0 20px; color: #FFF; outline: none; transition: 0.4s;
+        }
+        .input-f:focus { border-color: var(--hogwarts-gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+
+        /* --- COMPONENT: BADGES --- */
+        .badge { padding: 4px 12px; border-radius: 4px; font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; display: inline-block; }
+        .badge-gold { background: var(--hogwarts-gold); color: #000; }
+        .badge-crimson { background: var(--hogwarts-crimson); color: #FFF; }
+        .badge-outline { border: 1px solid var(--border); color: rgba(255,255,255,0.4); }
+
+    </style>
+</head>
+<body>
+
+    <div class="ds-section">
+        <h1 class="ds-h1">THE LUMINA VARIANTS</h1>
+        <p class="ds-p">Interactive Design System for Figma Handoff</p>
+
+        <!-- SECTION: BUTTONS -->
+        <div class="ds-section">
+            <p class="variant-label">✦ Button Variants</p>
+            <div class="variant-group">
+                <div class="variant-box"><span class="variant-label">Primary (Gold)</span><button class="btn btn-gold">Unseal Archive</button></div>
+                <div class="variant-box"><span class="variant-label">Secondary (Outline)</span><button class="btn btn-outline">Explore More</button></div>
+                <div class="variant-box"><span class="variant-label">Danger (Crimson)</span><button class="btn btn-crimson">Purge Records</button></div>
+                <div class="variant-box"><span class="variant-label">Hover State</span><button class="btn btn-gold" style="box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); transform: translateY(-3px);">Active Glow</button></div>
+            </div>
+        </div>
+
+        <!-- SECTION: CARDS -->
+        <div class="ds-section">
+            <p class="variant-label">✦ Component Variants: Artifact Cards</p>
+            <div class="variant-group">
+                <div class="variant-box">
+                    <span class="variant-label">Default State</span>
+                    <div class="card">
+                        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"></div>
+                        <div class="card-body"><h3 style="font-family: var(--font-display);">The Ancient Grimoire</h3><p style="font-size: 12px; color: rgba(255,255,255,0.4);">Fantasy • Legendary</p></div>
+                    </div>
+                </div>
+                <div class="variant-box">
+                    <span class="variant-label">Hover State</span>
+                    <div class="card card-hover" style="border-color: var(--hogwarts-gold); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"></div>
+                        <div class="card-body"><h3 style="font-family: var(--font-display);">The Ancient Grimoire</h3><p style="font-size: 12px; color: var(--hogwarts-gold);">Fantasy • Legendary</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: INPUTS -->
+        <div class="ds-section">
+            <p class="variant-label">✦ Form Variants</p>
+            <div class="variant-group">
+                <div class="variant-box"><span class="variant-label">Input Default</span><input type="text" class="input-f" placeholder="Identity..."></div>
+                <div class="variant-box"><span class="variant-label">Input Focused</span><input type="text" class="input-f" style="border-color: var(--hogwarts-gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);" value="Master Alaric"></div>
+            </div>
+        </div>
+
+        <!-- SECTION: BADGES -->
+        <div class="ds-section">
+            <p class="variant-label">✦ Metadata Badges</p>
+            <div class="variant-group" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="variant-box"><span class="variant-label">Original</span><span class="badge badge-gold">Lumina Original</span></div>
+                <div class="variant-box"><span class="variant-label">Restricted</span><span class="badge badge-crimson">Restricted Section</span></div>
+                <div class="variant-box"><span class="variant-label">Tier</span><span class="badge badge-outline">Grandmaster</span></div>
+                <div class="variant-box"><span class="variant-label">Category</span><span class="badge badge-outline">Fantasy</span></div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

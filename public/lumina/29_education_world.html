@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>29 - Education World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0F172A; 
+            --magic-panel: rgba(30, 41, 59, 0.8);
+            --magic-border: rgba(14, 165, 233, 0.3);
+            --magic-blue: #0EA5E9; 
+            --text-pure: #F8FAFC;
+            --text-dim: #94A3B8; 
+            --font-magic: 'Outfit', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-blue: 0 0 20px rgba(14, 165, 233, 0.4);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Clean Academic Background */
+        .ambient-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1440'); /* Modern Library / Clean Architecture */
+            background-size: cover; background-position: center;
+            opacity: 0.1; z-index: 0; mix-blend-mode: luminosity;
+        }
+
+        /* Sidebar Portal */
+        .sidebar {
+            width: 280px; background: rgba(15, 23, 42, 0.95); border-right: 1px solid var(--magic-border);
+            backdrop-filter: var(--blur-heavy); padding: 40px 32px; display: flex; flex-direction: column; z-index: 20;
+        }
+
+        .logo { font-family: var(--font-magic); font-size: 32px; font-weight: 700; color: var(--magic-blue); margin-bottom: 64px; }
+
+        .nav-item { font-family: var(--font-magic); font-size: 16px; padding: 16px; color: var(--text-dim); text-decoration: none; font-weight: 500; margin-bottom: 8px; border-radius: 12px; }
+        .nav-item.active { background: rgba(14, 165, 233, 0.1); color: var(--magic-blue); font-weight: 700; }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 40px 64px; z-index: 10; display: flex; flex-direction: column; gap: 48px; }
+
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .search-bar { width: 400px; padding: 16px 24px; background: var(--magic-panel); border: 1px solid var(--magic-border); border-radius: 100px; color: #FFF; backdrop-filter: var(--blur-heavy); }
+
+        /* Academic Hero */
+        .hero-banner {
+            width: 100%; background: linear-gradient(135deg, rgba(14,165,233,0.2), rgba(30,41,59,0.8));
+            border: 1px solid var(--magic-border); border-radius: 24px;
+            display: flex; align-items: center; padding: 64px;
+            box-shadow: inset 0 0 30px rgba(14,165,233,0.1);
+        }
+
+        .hero-content { max-width: 600px; }
+        .hero-tag { display: inline-block; padding: 6px 12px; background: var(--magic-blue); color: #FFF; border-radius: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; }
+        .hero-title { font-family: var(--font-magic); font-size: 48px; font-weight: 700; margin-bottom: 16px; line-height: 1.1; }
+        .hero-desc { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.6; }
+
+        .btn-edu { font-family: var(--font-magic); padding: 16px 32px; background: var(--magic-blue); color: #FFF; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: var(--glow-blue); }
+
+        /* Structured Cards */
+        .section-title { font-family: var(--font-magic); font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+        
+        .grid-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        
+        .edu-card { background: var(--magic-panel); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 16px; backdrop-filter: var(--blur-heavy); }
+        .edu-cover { width: 100%; aspect-ratio: 2/3; background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .edu-title { font-family: var(--font-magic); font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .edu-meta { font-size: 12px; color: var(--magic-blue); font-weight: 600; }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="ambient-bg"></div>
+        
+        <aside class="sidebar">
+            <div class="logo">Edu.Sphere</div>
+            <nav>
+                <a href="#" class="nav-item active">Curriculum Hub</a>
+                <a href="#" class="nav-item">Computer Science</a>
+                <a href="#" class="nav-item">Mathematics</a>
+                <a href="#" class="nav-item">Physics</a>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="header">
+                <input type="text" class="search-bar" placeholder="Search academic databases...">
+                <div style="color: var(--text-dim); font-weight: 600;">Academic Mode</div>
+            </header>
+
+            <section class="hero-banner">
+                <div class="hero-content">
+                    <span class="hero-tag">Course Material</span>
+                    <h1 class="hero-title">Algorithms to Live By</h1>
+                    <p class="hero-desc">A fascinating exploration of how computer algorithms can be applied to our everyday lives, helping to solve common decision-making problems and illuminate the workings of the human mind.</p>
+                    <button class="btn-edu">Start Syllabus</button>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Recommended Reading</h2>
+                <div class="grid-row">
+                    <div class="edu-card">
+                        <div class="edu-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"></div>
+                        <h3 class="edu-title">Clean Code</h3>
+                        <p class="edu-meta">Programming • 2008</p>
+                    </div>
+                    <div class="edu-card">
+                        <div class="edu-cover" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400')"></div>
+                        <h3 class="edu-title">A Brief History of Time</h3>
+                        <p class="edu-meta">Physics • 1988</p>
+                    </div>
+                    <div class="edu-card">
+                        <div class="edu-cover" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400')"></div>
+                        <h3 class="edu-title">The Selfish Gene</h3>
+                        <p class="edu-meta">Biology • 1976</p>
+                    </div>
+                    <div class="edu-card">
+                        <div class="edu-cover" style="background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400')"></div>
+                        <h3 class="edu-title">Design of Everyday Things</h3>
+                        <p class="edu-meta">Design • 1988</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

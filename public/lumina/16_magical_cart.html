@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16 - Magical Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(20, 10, 40, 0.4);
+            --magic-border: rgba(139, 92, 246, 0.3);
+            --magic-cyan: #00F0FF; 
+            --magic-gold: #FFD700;
+            --text-pure: #FFFFFF;
+            --text-dim: #A78BFA; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
+            --glow-purple: 0 0 40px rgba(139, 92, 246, 0.6);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            padding: 80px 100px;
+        }
+
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1440');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+            mix-blend-mode: screen;
+         animation: slowBreath 30s infinite alternate ease-in-out; }
+
+        @keyframes slowBreath { 0% { transform: scale(1); filter: contrast(1.2) brightness(0.8); } 100% { transform: scale(1.05); filter: contrast(1.4) brightness(0.6); } }
+
+        .cart-container {
+            position: relative; z-index: 20; width: 100%; max-width: 1000px;
+            display: flex; gap: 48px;
+        }
+
+        .items-list { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+
+        .header-title { font-family: var(--font-magic); font-size: 48px; margin-bottom: 24px; text-shadow: var(--glow-purple); }
+
+        .cart-item {
+            background: var(--magic-panel); border: 1px solid var(--magic-border);
+            border-radius: 24px; padding: 24px; backdrop-filter: var(--blur-heavy);
+            display: flex; align-items: center; gap: 24px;
+        }
+
+        .item-cover {
+            width: 80px; aspect-ratio: 2/3; border-radius: 8px;
+            background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .item-details { flex: 1; }
+        .item-title { font-family: var(--font-magic); font-size: 20px; margin-bottom: 4px; }
+        .item-author { color: var(--text-dim); font-size: 14px; }
+
+        .item-price { font-family: var(--font-magic); font-size: 24px; color: var(--magic-gold); text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+
+        .summary-panel {
+            width: 360px; height: fit-content;
+            background: rgba(11, 5, 20, 0.8); border: 1px solid var(--magic-border);
+            border-radius: 24px; padding: 32px; backdrop-filter: var(--blur-heavy);
+            box-shadow: inset 0 0 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .summary-title { font-family: var(--font-magic); font-size: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--magic-border); padding-bottom: 16px; }
+
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 16px; }
+        .total-row { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--magic-border); font-size: 24px; font-weight: 600; color: var(--magic-cyan); }
+
+        .checkout-btn {
+            width: 100%; padding: 20px; margin-top: 32px;
+            background: var(--magic-cyan); color: #000;
+            border: none; border-radius: 100px;
+            font-size: 18px; font-weight: 600; cursor: pointer;
+            box-shadow: var(--glow-cyan);
+        }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="bg-layer"></div>
+        
+        <div class="cart-container">
+            <div class="items-list">
+                <h1 class="header-title">Artifacts Satchel</h1>
+                
+                <div class="cart-item">
+                    <div class="item-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"></div>
+                    <div class="item-details">
+                        <h3 class="item-title">The Way of Kings</h3>
+                        <p class="item-author">Physical Grimoire + Digital Spellbook</p>
+                    </div>
+                    <div class="item-price">35 ⟡</div>
+                </div>
+
+                <div class="cart-item">
+                    <div class="item-cover" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400')"></div>
+                    <div class="item-details">
+                        <h3 class="item-title">1984</h3>
+                        <p class="item-author">Digital Spellbook</p>
+                    </div>
+                    <div class="item-price">15 ⟡</div>
+                </div>
+            </div>
+
+            <div class="summary-panel">
+                <h2 class="summary-title">Exchange</h2>
+                <div class="summary-row">
+                    <span style="color: var(--text-dim);">Artifacts (2)</span>
+                    <span>50 ⟡</span>
+                </div>
+                <div class="summary-row">
+                    <span style="color: var(--text-dim);">Mystic Transport</span>
+                    <span>5 ⟡</span>
+                </div>
+                
+                <div class="total-row">
+                    <span>Total Aura</span>
+                    <span>55 ⟡</span>
+                </div>
+
+                <button class="checkout-btn">Open Payment Portal</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

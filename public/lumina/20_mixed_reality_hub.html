@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Nexus Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --gold: #FFD700;
+            --crimson: #FF4B4B;
+            --font-display: 'Cinzel', serif;
+            --font-tech: 'Space Grotesk', sans-serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- IMMERSIVE BACKGROUND --- */
+        .nexus-bg {
+            position: fixed; inset: 0;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2560') center/cover;
+            filter: brightness(0.2) saturate(1.5);
+            z-index: 1;
+            animation: slowRotate 60s infinite linear;
+        }
+        @keyframes slowRotate { from { transform: scale(1.2) rotate(0deg); } to { transform: scale(1.2) rotate(360deg); } }
+
+        .nexus-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, var(--void) 85%);
+            z-index: 2;
+        }
+
+        /* --- NEXUS CORE --- */
+        .nexus-core {
+            position: relative; z-index: 10;
+            text-align: center; display: flex;
+            flex-direction: column; align-items: center;
+        }
+
+        .hub-title {
+            font-family: var(--font-display);
+            font-size: clamp(40px, 8vw, 80px);
+            margin-bottom: 80px;
+            letter-spacing: 10px;
+            background: linear-gradient(180deg, #FFF 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px var(--cyan));
+        }
+
+        .portal-ring {
+            position: relative;
+            width: 900px; height: 400px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .portal {
+            width: 240px; height: 380px;
+            border-radius: 120px;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid;
+            backdrop-filter: var(--glass);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+
+        .portal::before {
+            content: ''; position: absolute; inset: -10px;
+            border-radius: 130px; border: 1px solid transparent;
+            opacity: 0; transition: 0.4s;
+        }
+
+        /* Portal Themes */
+        .p-fantasy { border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
+        .p-fantasy:hover { transform: translateY(-30px) scale(1.05); box-shadow: 0 0 60px rgba(255, 215, 0, 0.4); border-color: #FFF; }
+        .p-fantasy .p-icon { color: var(--gold); text-shadow: 0 0 20px var(--gold); }
+
+        .p-scifi { border-color: var(--cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.2); margin-top: -120px; }
+        .p-scifi:hover { transform: translateY(-30px) scale(1.05); box-shadow: 0 0 60px rgba(0, 240, 255, 0.4); border-color: #FFF; }
+        .p-scifi .p-icon { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
+
+        .p-horror { border-color: var(--crimson); box-shadow: 0 0 30px rgba(255, 75, 75, 0.2); }
+        .p-horror:hover { transform: translateY(-30px) scale(1.05); box-shadow: 0 0 60px rgba(255, 75, 75, 0.4); border-color: #FFF; }
+        .p-horror .p-icon { color: var(--crimson); text-shadow: 0 0 20px var(--crimson); }
+
+        .p-icon { font-size: 64px; margin-bottom: 24px; transition: 0.4s; }
+        .p-label { font-family: var(--font-display); font-size: 18px; letter-spacing: 4px; text-transform: uppercase; }
+        .p-status { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.4); margin-top: 12px; letter-spacing: 2px; }
+
+        /* Floating UI Elements */
+        .nexus-nav {
+            position: fixed; top: 48px; width: 100%; display: flex; justify-content: space-between; padding: 0 80px; z-index: 100;
+        }
+        .nexus-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px 24px;
+            border-radius: 100px; color: #FFF; text-decoration: none; font-weight: 700; font-size: 12px;
+            letter-spacing: 2px; backdrop-filter: var(--glass); transition: 0.3s;
+        }
+        .nexus-btn:hover { background: var(--cyan); color: #000; box-shadow: 0 0 20px var(--cyan); }
+
+        @media (max-width: 1024px) {
+            .portal-ring { width: 100%; flex-direction: column; height: auto; gap: 40px; margin-top: 100px; }
+            .p-scifi { margin-top: 0; }
+            body { overflow-y: auto; height: auto; padding: 100px 0; }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="nexus-bg"></div>
+    <div class="nexus-overlay"></div>
+
+    <nav class="nexus-nav">
+        <a href="06_magical_home.html" class="nexus-btn">← RETURN TO HALL</a>
+        <a href="44_super_master_mixed_reality.html" class="nexus-btn">ENGAGE MASTER CONVERGENCE</a>
+    </nav>
+
+    <main class="nexus-core">
+        <h1 class="hub-title">THE NEXUS</h1>
+
+        <div class="portal-ring">
+            
+            <div class="portal p-fantasy" onclick="window.location.href='11_fantasy_detail.html'">
+                <div class="p-icon">✨</div>
+                <div class="p-label">FANTASY</div>
+                <div class="p-status">REALM STABLE</div>
+            </div>
+
+            <div class="portal p-scifi">
+                <div class="p-icon">⚡</div>
+                <div class="p-label">SCI-FI</div>
+                <div class="p-status">GRID ACTIVE</div>
+            </div>
+
+            <div class="portal p-horror" onclick="window.location.href='31_horror_world.html'">
+                <div class="p-icon">🩸</div>
+                <div class="p-label">HORROR</div>
+                <div class="p-status">ARCHIVE SEALED</div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

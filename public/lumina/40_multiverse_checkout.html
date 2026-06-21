@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40 - Multiverse Bundle Complete</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-gold: #FFD700;
+            --magic-cyan: #00F0FF;
+            --text-pure: #FFFFFF;
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-omni: 0 0 100px rgba(255, 255, 255, 0.8);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .omni-light {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 500px; height: 500px; background: #FFF; border-radius: 50%;
+            filter: blur(150px); opacity: 0.3; animation: pulse 4s infinite alternate;
+        }
+
+        @keyframes pulse { 0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.8); } 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.2); } }
+
+        .hero-text { position: relative; z-index: 20; }
+        .hero-title { font-family: var(--font-magic); font-size: 80px; text-transform: uppercase; letter-spacing: 8px; margin-bottom: 24px; text-shadow: var(--glow-omni); }
+        .hero-desc { font-size: 24px; color: #E2E8F0; margin-bottom: 64px; }
+
+        .btn-launch {
+            position: relative; z-index: 20; padding: 24px 80px;
+            background: linear-gradient(90deg, var(--magic-cyan), var(--magic-gold));
+            color: #000; border: none; border-radius: 100px;
+            font-family: var(--font-magic); font-size: 24px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
+            box-shadow: 0 0 40px rgba(255,255,255,0.5); transition: 0.3s;
+        }
+        .btn-launch:hover { box-shadow: var(--glow-omni); transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="omni-light"></div>
+        
+        <div class="hero-text">
+            <h1 class="hero-title">Multiverse Unlocked</h1>
+            <p class="hero-desc">Your ultimate bundle has been acquired. The realms await your presence.</p>
+        </div>
+
+        <button class="btn-launch">Enter The Library</button>
+    </main>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | My Personal Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --surface: rgba(20, 20, 35, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(30px);
+            --sidebar-w: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR (Shared Component) */
+        .sidebar {
+            width: var(--sidebar-w);
+            height: 100%;
+            background: rgba(5, 5, 10, 0.8);
+            border-right: 1px solid var(--border);
+            backdrop-filter: var(--glass);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 24px;
+            z-index: 1000;
+        }
+
+        .logo-wrap { margin-bottom: 64px; padding-left: 12px; }
+        .logo { font-family: var(--font-display); font-size: 24px; letter-spacing: 4px; color: var(--cyan); text-decoration: none; }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 12px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .nav-item:hover { color: #FFF; background: rgba(255,255,255,0.05); }
+        .nav-item.active { color: var(--cyan); background: rgba(0, 240, 255, 0.08); border-left: 3px solid var(--cyan); border-radius: 4px 12px 12px 4px; }
+
+        /* CONTENT */
+        .content-wrap {
+            flex: 1; height: 100%; overflow-y: auto; padding: 48px 64px;
+            background: radial-gradient(circle at top left, rgba(0, 240, 255, 0.03) 0%, var(--void) 50%);
+        }
+
+        .header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 48px;
+        }
+        .greeting { font-family: var(--font-display); font-size: 40px; margin-bottom: 8px; }
+        .stats { display: flex; gap: 32px; }
+        .stat-item { text-align: center; }
+        .stat-val { font-family: var(--font-display); font-size: 24px; color: var(--cyan); }
+        .stat-lbl { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
+
+        .tabs { display: flex; gap: 32px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+        .tab { 
+            padding: 16px 0; font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.4); 
+            cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .tab.active { color: #FFF; }
+        .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+
+        /* Grid */
+        .lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 40px; }
+
+        .book-card {
+            background: var(--surface); backdrop-filter: var(--glass); border: 1px solid var(--border);
+            border-radius: 24px; padding: 16px; transition: 0.4s; cursor: pointer;
+        }
+        .book-card:hover { transform: translateY(-10px); border-color: var(--cyan); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
+        .cover { width: 100%; aspect-ratio: 2/3; border-radius: 16px; overflow: hidden; margin-bottom: 16px; position: relative; }
+        .cover img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .book-card:hover .cover img { transform: scale(1.1); }
+
+        .badge { position: absolute; top: 12px; right: 12px; padding: 4px 8px; background: rgba(0,0,0,0.8); border-radius: 4px; font-size: 10px; font-weight: 800; color: var(--cyan); }
+
+        .title { font-family: var(--font-display); font-size: 16px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .author { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+
+        .progress-wrap { width: 100%; }
+        .progress-txt { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; font-weight: 600; color: rgba(255,255,255,0.6); }
+        .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 100px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--purple)); box-shadow: 0 0 10px var(--cyan); border-radius: 100px; }
+
+        .btn-read { width: 100%; padding: 12px; margin-top: 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; color: #FFF; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; }
+        .book-card:hover .btn-read { background: #FFF; color: #000; }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .content-wrap { padding: 32px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 24px; }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <aside class="sidebar">
+        <div class="logo-wrap"><a href="06_magical_home.html" class="logo">LUMINA</a></div>
+        <nav>
+            <a href="06_magical_home.html" class="nav-item"><span>✦</span> The Grand Hall</a>
+            <a href="07_magical_categories.html" class="nav-item"><span>✦</span> Multiverse Hub</a>
+            <a href="08_magical_search.html" class="nav-item"><span>✦</span> Artifact Search</a>
+            <a href="#" class="nav-item active"><span>✦</span> My Grimoire</a>
+            <a href="38_book_club_social.html" class="nav-item"><span>✦</span> Book Club</a>
+        </nav>
+    </aside>
+
+    <main class="content-wrap">
+        
+        <header class="header">
+            <div>
+                <h1 class="greeting">My Sanctuary</h1>
+                <p style="color: rgba(255,255,255,0.5); font-weight: 300;">You have 3 artifacts currently open in the multiverse.</p>
+            </div>
+            <div class="stats">
+                <div class="stat-item"><p class="stat-val">12</p><p class="stat-lbl">Artifacts Read</p></div>
+                <div class="stat-item"><p class="stat-val">3.4k</p><p class="stat-lbl">Pages Turned</p></div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active">Currently Reading</div>
+            <div class="tab">To Be Unlocked</div>
+            <div class="tab">Legendary Archives</div>
+        </div>
+
+        <div class="lib-grid">
+            <!-- Harry Potter -->
+            <div class="book-card" onclick="window.location.href='13_reading_mode.html'">
+                <div class="cover">
+                    <span class="badge">FANTASY</span>
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400">
+                </div>
+                <h3 class="title">Harry Potter: Cursed Child</h3>
+                <p class="author">J.K. Rowling</p>
+                <div class="progress-wrap">
+                    <div class="progress-txt"><span>75% Complete</span><span>Page 243</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 75%;"></div></div>
+                </div>
+                <button class="btn-read">Continue Reading</button>
+            </div>
+
+            <!-- Dune -->
+            <div class="book-card">
+                <div class="cover">
+                    <span class="badge">SCI-FI</span>
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400">
+                </div>
+                <h3 class="title">Dune: Part One</h3>
+                <p class="author">Frank Herbert</p>
+                <div class="progress-wrap">
+                    <div class="progress-txt"><span>15% Complete</span><span>Page 45</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 15%;"></div></div>
+                </div>
+                <button class="btn-read">Continue Reading</button>
+            </div>
+
+            <!-- The Conjuring -->
+            <div class="book-card">
+                <div class="cover">
+                    <span class="badge">HORROR</span>
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400">
+                </div>
+                <h3 class="title">The Demonologist</h3>
+                <p class="author">Gerald Brittle</p>
+                <div class="progress-wrap">
+                    <div class="progress-txt"><span>44% Complete</span><span>Page 110</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 44%;"></div></div>
+                </div>
+                <button class="btn-read">Continue Reading</button>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

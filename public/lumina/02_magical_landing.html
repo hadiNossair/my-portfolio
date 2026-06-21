@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Sovereign Sanctuary of Multiversal Lore</title>
+    <!-- Fonts - Hogwarts & Cinematic Grade -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #020205;
+            --hogwarts-gold: #D4AF37;
+            --hogwarts-crimson: #740001;
+            --surface: rgba(15, 15, 25, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* html.to.design Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--void);
+            color: #FFFFFF;
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* --- THE MAGICAL BACKGROUND --- */
+        .master-bg { position: fixed; inset: 0; z-index: -10; overflow: hidden; background: radial-gradient(circle at center, #0A0A1F 0%, var(--void) 80%); }
+        .embers-container { position: absolute; inset: 0; z-index: -5; }
+        .ember { position: absolute; width: 2px; height: 2px; background: var(--hogwarts-gold); border-radius: 50%; opacity: 0.3; animation: float-up 15s infinite linear; }
+        @keyframes float-up { from { transform: translateY(110vh) translateX(0); opacity: 0; } 50% { opacity: 0.5; } to { transform: translateY(-10vh) translateX(50px); opacity: 0; } }
+
+        /* --- NAVIGATION --- */
+        .nav-bar { 
+            position: fixed; top: 0; width: 100%; height: 110px; 
+            padding: 0 80px; display: flex; justify-content: space-between; align-items: center; 
+            z-index: 1000; background: linear-gradient(180deg, rgba(2, 2, 5, 0.95) 0%, transparent 100%); 
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); 
+        }
+        .logo-box { display: flex; align-items: center; gap: 20px; text-decoration: none; }
+        .logo-icon { width: 48px; height: 48px; background: var(--hogwarts-gold); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; color: #000; font-size: 24px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+
+        .btn-gold { 
+            padding: 18px 48px; background: var(--hogwarts-gold); color: #000; 
+            border-radius: 14px; font-weight: 900; text-decoration: none; 
+            font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); transition: 0.5s var(--ease-out-expo);
+        }
+        .btn-gold:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5); }
+
+        /* --- HERO (LIVE ENHANCED) --- */
+        .hero-section { width: 100%; height: 100vh; display: flex; align-items: center; padding: 0 100px; position: relative; }
+        .hero-visual { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=2560') center/cover; filter: brightness(0.35) saturate(1.2); z-index: -1; animation: heroEntrance 2s var(--ease-out-expo); }
+        @keyframes heroEntrance { from { transform: scale(1.1); filter: brightness(0); } to { transform: scale(1); filter: brightness(0.35); } }
+        
+        .hero-h1 { font-family: var(--font-display); font-size: clamp(64px, 10vw, 115px); line-height: 0.95; font-weight: 900; letter-spacing: 2px; }
+        .hero-h1 span { color: var(--hogwarts-gold); text-shadow: 0 0 50px rgba(212, 175, 55, 0.5); }
+
+        /* --- SECTIONS (LIVE ENHANCED) --- */
+        .section-realm { padding: 140px 100px; opacity: 0; transform: translateY(40px); transition: 1s var(--ease-out-expo); }
+        .section-realm.reveal { opacity: 1; transform: translateY(0); }
+
+        .section-h2 { font-family: var(--font-display); font-size: 64px; font-weight: 900; margin-bottom: 80px; text-align: center; letter-spacing: 3px; }
+        .section-h2 span { color: var(--hogwarts-gold); font-family: var(--font-accent); font-style: italic; }
+
+        .book-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 48px; }
+        .book-card { display: flex; flex-direction: column; gap: 28px; cursor: pointer; transition: 0.6s var(--ease-out-expo); }
+        .book-visual { 
+            width: 100%; aspect-ratio: 2/3; border-radius: 40px; background-size: cover; 
+            background-position: center; border: 1px solid var(--border); position: relative; overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6); transition: 0.6s var(--ease-out-expo);
+        }
+        .book-card:hover { transform: translateY(-20px); }
+        .book-card:hover .book-visual { border-color: var(--hogwarts-gold); box-shadow: 0 30px 60px rgba(212, 175, 55, 0.2); transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="master-bg">
+        <div class="embers-container" id="embers"></div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="logo-box">
+            <div class="logo-icon">L</div>
+            <span style="font-family: var(--font-display); font-size: 28px; font-weight: 900; letter-spacing: 0.4em;">LUMINA</span>
+        </div>
+        <div style="display: flex; gap: 48px;">
+            <a href="#" style="text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 800; font-size: 11px; letter-spacing: 3px;">THE GREAT HALL</a>
+            <a href="#" style="text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 800; font-size: 11px; letter-spacing: 3px;">RESTRICTED ARCHIVES</a>
+            <a href="#" style="text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 800; font-size: 11px; letter-spacing: 3px;">COVEN CIRCLE</a>
+        </div>
+        <a href="04_magical_register.html" class="btn-gold">ENLIST IN THE ACADEMY</a>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-visual"></div>
+        <div style="max-width: 1100px; position: relative; z-index: 10;">
+            <div style="font-family: var(--font-accent); font-style: italic; color: var(--hogwarts-gold); font-size: 26px; margin-bottom: 24px; letter-spacing: 2px;">The Sovereign Sanctuary of Stories</div>
+            <h1 class="hero-h1">Traverse The <span>Unseen</span> Realities.</h1>
+            <p style="font-size: 24px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 800px; margin-top: 32px;">Lumina is the premiere multiversal ecosystem, architected to unseal legendary chronicles through high-fidelity mixed reality.</p>
+            <div style="margin-top: 56px; display: flex; gap: 24px;">
+                <a href="04_magical_register.html" class="btn-gold">COMMENCE YOUR ASCENSION</a>
+                <a href="#" class="btn-gold" style="background: transparent; border: 1px solid var(--hogwarts-gold); color: var(--hogwarts-gold);">UNVEIL THE GRIMOIRE</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-realm" id="archive">
+        <h2 class="section-h2">The <span>Forbidden</span> Archives</h2>
+        <div class="book-grid">
+            <div class="book-card">
+                <div class="book-visual" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600')"></div>
+                <div style="text-align: center;">
+                    <h3 style="font-family: var(--font-display); font-size: 18px; color: #FFF; letter-spacing: 1px;">The Way of Kings</h3>
+                    <p style="color: var(--hogwarts-gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;">BRANDON SANDERSON</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-visual" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600')"></div>
+                <div style="text-align: center;">
+                    <h3 style="font-family: var(--font-display); font-size: 18px; color: #FFF; letter-spacing: 1px;">Philosopher's Stone</h3>
+                    <p style="color: var(--hogwarts-gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;">J.K. ROWLING</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-visual" style="background-image: url('https://images.unsplash.com/photo-1506466010722-395aa2bef877?q=80&w=600')"></div>
+                <div style="text-align: center;">
+                    <h3 style="font-family: var(--font-display); font-size: 18px; color: #FFF; letter-spacing: 1px;">Dune: The Oracle</h3>
+                    <p style="color: var(--hogwarts-gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;">FRANK HERBERT</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-visual" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600')"></div>
+                <div style="text-align: center;">
+                    <h3 style="font-family: var(--font-display); font-size: 18px; color: #FFF; letter-spacing: 1px;">Name of the Wind</h3>
+                    <p style="color: var(--hogwarts-gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;">PATRICK ROTHFUSS</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-visual" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=600')"></div>
+                <div style="text-align: center;">
+                    <h3 style="font-family: var(--font-display); font-size: 18px; color: #FFF; letter-spacing: 1px;">Mistborn Empire</h3>
+                    <p style="color: var(--hogwarts-gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;">BRANDON SANDERSON</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 120px 100px; text-align: center; border-top: 1px solid var(--border);">
+        <p style="color: rgba(255,255,255,0.2); font-size: 12px; letter-spacing: 4px;">© 2024 LUMINA SOVEREIGN REALITIES. ARCHITECTED FOR THE SEEKERS OF THE UNSEEN.</p>
+    </footer>
+
+    <script>
+        const eContainer = document.getElementById('embers');
+        for(let i = 0; i < 40; i++) {
+            const e = document.createElement('div');
+            e.className = 'ember';
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.animationDelay = Math.random() * 15 + 's';
+            eContainer.appendChild(e);
+        }
+
+        // Intersection Observer for Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-realm').forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Lore Master AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --surface: rgba(20, 15, 30, 0.85);
+            --border: rgba(0, 240, 255, 0.4);
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(60px);
+            --glow: 0 0 40px rgba(0, 240, 255, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow: hidden;
+        }
+
+        .bg-dim {
+            position: fixed; inset: 0;
+            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000') center/cover;
+            filter: brightness(0.2) blur(10px); z-index: 1;
+        }
+
+        /* --- AI OVERLAY PANEL --- */
+        .ai-panel {
+            position: relative; z-index: 10;
+            width: 100%; max-width: 840px;
+            background: var(--surface);
+            backdrop-filter: var(--glass);
+            border: 2px solid var(--border);
+            border-radius: 48px;
+            padding: 64px;
+            box-shadow: 0 50px 150px rgba(0,0,0,0.8), inset 0 0 40px rgba(0, 240, 255, 0.1);
+            animation: aiEntry 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        @keyframes aiEntry { from { opacity: 0; transform: scale(0.9) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        .ai-header { display: flex; align-items: center; gap: 32px; margin-bottom: 48px; }
+        .ai-orb {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: radial-gradient(circle, var(--cyan) 0%, var(--purple) 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px; box-shadow: var(--glow);
+            animation: orbPulse 4s infinite alternate ease-in-out;
+        }
+        @keyframes orbPulse { from { box-shadow: 0 0 20px var(--cyan); } to { box-shadow: 0 0 60px var(--purple); transform: scale(1.1); } }
+
+        .ai-branding h2 { font-family: var(--font-display); font-size: 36px; margin-bottom: 4px; }
+        .ai-branding p { font-size: 14px; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: 4px; }
+
+        .ai-content { font-size: 18px; line-height: 1.8; color: rgba(255,255,255,0.9); margin-bottom: 48px; }
+
+        .lore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .lore-item {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 24px; border-radius: 20px;
+        }
+        .lore-item h4 { font-family: var(--font-display); font-size: 16px; margin-bottom: 12px; color: var(--cyan); }
+        .lore-item p { font-size: 14px; color: rgba(255,255,255,0.6); }
+
+        .close-btn {
+            position: absolute; top: 40px; right: 40px;
+            background: none; border: none; color: rgba(255,255,255,0.3);
+            font-size: 24px; cursor: pointer; transition: 0.3s;
+        }
+        .close-btn:hover { color: #FFF; transform: rotate(90deg); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="bg-dim"></div>
+
+    <main class="ai-panel">
+        <button class="close-btn" onclick="window.location.href='13_reading_mode.html'">✕</button>
+        
+        <header class="ai-header">
+            <div class="ai-orb">✨</div>
+            <div class="ai-branding">
+                <h2>Lore Master Synthesis</h2>
+                <p>Oracle Analysis Complete</p>
+            </div>
+        </header>
+
+        <article class="ai-content">
+            <p>I have analyzed the current artifact <strong>"The Way of Kings"</strong>. This tome introduces the world of Roshar, a continent shaped by highstorms. The narrative complexity is high, weaving the fates of Kaladin Stormblessed, Shallan Davar, and Dalinar Kholin.</p>
+        </article>
+
+        <div class="lore-grid">
+            <div class="lore-item">
+                <h4>Systemic Magic</h4>
+                <p>Surgebinding is the core magic system, utilizing Stormlight captured in gemstones to manipulate physical forces.</p>
+            </div>
+            <div class="lore-item">
+                <h4>Geopolitics</h4>
+                <p>The Alethi highprinces are locked in a perpetual war on the Shattered Plains against the enigmatic Parshendi.</p>
+            </div>
+            <div class="lore-item">
+                <h4>The Void</h4>
+                <p>Ancient prophecies suggest the return of the Voidbringers, entities capable of ending civilization.</p>
+            </div>
+            <div class="lore-item">
+                <h4>Social Hierarchy</h4>
+                <p>Society is divided by Eye Color (Lighteyes vs. Darkeyes), dictating rank and destiny across the realms.</p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

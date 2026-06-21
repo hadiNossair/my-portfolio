@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Forbidden Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Nosifer&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --blood: #8a0303;
+            --blood-glow: 0 0 30px rgba(138, 3, 3, 0.4);
+            --surface: rgba(20, 10, 10, 0.8);
+            --border: rgba(138, 3, 3, 0.2);
+            --font-horror: 'Cinzel Decorative', serif;
+            --font-blood: 'Nosifer', cursive;
+            --font-ui: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(25px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e0dcca;
+            font-family: var(--font-ui);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- EERIE HERO --- */
+        .horror-hero {
+            position: relative;
+            width: 100%;
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 2px solid var(--blood);
+        }
+
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('https://images.unsplash.com/photo-1621112904887-419379ce6824?q=80&w=2000') center/cover;
+            filter: brightness(0.3) contrast(1.4) grayscale(0.4);
+            z-index: 1;
+            animation: breathe 15s infinite alternate ease-in-out;
+        }
+        @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 90%),
+                        linear-gradient(to top, var(--bg-dark) 0%, transparent 40%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative; z-index: 10;
+            text-align: center; max-width: 900px; padding: 0 24px;
+        }
+
+        .hero-tag {
+            font-family: var(--font-horror); font-size: 14px; color: var(--blood);
+            letter-spacing: 6px; text-transform: uppercase; margin-bottom: 24px;
+            display: block; text-shadow: var(--blood-glow);
+        }
+
+        .hero-title {
+            font-family: var(--font-blood); font-size: clamp(40px, 8vw, 100px);
+            color: #FFF; line-height: 1.1; margin-bottom: 32px;
+            filter: drop-shadow(0 0 20px var(--blood));
+        }
+
+        .hero-desc {
+            font-size: 20px; color: #a09e94; font-style: italic;
+            max-width: 600px; margin: 0 auto 48px auto;
+        }
+
+        /* --- CATEGORY GRID --- */
+        .archive-grid {
+            padding: 80px 8%;
+            background: var(--bg-dark);
+            position: relative; z-index: 20;
+        }
+
+        .sec-header {
+            margin-bottom: 64px; border-left: 4px solid var(--blood); padding-left: 24px;
+        }
+        .sec-title { font-family: var(--font-horror); font-size: 36px; color: #FFF; }
+
+        .books-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 48px;
+        }
+
+        .horror-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px; transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer; position: relative; overflow: hidden;
+        }
+        .horror-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--blood);
+            box-shadow: 0 30px 60px rgba(0,0,0,1), var(--blood-glow);
+        }
+
+        .card-cover {
+            width: 100%; aspect-ratio: 2/3; border-radius: 4px;
+            background-size: cover; background-position: center;
+            filter: grayscale(0.5) contrast(1.2); transition: 0.5s;
+            margin-bottom: 20px;
+        }
+        .horror-card:hover .card-cover { filter: grayscale(0) contrast(1.4); }
+
+        .card-info { padding: 0 8px 12px 8px; }
+        .card-title { font-family: var(--font-horror); font-size: 20px; color: #FFF; margin-bottom: 8px; }
+        .card-author { font-size: 13px; color: var(--blood); font-weight: 700; letter-spacing: 1px; }
+
+        .hover-quote {
+            position: absolute; bottom: -100%; left: 0; width: 100%;
+            padding: 24px; background: rgba(5,5,5,0.95);
+            font-size: 14px; font-style: italic; color: #e0dcca;
+            transition: 0.5s; z-index: 5; border-top: 1px solid var(--blood);
+        }
+        .horror-card:hover .hover-quote { bottom: 0; }
+
+        .back-btn {
+            position: fixed; top: 40px; left: 40px; z-index: 100;
+            color: var(--blood); text-decoration: none; font-family: var(--font-horror);
+            font-size: 14px; letter-spacing: 2px; transition: 0.3s;
+        }
+        .back-btn:hover { text-shadow: var(--blood-glow); transform: translateX(-5px); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 48px; }
+            .archive-grid { padding: 40px 24px; }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <a href="07_magical_categories.html" class="back-btn">← ESCAPE THE DARKNESS</a>
+
+    <main class="horror-hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <span class="hero-tag">Entering The Forbidden Archive</span>
+            <h1 class="hero-title">CURSED WORLDS</h1>
+            <p class="hero-desc">"The devil exists. God exists. And for us, as people, our very destiny hinges upon which one we elect to follow."</p>
+            <div style="display: flex; gap: 24px; justify-content: center;">
+                <button style="padding: 18px 40px; background: var(--blood); border: none; color: #FFF; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;">Begin Ritual</button>
+            </div>
+        </div>
+    </main>
+
+    <section class="archive-grid">
+        <div class="sec-header">
+            <h2 class="sec-title">Occult Investigations</h2>
+            <p style="color: var(--blood); font-weight: 700; margin-top: 8px;">PARANORMAL • DEMONIC • POSSESSION</p>
+        </div>
+
+        <div class="books-grid">
+            
+            <div class="horror-card" onclick="window.location.href='32_horror_reading_mode.html'">
+                <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=400')"></div>
+                <div class="card-info">
+                    <h3 class="card-title">The Demonologist</h3>
+                    <p class="card-author">Gerald Brittle</p>
+                </div>
+                <div class="hover-quote">"Diabolical forces are formidable. These forces are eternal, and they exist today."</div>
+            </div>
+
+            <div class="horror-card">
+                <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1505635552518-3448ff116af3?q=80&w=400')"></div>
+                <div class="card-info">
+                    <h3 class="card-title">The Exorcist</h3>
+                    <p class="card-author">William Peter Blatty</p>
+                </div>
+                <div class="hover-quote">"What an excellent day for an exorcism."</div>
+            </div>
+
+            <div class="horror-card">
+                <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1621112904887-419379ce6824?q=80&w=400')"></div>
+                <div class="card-info">
+                    <h3 class="card-title">Hell House</h3>
+                    <p class="card-author">Richard Matheson</p>
+                </div>
+                <div class="hover-quote">"It is the Mount Everest of haunted houses."</div>
+            </div>
+
+            <div class="horror-card">
+                <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=400')"></div>
+                <div class="card-info">
+                    <h3 class="card-title">Dracula</h3>
+                    <p class="card-author">Bram Stoker</p>
+                </div>
+                <div class="hover-quote">"Listen to them, the children of the night. What music they make!"</div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

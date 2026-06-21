@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Success Nexus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --cyan: #00F0FF;
+            --success: #00E676;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, rgba(0, 230, 118, 0.05) 0%, var(--void) 70%);
+        }
+
+        .success-card {
+            background: rgba(15, 15, 25, 0.6); backdrop-filter: var(--glass);
+            border: 1px solid rgba(0, 230, 118, 0.3); border-radius: 48px;
+            padding: 80px 64px; text-align: center; max-width: 600px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            animation: successPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes successPop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .check-orb {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: var(--success); color: #000;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 48px; margin: 0 auto 40px auto;
+            box-shadow: 0 0 40px var(--success);
+        }
+
+        .title { font-family: var(--font-display); font-size: 32px; margin-bottom: 16px; }
+        .desc { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 48px; }
+
+        .btn-nexus {
+            width: 100%; padding: 20px; background: #FFF; color: #000;
+            border-radius: 16px; font-weight: 800; font-size: 16px;
+            letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            text-decoration: none; display: block;
+        }
+        .btn-nexus:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
+
+    </style>
+</head>
+<body>
+    
+    <main class="success-card">
+        <div class="check-orb">✓</div>
+        <h1 class="title">REALM BINDING COMPLETE</h1>
+        <p class="desc">Your transaction has been synchronized across the LUMINA multiversal cores. The artifacts are now permanent additions to your Personal Grimoire.</p>
+        
+        <a href="08_my_library.html" class="btn-nexus">ENTER MY GRIMOIRE</a>
+        <p style="margin-top: 24px; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 2px;">ORDER ID: #LMN-9921-XRT</p>
+    </main>
+
+</body>
+</html>

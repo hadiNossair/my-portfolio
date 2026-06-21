@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 - Added to Cart Popup Overlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-glass: rgba(20, 20, 20, 0.9);
+            --accent-gold: #d4af37;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --font-ui: 'Inter', sans-serif;
+            --font-display: 'Playfair Display', serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* Background simulates the main page being blurred out */
+        body {
+            background: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2000') center/cover no-repeat;
+            font-family: var(--font-ui);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .overlay-bg {
+            position: absolute; inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        /* THE POPUP UI */
+        .cart-modal {
+            position: relative;
+            z-index: 10;
+            background: #141414; 
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; 
+            padding: 40px 50px; 
+            width: 100%; 
+            max-width: 420px;
+            text-align: center; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 20px rgba(212, 175, 55, 0.1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8) translateY(30px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .cart-icon {
+            width: 70px; height: 70px; 
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center;
+            margin: 0 auto 20px auto; 
+            color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        .cart-icon svg { width: 35px; height: 35px; fill: currentColor; }
+        
+        .cart-title { 
+            font-family: var(--font-display); 
+            font-size: 28px; 
+            color: var(--text-main); 
+            margin-bottom: 12px; 
+            letter-spacing: 0.5px;
+        }
+        
+        .cart-desc { 
+            font-size: 15px; 
+            color: var(--text-muted); 
+            margin-bottom: 35px; 
+            line-height: 1.5;
+        }
+
+        .cart-actions { 
+            display: flex; flex-direction: column; gap: 12px; 
+        }
+        
+        .btn-checkout {
+            background: var(--accent-gold); 
+            color: #000; 
+            padding: 16px; 
+            border-radius: 10px;
+            text-decoration: none; 
+            font-size: 16px;
+            font-weight: 800; 
+            transition: 0.3s;
+        }
+        .btn-checkout:hover { 
+            background: #f2ce5f; 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-continue {
+            background: transparent; 
+            color: var(--text-main); 
+            padding: 16px; 
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2); 
+            cursor: pointer; 
+            font-size: 15px;
+            font-weight: 600; 
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+        .btn-continue:hover { 
+            background: rgba(255,255,255,0.05); 
+            border-color: rgba(255,255,255,0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background overlay to simulate the page behind the popup -->
+    <div class="overlay-bg"></div>
+
+    <!-- The actual Popup Component for Figma -->
+    <div class="cart-modal">
+        <div class="cart-icon">
+            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </div>
+        <h2 class="cart-title">Added to Cart!</h2>
+        <p class="cart-desc">This masterpiece is ready for you. Proceed to checkout or keep browsing.</p>
+        <div class="cart-actions">
+            <a href="09_cart_checkout.html" class="btn-checkout">Proceed to Checkout</a>
+            <a href="javascript:history.back()" class="btn-continue">Keep Browsing</a>
+        </div>
+    </div>
+
+</body>
+</html>

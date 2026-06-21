@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 - Ultimate Book Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(20, 10, 40, 0.6);
+            --magic-border: rgba(139, 92, 246, 0.4);
+            --magic-cyan: #00F0FF; 
+            --magic-gold: #FFD700;
+            --magic-red: #E50914;
+            --text-pure: #FFFFFF;
+            --text-dim: #D1D5DB; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 2000px; /* Long scrolling page */
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Enormous Cinematic Background */
+        .cinematic-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 1000px;
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1440');
+            background-size: cover; background-position: center;
+            opacity: 0.4; z-index: 0; mix-blend-mode: screen;
+        }
+
+        .cinematic-gradient {
+            position: absolute; top: 0; left: 0; width: 100%; height: 1000px;
+            background: linear-gradient(180deg, rgba(11,5,20,0) 0%, rgba(11,5,20,1) 100%);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative; z-index: 20; padding: 100px 64px;
+            display: flex; flex-direction: column; gap: 64px;
+        }
+
+        /* -------------------------------------
+           TOP HERO SECTION
+        ---------------------------------------- */
+        .top-hero { display: flex; gap: 64px; align-items: stretch; }
+
+        .cover-col { width: 400px; display: flex; flex-direction: column; gap: 32px; }
+        .huge-cover {
+            width: 100%; aspect-ratio: 2/3; border-radius: 24px;
+            background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600');
+            background-size: cover; background-position: center;
+            border: 2px solid var(--magic-border); box-shadow: 0 20px 60px rgba(0,0,0,0.8), var(--glow-cyan);
+        }
+
+        .action-btn { width: 100%; padding: 24px; background: var(--magic-cyan); color: #000; border: none; border-radius: 100px; font-size: 20px; font-weight: 700; cursor: pointer; box-shadow: var(--glow-cyan); }
+
+        .info-col { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        
+        .meta-tags { display: flex; gap: 16px; align-items: center; margin-bottom: 24px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+        .meta-tags span { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px; }
+        .rating-gold { color: var(--magic-gold); border: 1px solid var(--magic-gold); }
+
+        .book-title { font-family: var(--font-magic); font-size: 72px; line-height: 1.1; margin-bottom: 16px; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        
+        .author-bio { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; background: var(--magic-panel); padding: 16px; border-radius: 100px; width: fit-content; border: 1px solid var(--magic-border); backdrop-filter: var(--blur-heavy); }
+        .author-pic { width: 48px; height: 48px; border-radius: 50%; background: #FFF; background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100'); background-size: cover; }
+        .author-name { font-size: 18px; font-weight: 600; }
+
+        .ai-summary-box { background: rgba(0, 240, 255, 0.05); border-left: 4px solid var(--magic-cyan); padding: 32px; border-radius: 0 24px 24px 0; backdrop-filter: var(--blur-heavy); }
+        .ai-header { display: flex; align-items: center; gap: 12px; font-family: var(--font-magic); font-size: 20px; color: var(--magic-cyan); margin-bottom: 16px; }
+        .ai-text { font-size: 18px; line-height: 1.8; color: #FFF; }
+
+        /* -------------------------------------
+           MIDDLE LORE SECTION (Grid)
+        ---------------------------------------- */
+        .lore-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+
+        .panel { background: var(--magic-panel); border: 1px solid var(--magic-border); border-radius: 24px; padding: 40px; backdrop-filter: var(--blur-heavy); }
+        .panel-title { font-family: var(--font-magic); font-size: 28px; margin-bottom: 24px; border-bottom: 1px solid var(--magic-border); padding-bottom: 16px; }
+
+        /* Characters */
+        .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .char-item { display: flex; gap: 16px; align-items: center; background: rgba(0,0,0,0.4); padding: 16px; border-radius: 16px; }
+        .char-avatar { width: 64px; height: 64px; border-radius: 50%; background: #333; border: 2px solid var(--text-dim); }
+        .char-info h4 { font-family: var(--font-magic); font-size: 20px; margin-bottom: 4px; }
+        .char-info p { font-size: 12px; color: var(--text-dim); }
+
+        /* Movie Adaptations & Stats */
+        .movie-card { background: linear-gradient(0deg, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=400'); background-size: cover; height: 160px; border-radius: 16px; border: 1px solid var(--magic-red); display: flex; align-items: flex-end; padding: 16px; margin-bottom: 24px; position: relative; }
+        .netflix-badge { position: absolute; top: 16px; right: 16px; background: var(--magic-red); color: #FFF; padding: 4px 8px; font-weight: 700; font-size: 12px; border-radius: 4px; }
+        .movie-info h4 { font-family: var(--font-magic); font-size: 20px; }
+        .movie-info p { font-size: 14px; color: #FFF; }
+
+        .stat-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0; font-size: 16px; }
+        .stat-row:last-child { border: none; }
+        .stat-val { font-weight: 700; color: var(--magic-cyan); }
+
+        /* Emotional Tone Graph (Visual Fake) */
+        .tone-graph { width: 100%; height: 120px; background: rgba(0,0,0,0.4); border-radius: 12px; margin-top: 24px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 0 16px; gap: 8px; }
+        .bar { width: 100%; background: var(--magic-cyan); border-radius: 4px 4px 0 0; opacity: 0.8; }
+        .bar:hover { opacity: 1; box-shadow: var(--glow-cyan); }
+
+        /* -------------------------------------
+           BOTTOM RELATED SECTION
+        ---------------------------------------- */
+        .related-section { margin-top: 64px; }
+        .related-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+        .related-card { aspect-ratio: 2/3; border-radius: 16px; background-size: cover; border: 1px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
+        .related-card:hover { transform: translateY(-10px); border-color: var(--magic-cyan); }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="cinematic-bg"></div>
+        <div class="cinematic-gradient"></div>
+        
+        <div class="container">
+            <!-- TOP HERO -->
+            <div class="top-hero">
+                <div class="cover-col">
+                    <div class="huge-cover"></div>
+                    <button class="action-btn">Open Cinematic Grimoire</button>
+                </div>
+
+                <div class="info-col">
+                    <div class="meta-tags">
+                        <span class="rating-gold">★ 4.9 Mastery</span>
+                        <span>Published 2010</span>
+                        <span>Ages 16+</span>
+                        <span>High Fantasy</span>
+                        <span>Epic</span>
+                    </div>
+
+                    <h1 class="book-title">The Way of Kings</h1>
+                    
+                    <div class="author-bio">
+                        <div class="author-pic"></div>
+                        <div>
+                            <div class="author-name">Brandon Sanderson</div>
+                            <div style="font-size: 12px; color: var(--text-dim);">Creator of the Cosmere Universe</div>
+                        </div>
+                    </div>
+
+                    <div class="ai-summary-box">
+                        <div class="ai-header">✨ AI Universe Synopsis</div>
+                        <p class="ai-text">
+                            Set on the brutal, storm-swept world of Roshar, this epic narrative follows three individuals whose fates are intertwined with ancient magic and lost orders of knights. It is a profound exploration of leadership, mental health, and the resilience required to speak the ancient oaths.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MIDDLE LORE GRID -->
+            <div class="lore-grid">
+                
+                <!-- Left: Deep Lore & Characters -->
+                <div style="display: flex; flex-direction: column; gap: 32px;">
+                    <div class="panel">
+                        <h2 class="panel-title">Character Entities</h2>
+                        <div class="char-grid">
+                            <div class="char-item">
+                                <div class="char-avatar" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100'); background-size: cover;"></div>
+                                <div class="char-info">
+                                    <h4>Kaladin Stormblessed</h4>
+                                    <p>Spearman • Surgeon • Windrunner</p>
+                                </div>
+                            </div>
+                            <div class="char-item">
+                                <div class="char-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100'); background-size: cover;"></div>
+                                <div class="char-info">
+                                    <h4>Shallan Davar</h4>
+                                    <p>Scholar • Artist • Lightweaver</p>
+                                </div>
+                            </div>
+                            <div class="char-item">
+                                <div class="char-avatar" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100'); background-size: cover;"></div>
+                                <div class="char-info">
+                                    <h4>Dalinar Kholin</h4>
+                                    <p>Highprince • General • Bondsmith</p>
+                                </div>
+                            </div>
+                            <div class="char-item">
+                                <div class="char-avatar" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=100'); background-size: cover;"></div>
+                                <div class="char-info">
+                                    <h4>Szeth-son-Neturo</h4>
+                                    <p>Assassin in White • Truthless</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <h2 class="panel-title">Emotional Tone Map</h2>
+                        <p style="color: var(--text-dim);">AI mapping of emotional intensity throughout the artifact.</p>
+                        <div class="tone-graph">
+                            <div class="bar" style="height: 20%;"></div>
+                            <div class="bar" style="height: 30%;"></div>
+                            <div class="bar" style="height: 25%;"></div>
+                            <div class="bar" style="height: 50%;"></div>
+                            <div class="bar" style="height: 45%;"></div>
+                            <div class="bar" style="height: 80%;"></div>
+                            <div class="bar" style="height: 60%; background: var(--magic-gold);"></div> <!-- Climax -->
+                            <div class="bar" style="height: 90%; background: var(--magic-gold);"></div>
+                            <div class="bar" style="height: 40%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: var(--text-dim); text-transform: uppercase;">
+                            <span>Despair</span>
+                            <span>Conflict</span>
+                            <span style="color: var(--magic-gold);">Triumph</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Stats & Adaptations -->
+                <div style="display: flex; flex-direction: column; gap: 32px;">
+                    <div class="panel">
+                        <h2 class="panel-title">Adaptations</h2>
+                        <div class="movie-card">
+                            <div class="netflix-badge">IN PRODUCTION</div>
+                            <div class="movie-info">
+                                <h4>The Stormlight Archive</h4>
+                                <p>Cinematic Series • 3 Seasons Planned</p>
+                            </div>
+                        </div>
+                        <button style="width: 100%; padding: 16px; background: rgba(229,9,20,0.1); border: 1px solid var(--magic-red); color: #FFF; border-radius: 8px; cursor: pointer; font-weight: 600;">View Cinematic Hub</button>
+                    </div>
+
+                    <div class="panel">
+                        <h2 class="panel-title">Universe Data</h2>
+                        <div class="stat-row">
+                            <span>Connected Realm</span>
+                            <span class="stat-val">The Cosmere</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Timeline Era</span>
+                            <span class="stat-val">Era 2.5</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Total Parts</span>
+                            <span class="stat-val">Book 1 of 10</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Word Count</span>
+                            <span class="stat-val">384,265</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM RELATED SECTION -->
+            <div class="related-section">
+                <h2 style="font-family: var(--font-magic); font-size: 32px; margin-bottom: 32px;">Explore Similar Universes</h2>
+                <div class="related-grid">
+                    <div class="related-card" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400');"></div>
+                    <div class="related-card" style="background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400');"></div>
+                    <div class="related-card" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400');"></div>
+                    <div class="related-card" style="background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=400');"></div>
+                    <div class="related-card" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400');"></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

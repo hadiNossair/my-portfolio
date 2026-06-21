@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 - Magical Artifact Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(20, 10, 40, 0.4);
+            --magic-border: rgba(139, 92, 246, 0.3);
+            --magic-cyan: #00F0FF; 
+            --text-pure: #FFFFFF;
+            --text-dim: #A78BFA; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 64px 100px;
+        }
+
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1440');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+            mix-blend-mode: screen;
+         animation: slowBreath 30s infinite alternate ease-in-out; }
+
+        @keyframes slowBreath { 0% { transform: scale(1); filter: contrast(1.2) brightness(0.8); } 100% { transform: scale(1.05); filter: contrast(1.4) brightness(0.6); } }
+
+        .header {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 64px;
+        }
+
+        .title { font-family: var(--font-magic); font-size: 48px; }
+        
+        .filter-group { display: flex; gap: 16px; }
+        .filter-btn {
+            padding: 12px 24px;
+            background: var(--magic-panel);
+            border: 1px solid var(--magic-border);
+            color: var(--text-pure);
+            border-radius: 100px;
+            backdrop-filter: var(--blur-heavy);
+            cursor: pointer;
+        }
+        .filter-btn.active { border-color: var(--magic-cyan); color: var(--magic-cyan); box-shadow: var(--glow-cyan); }
+
+        .book-grid {
+            position: relative;
+            z-index: 20;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px;
+        }
+
+        .spell-card {
+            background: var(--magic-panel);
+            border: 1px solid var(--magic-border);
+            border-radius: 24px;
+            padding: 16px;
+            backdrop-filter: var(--blur-heavy);
+            display: flex; flex-direction: column;
+        }
+
+        .book-cover {
+            width: 100%; aspect-ratio: 2/3;
+            border-radius: 12px; margin-bottom: 16px;
+            background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .book-title { font-family: var(--font-magic); font-size: 18px; margin-bottom: 4px; }
+        .book-author { font-size: 12px; color: var(--text-dim); }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="bg-layer"></div>
+        
+        <header class="header">
+            <h1 class="title">High Fantasy Relics</h1>
+            <div class="filter-group">
+                <button class="filter-btn active">Trending</button>
+                <button class="filter-btn">New Spells</button>
+                <button class="filter-btn">Ancient Tomes</button>
+            </div>
+        </header>
+
+        <div class="book-grid">
+            <div class="spell-card">
+                <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"></div>
+                <h3 class="book-title">The Way of Kings</h3>
+                <p class="book-author">Brandon Sanderson</p>
+            </div>
+            <div class="spell-card">
+                <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400')"></div>
+                <h3 class="book-title">Dune</h3>
+                <p class="book-author">Frank Herbert</p>
+            </div>
+            <div class="spell-card">
+                <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400')"></div>
+                <h3 class="book-title">1984</h3>
+                <p class="book-author">George Orwell</p>
+            </div>
+            <div class="spell-card">
+                <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400')"></div>
+                <h3 class="book-title">Mistborn</h3>
+                <p class="book-author">Brandon Sanderson</p>
+            </div>
+            <div class="spell-card">
+                <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=400')"></div>
+                <h3 class="book-title">Neuromancer</h3>
+                <p class="book-author">William Gibson</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

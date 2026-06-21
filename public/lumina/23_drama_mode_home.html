@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Drama Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05050A;
+            --accent: #d4af37;
+            --surface: #0F0F1A;
+            --border: rgba(255, 255, 255, 0.05);
+            --font-display: 'Playfair Display', serif;
+            --font-ui: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(20px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: #FFF;
+            font-family: var(--font-ui);
+            overflow-x: hidden;
+        }
+
+        /* --- CINEMATIC NAV --- */
+        .cinema-nav {
+            position: fixed; top: 0; width: 100%;
+            padding: 32px 64px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent);
+            z-index: 1000;
+        }
+        .logo { font-family: var(--font-display); font-size: 28px; color: var(--accent); letter-spacing: 2px; }
+
+        /* --- BILLBOARD --- */
+        .billboard {
+            position: relative; width: 100%; height: 85vh;
+            display: flex; align-items: center; padding: 0 64px;
+        }
+        .bill-bg {
+            position: absolute; inset: 0;
+            background: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2000') center/cover;
+            filter: brightness(0.4); z-index: 1;
+        }
+        .bill-overlay { position: absolute; inset: 0; background: linear-gradient(to right, var(--bg) 10%, transparent 60%), linear-gradient(to top, var(--bg) 0%, transparent 40%); z-index: 2; }
+
+        .bill-content { position: relative; z-index: 10; max-width: 700px; }
+        .bill-tag { color: var(--accent); font-weight: 800; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: block; }
+        .bill-title { font-family: var(--font-display); font-size: 80px; margin-bottom: 24px; line-height: 1; }
+        .bill-desc { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 40px; font-weight: 300; }
+
+        .actions { display: flex; gap: 20px; }
+        .btn { padding: 18px 40px; border-radius: 4px; font-weight: 700; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-gold { background: var(--accent); color: #000; }
+        .btn-gold:hover { background: #e5c354; transform: scale(1.05); }
+
+        /* --- ROWS --- */
+        .row-sec { padding: 48px 64px; }
+        .row-title { font-family: var(--font-display); font-size: 24px; margin-bottom: 32px; color: var(--accent); }
+        .carousel { display: flex; gap: 24px; overflow-x: auto; scrollbar-width: none; }
+        .card {
+            flex: 0 0 320px; aspect-ratio: 16/9; border-radius: 8px; border: 1px solid var(--border);
+            position: relative; overflow: hidden; cursor: pointer; transition: 0.4s;
+            background-size: cover; background-position: center;
+        }
+        .card:hover { transform: scale(1.1) translateY(-10px); z-index: 100; border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        
+        .card-info {
+            position: absolute; inset: 0; background: linear-gradient(to top, #000, transparent);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+            opacity: 0; transition: 0.3s;
+        }
+        .card:hover .card-info { opacity: 1; }
+        .card-title { font-family: var(--font-display); font-size: 18px; }
+
+    </style>
+</head>
+<body>
+    
+    <nav class="cinema-nav">
+        <a href="07_magical_categories.html" class="logo">LUMINA CINEMA</a>
+        <div style="display: flex; gap: 32px;">
+            <a href="#" style="text-decoration: none; color: #FFF; font-weight: 700; font-size: 14px;">Series</a>
+            <a href="#" style="text-decoration: none; color: #FFF; font-weight: 700; font-size: 14px;">Masterpieces</a>
+            <a href="#" style="text-decoration: none; color: #FFF; font-weight: 700; font-size: 14px;">Archives</a>
+        </div>
+    </nav>
+
+    <main class="billboard">
+        <div class="bill-bg"></div>
+        <div class="bill-overlay"></div>
+        <div class="bill-content">
+            <span class="bill-tag">Award Winning Masterpiece</span>
+            <h1 class="bill-title">The Grand<br>Father</h1>
+            <p class="bill-desc">An epic tale of family, power, and betrayal. Step into the shadows of the underground empire that defined a generation.</p>
+            <div class="actions">
+                <button class="btn btn-gold">Enter The Story</button>
+                <button class="btn" style="background: rgba(255,255,255,0.1); color: #FFF; backdrop-filter: var(--glass);">Details</button>
+            </div>
+        </div>
+    </main>
+
+    <section class="row-sec">
+        <h2 class="row-title">Cinematic Epics</h2>
+        <div class="carousel">
+            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600')">
+                <div class="card-info"><h3 class="card-title">Peaky Blinders</h3></div>
+            </div>
+            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=600')">
+                <div class="card-info"><h3 class="card-title">Game of Thrones</h3></div>
+            </div>
+            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=600')">
+                <div class="card-info"><h3 class="card-title">Cyber City</h3></div>
+            </div>
+            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1582214400329-87c2fb8b22de?q=80&w=600')">
+                <div class="card-info"><h3 class="card-title">The Royal Crown</h3></div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

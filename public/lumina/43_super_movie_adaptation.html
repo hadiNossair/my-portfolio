@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>43 - Super Movie Adaptation Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --netflix-black: #050505; 
+            --netflix-red: #E50914;
+            --text-pure: #FFFFFF;
+            --text-dim: #A3A3A3; 
+            --font-display: 'Outfit', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure); overflow-x: hidden;  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 2000px;
+            background-color: var(--netflix-black);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 1. MASSIVE CINEMATIC TRAILER BACKGROUND */
+        .trailer-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 1100px;
+            background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1440'); /* Epic cinematic scene */
+            background-size: cover; background-position: center; z-index: 0;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        .trailer-vignette {
+            position: absolute; top: 0; left: 0; width: 100%; height: 1100px;
+            background: linear-gradient(90deg, rgba(5,5,5,1) 0%, rgba(5,5,5,0.4) 50%, transparent 100%);
+            z-index: 1;
+        }
+
+        /* 2. HERO CONTENT AREA */
+        .hero-content {
+            position: relative; z-index: 20; padding: 150px 64px 0 64px;
+            max-width: 800px;
+        }
+
+        .series-logo { font-family: var(--font-display); font-size: 100px; font-weight: 800; line-height: 1; margin-bottom: 24px; text-transform: uppercase; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        
+        .meta-row { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; font-weight: 600; font-size: 16px; }
+        .match-score { color: #46D369; }
+        .age-badge { border: 1px solid rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 4px; }
+        .hd-badge { border: 1px solid rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+
+        .synopsis { font-size: 20px; line-height: 1.6; color: #E5E5E5; margin-bottom: 40px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); max-width: 600px; }
+
+        .btn-row { display: flex; gap: 16px; margin-bottom: 64px; }
+        .btn-play { padding: 16px 40px; background: #FFF; color: #000; border: none; border-radius: 4px; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .btn-play:hover { background: rgba(255,255,255,0.8); }
+        .btn-secondary { padding: 16px 40px; background: rgba(109, 109, 110, 0.7); color: #FFF; border: none; border-radius: 4px; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; backdrop-filter: blur(10px); }
+        .btn-secondary:hover { background: rgba(109, 109, 110, 0.4); }
+
+        /* 3. ATMOSPHERE & CAST SYSTEM */
+        .content-section { position: relative; z-index: 20; padding: 0 64px; margin-top: 64px; }
+        .section-title { font-family: var(--font-display); font-size: 28px; margin-bottom: 24px; font-weight: 600; }
+
+        /* Watch Atmosphere Grid */
+        .atmosphere-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 64px; }
+        .atm-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 24px; border-radius: 12px; backdrop-filter: var(--blur-heavy); border-top: 2px solid var(--netflix-red); }
+        .atm-title { color: var(--text-dim); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .atm-val { font-size: 24px; font-weight: 700; }
+
+        /* Cast Row */
+        .cast-row { display: flex; gap: 32px; overflow-x: visible; margin-bottom: 64px; }
+        .cast-member { text-align: center; }
+        .cast-avatar { width: 120px; height: 120px; border-radius: 50%; background-size: cover; background-position: center; margin-bottom: 16px; border: 2px solid transparent; transition: 0.3s; cursor: pointer; }
+        .cast-member:hover .cast-avatar { border-color: var(--text-pure); transform: scale(1.05); }
+        .cast-name { font-weight: 600; margin-bottom: 4px; }
+        .cast-role { font-size: 14px; color: var(--text-dim); }
+
+        /* Episodes */
+        .ep-card { display: flex; gap: 24px; align-items: center; padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); background: transparent; transition: 0.3s; cursor: pointer; border-radius: 8px; }
+        .ep-card:hover { background: rgba(255,255,255,0.05); }
+        .ep-num { font-size: 24px; font-weight: 700; color: var(--text-dim); width: 40px; }
+        .ep-thumb { width: 240px; height: 135px; background-size: cover; border-radius: 8px; position: relative; }
+        .ep-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border-radius: 50%; border: 2px solid #FFF; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); opacity: 0; transition: 0.3s; }
+        .ep-card:hover .ep-play { opacity: 1; }
+        .ep-info { flex: 1; }
+        .ep-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .ep-desc { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="trailer-bg"></div>
+        <div class="trailer-vignette"></div>
+
+        <section class="hero-content">
+            <h1 class="series-logo">The Stormlight<br>Archive</h1>
+            
+            <div class="meta-row">
+                <span class="match-score">98% Match</span>
+                <span>2028</span>
+                <span class="age-badge">TV-MA</span>
+                <span>3 Seasons</span>
+                <span class="hd-badge">4K Ultra HD</span>
+            </div>
+
+            <p class="synopsis">An assassin in white weeps as he kills. A surgeon's son fights to protect the weak in a bridge crew of the damned. An honorable highprince is plagued by visions he cannot understand. The True Desolation has arrived.</p>
+
+            <div class="btn-row">
+                <button class="btn-play">▶ Play Season 1</button>
+                <button class="btn-secondary">Trailer & Extras</button>
+                <button class="btn-secondary">＋ My List</button>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Watch Atmosphere Analysis</h2>
+            <div class="atmosphere-grid">
+                <div class="atm-card">
+                    <div class="atm-title">Pacing</div>
+                    <div class="atm-val">Slow Burn / Avalanche</div>
+                </div>
+                <div class="atm-card">
+                    <div class="atm-title">Cinematography</div>
+                    <div class="atm-val">Epic High-Fantasy</div>
+                </div>
+                <div class="atm-card">
+                    <div class="atm-title">Emotional Tone</div>
+                    <div class="atm-val">Triumphant / Tragic</div>
+                </div>
+                <div class="atm-card">
+                    <div class="atm-title">Scale</div>
+                    <div class="atm-val">Cosmic / Global War</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Lead Cast</h2>
+            <div class="cast-row">
+                <div class="cast-member">
+                    <div class="cast-avatar" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200');"></div>
+                    <div class="cast-name">Actor Name</div>
+                    <div class="cast-role">Kaladin</div>
+                </div>
+                <div class="cast-member">
+                    <div class="cast-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200');"></div>
+                    <div class="cast-name">Actress Name</div>
+                    <div class="cast-role">Shallan</div>
+                </div>
+                <div class="cast-member">
+                    <div class="cast-avatar" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200');"></div>
+                    <div class="cast-name">Actor Name</div>
+                    <div class="cast-role">Dalinar</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Episodes (Season 1: The Way of Kings)</h2>
+            <div style="display: flex; flex-direction: column;">
+                <div class="ep-card">
+                    <div class="ep-num">1</div>
+                    <div class="ep-thumb" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400');"><div class="ep-play">▶</div></div>
+                    <div class="ep-info">
+                        <div class="ep-title">To Kill</div>
+                        <div class="ep-desc">Szeth-son-Neturo, Truthless of Shinovar, wore white on the day he was to kill a king. Meanwhile, Kaladin struggles with his new reality in the slave wagons.</div>
+                    </div>
+                </div>
+                <div class="ep-card">
+                    <div class="ep-num">2</div>
+                    <div class="ep-thumb" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400');"><div class="ep-play">▶</div></div>
+                    <div class="ep-info">
+                        <div class="ep-title">Bridge Four</div>
+                        <div class="ep-desc">Assigned to the most dangerous duty in the warcamps, Kaladin must decide whether to give up or find a way to unite the broken men of Bridge Four.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

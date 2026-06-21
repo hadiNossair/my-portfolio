@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | World Archive Template</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --accent: var(--theme-color, #00F0FF);
+            --surface: rgba(15, 15, 25, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(30px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+        }
+
+        /* Dynamic Theme Setup */
+        .theme-history { --theme-color: #D4AF37; }
+        .theme-science { --theme-color: #00F0FF; }
+        .theme-psych { --theme-color: #8B5CF6; }
+
+        /* --- UNIFIED WORLD HERO --- */
+        .world-hero {
+            position: relative; width: 100%; height: 60vh;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .hero-bg {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            filter: brightness(0.4); z-index: 1;
+        }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--void) 0%, transparent 100%); z-index: 2; }
+
+        .content { position: relative; z-index: 10; max-width: 800px; padding: 0 24px; }
+        .world-tag { font-family: var(--font-display); font-size: 14px; color: var(--accent); letter-spacing: 4px; margin-bottom: 16px; display: block; }
+        .world-title { font-family: var(--font-display); font-size: clamp(32px, 6vw, 64px); margin-bottom: 24px; }
+
+        /* --- ARTIFACT ROWS --- */
+        .section { padding: 80px 8%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px; }
+
+        .card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+            padding: 12px; transition: 0.4s; cursor: pointer;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .card-img { width: 100%; aspect-ratio: 2/3; border-radius: 12px; object-fit: cover; margin-bottom: 16px; }
+        .card-name { font-family: var(--font-display); font-size: 16px; margin-bottom: 4px; }
+        .card-author { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+        .back-nav { position: fixed; top: 40px; left: 40px; z-index: 100; color: #FFF; text-decoration: none; font-weight: 700; font-size: 12px; letter-spacing: 2px; }
+
+    </style>
+</head>
+<body class="theme-history">
+    
+    <a href="07_magical_categories.html" class="back-nav">← RETURN TO HUB</a>
+
+    <main class="world-hero">
+        <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=2000')"></div>
+        <div class="hero-overlay"></div>
+        <div class="content">
+            <span class="world-tag">The Chronicle Archives</span>
+            <h1 class="world-title">History & Civilizations</h1>
+            <p style="color: rgba(255,255,255,0.6); font-weight: 300;">Journey through the sands of time. From ancient empires to modern revolutions.</p>
+        </div>
+    </main>
+
+    <section class="section">
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400" class="card-img">
+                <h3 class="card-name">The Rise of Rome</h3>
+                <p class="card-author">T.P. Wiseman</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400" class="card-img">
+                <h3 class="card-name">The Silk Roads</h3>
+                <p class="card-author">Peter Frankopan</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400" class="card-img">
+                <h3 class="card-name">Sapiens</h3>
+                <p class="card-author">Yuval Noah Harari</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400" class="card-img">
+                <h3 class="card-name">Guns, Germs & Steel</h3>
+                <p class="card-author">Jared Diamond</p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

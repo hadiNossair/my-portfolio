@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Immersive Reader</title>
+    <!-- FIGMA GRADE TYPOGRAPHY -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #020202;
+            --text-main: #EAEAEA;
+            --text-muted: #888888;
+            --accent-primary: #00D2FF; /* Cyber Cyan */
+            --glass-bg: rgba(5, 5, 5, 0.7);
+            --glass-border: rgba(0, 210, 255, 0.2);
+            --font-ui: 'Plus Jakarta Sans', sans-serif;
+            --font-book: 'Playfair Display', serif;
+            --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* Custom scrollbar for reading canvas */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            overflow: hidden; /* Prevent body scroll, only canvas scrolls */
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            transition: background-color 0.5s ease;
+        }
+
+        /* --- CSS LOGIC (NO JS) --- */
+        .css-logic { display: none; }
+
+        /* ACTIVE BUTTON STYLES */
+        body:has(#theme-sepia:checked) label[for="theme-sepia"],
+        body:has(#theme-happy:checked) label[for="theme-happy"],
+        body:has(#toggle-focus:checked) label[for="toggle-focus"],
+        body:has(#toggle-bionic:checked) label[for="toggle-bionic"],
+        body:has(#font-large:checked) label[for="font-large"] {
+            background: var(--accent-primary) !important;
+            color: #fff !important;
+            border-color: var(--accent-primary) !important;
+            box-shadow: 0 0 15px var(--accent-primary);
+        }
+
+        /* THEME MIDNIGHT (Replaced Sepia) */
+        body:has(#theme-sepia:checked) {
+            --bg-base: #050505;
+            --text-main: #FFFFFF;
+            --accent-primary: #FF3E3E; /* Blood Red */
+        }
+        body:has(#theme-sepia:checked) .bg-layer {
+            filter: blur(60px) brightness(0.1) saturate(2);
+        }
+
+        /* THEME OCEANIC (Replaced Happy) */
+        body:has(#theme-happy:checked) {
+            --bg-base: #0A192F; /* Deep Navy */
+            --text-main: #E6F1FF; /* Off-white */
+            --text-muted: #8892B0;
+            --accent-primary: #64FFDA; /* Aquamarine */
+            --glass-bg: rgba(10, 25, 47, 0.8);
+            --glass-border: rgba(100, 255, 218, 0.2);
+        }
+        body:has(#theme-happy:checked) .bg-layer {
+            background: linear-gradient(135deg, #020617 0%, #1e3a8a 100%);
+            filter: blur(60px) brightness(0.4);
+            transform: scale(1.1);
+        }
+        body:has(#theme-happy:checked) .chapter-heading,
+        body:has(#theme-happy:checked) .book-quote,
+        body:has(#theme-happy:checked) .book-meta .chapter {
+            color: #2D3436;
+        }
+        body:has(#theme-happy:checked) .back-btn,
+        body:has(#theme-happy:checked) .tool-icon {
+            color: #2D3436;
+            border-color: rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.2);
+        }
+        body:has(#theme-happy:checked) .tool-icon:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        body:has(#theme-happy:checked) .tool-group {
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* BACKGROUND LAYER */
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg/1920px-Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 0;
+            filter: blur(60px) brightness(0.12) saturate(1.2) sepia(0.6) hue-rotate(-10deg);
+            transform: scale(1.1);
+        }
+
+        /* --- TOP NAVIGATION (GLASSMORPHISM) --- */
+        .reader-nav {
+            position: absolute; 
+            top: 0; left: 0;
+            z-index: 100;
+            width: 100%;
+            height: 80px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            flex-shrink: 0;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.4s var(--ease-out);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        /* Hover Variant */
+        .back-btn:hover { 
+            color: #FFF; 
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 0 15px rgba(255,255,255,0.05);
+            transform: translateX(-5px);
+        }
+
+        .book-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .book-meta .title {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+        }
+
+        .book-meta .chapter {
+            font-family: var(--font-book);
+            font-size: 18px;
+            font-style: italic;
+            color: #FFF;
+        }
+
+        .reader-tools {
+            display: flex;
+            gap: 20px;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-out);
+            color: #FFF;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Hover Variant */
+        .tool-icon:hover {
+            background: rgba(229, 177, 58, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(229, 177, 58, 0.4), inset 0 0 10px rgba(229, 177, 58, 0.2);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .tool-group {
+            display: flex;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .tool-icon.small {
+            width: 35px;
+            border: none;
+            border-radius: 0;
+            font-family: var(--font-ui);
+            font-weight: 700;
+            font-size: 14px;
+            background: transparent;
+        }
+
+        /* --- READING CANVAS --- */
+        .canvas-container {
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 120px 20px 120px 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Cinematic Vignette Overlay */
+        .canvas-container::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+            z-index: 50;
+        }
+
+        .reading-sheet {
+            width: 100%;
+            max-width: 700px; /* Optimal reading width */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            animation: fadeUp 1s var(--ease-out);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- TYPOGRAPHY (THE BOOK) --- */
+        .chapter-number {
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: -20px;
+        }
+
+        .chapter-heading {
+            font-family: var(--font-book);
+            font-size: 56px;
+            font-weight: 400;
+            line-height: 1.2;
+            color: #FFF;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .drop-cap::first-letter {
+            font-family: var(--font-book);
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            float: left;
+            line-height: 0.8;
+            margin-right: 15px;
+            margin-top: 5px;
+            text-shadow: 0 0 20px rgba(229, 177, 58, 0.6);
+            transition: all 0.5s ease;
+        }
+        .reading-sheet:hover .drop-cap::first-letter {
+            text-shadow: 0 0 35px rgba(229, 177, 58, 0.9);
+            transform: scale(1.05);
+        }
+
+        .book-text {
+            font-family: var(--font-book);
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 1.9;
+            color: var(--text-main);
+            text-align: justify;
+            transition: opacity 0.4s ease, transform 0.4s ease, font-size 0.3s ease;
+        }
+
+        .book-quote {
+            margin: 40px 0;
+            padding: 40px;
+            border-left: 2px solid var(--accent-primary);
+            background: linear-gradient(90deg, rgba(229, 177, 58, 0.1) 0%, transparent 100%);
+            font-family: var(--font-book);
+            font-size: 26px;
+            font-style: italic;
+            line-height: 1.6;
+            color: #FFF;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+        }
+        
+        /* Book Quote Hover Variant */
+        .book-quote:hover {
+            background: linear-gradient(90deg, rgba(229, 177, 58, 0.2) 0%, transparent 100%);
+            border-left-width: 6px;
+            transform: translateX(10px);
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        /* FONT SIZE LOGIC */
+        body:has(#font-large:checked) .book-text { font-size: 28px; }
+        body:has(#font-large:checked) .book-quote { font-size: 32px; }
+
+        /* FOCUS MODE LOGIC */
+        body:has(#toggle-focus:checked) .reading-sheet .book-text,
+        body:has(#toggle-focus:checked) .reading-sheet .book-quote {
+            opacity: 0.2;
+            filter: blur(2px);
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+        }
+
+        body:has(#toggle-focus:checked) .reading-sheet .book-text:hover,
+        body:has(#toggle-focus:checked) .reading-sheet .book-quote:hover {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1.02);
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+            cursor: default;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* --- BOTTOM FOOTER / PROGRESS --- */
+        .reader-footer {
+            position: fixed;
+            bottom: 0; left: 0;
+            z-index: 100;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(0deg, var(--bg-base) 0%, transparent 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            pointer-events: none;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            pointer-events: auto;
+        }
+
+        .progress-text {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .progress-track {
+            flex-grow: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 15%; /* Static for Figma representation */
+            height: 100%;
+            background: var(--accent-primary);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent-primary);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 10px var(--accent-primary); }
+            to { box-shadow: 0 0 25px var(--accent-primary), inset 0 0 5px rgba(255,255,255,0.5); }
+        }
+    </style>
+</head>
+<body data-figma-type="frame" data-figma-layout="vertical">
+
+    <!-- CSS Logic Toggles (Replaces JS for Figma/HTML Prototyping) -->
+    <input type="checkbox" id="theme-sepia" class="css-logic">
+    <input type="checkbox" id="theme-happy" class="css-logic">
+    <input type="checkbox" id="toggle-focus" class="css-logic">
+    <input type="checkbox" id="toggle-bionic" class="css-logic">
+    <input type="radio" name="fontsize" id="font-normal" class="css-logic" checked>
+    <input type="radio" name="fontsize" id="font-large" class="css-logic">
+    <!-- Ambient Background -->
+    <div class="bg-layer" data-figma-type="image-fill"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="reader-nav" data-figma-type="frame" data-figma-layout="horizontal">
+        <a href="09_psychology_nexus.html" class="back-btn" data-figma-component="BackButton" data-figma-variant="Default" data-figma-prototype-interaction="hover,click">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Library
+        </a>
+        
+        <div class="book-meta" data-figma-type="frame" data-figma-layout="vertical">
+            <span class="title">Harry Potter and the Cursed Child</span>
+            <span class="chapter">Act One, Scene One</span>
+        </div>
+
+        <div class="reader-tools" data-figma-type="frame" data-figma-layout="horizontal" data-figma-gap="20">
+            <!-- Font Size -->
+            <div class="tool-group" data-figma-type="frame" data-figma-layout="horizontal" data-figma-gap="0">
+                <label for="font-normal" class="tool-icon small" title="Normal Font Size" data-figma-component="ToolButton" data-figma-variant="Small" data-figma-layout="vertical" data-figma-align="center,center">A-</label>
+                <label for="font-large" class="tool-icon small" title="Large Font Size" data-figma-component="ToolButton" data-figma-variant="Small" data-figma-layout="vertical" data-figma-align="center,center">A+</label>
+            </div>
+
+            <!-- Bionic Reading (Dummy in CSS) -->
+            <label for="toggle-bionic" class="tool-icon" title="Bionic Reading (Fast & Easy)" data-figma-component="ToolButton" data-figma-variant="Default" data-figma-layout="vertical" data-figma-align="center,center" data-figma-prototype-interaction="hover,click">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12h4l3-9 5 18 3-9h5"/>
+                </svg>
+            </label>
+
+            <!-- Read Aloud (Dummy in CSS) -->
+            <div class="tool-icon" title="Read Aloud (Requires Logic)" data-figma-component="ToolButton" data-figma-variant="Default" data-figma-layout="vertical" data-figma-align="center,center" data-figma-prototype-interaction="hover,click">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </div>
+
+            <!-- Focus Mode -->
+            <label for="toggle-focus" class="tool-icon" title="Focus Mode" data-figma-component="ToolButton" data-figma-variant="Default" data-figma-layout="vertical" data-figma-align="center,center" data-figma-prototype-interaction="hover,click">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M3 12h2m14 0h2M12 3v2m0 14v2"></path>
+                </svg>
+            </label>
+
+            <!-- Happy Mode -->
+            <label for="theme-happy" class="tool-icon" title="Happy Mode" data-figma-component="ToolButton" data-figma-variant="Default" data-figma-layout="vertical" data-figma-align="center,center" data-figma-prototype-interaction="hover,click">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </label>
+
+            <!-- Sepia -->
+            <label for="theme-sepia" class="tool-icon" title="Eye Comfort Mode" data-figma-component="ToolButton" data-figma-variant="Default" data-figma-layout="vertical" data-figma-align="center,center" data-figma-prototype-interaction="hover,click">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </label>
+        </div>
+    </nav>
+
+    <!-- Reading Area (Scrollable) -->
+    <main class="canvas-container" data-figma-scroll="vertical" data-figma-prototype="scroll-overflow">
+        <article class="reading-sheet" data-figma-type="frame" data-figma-layout="vertical">
+            
+            <span class="chapter-number">Part One</span>
+            <h1 class="chapter-heading">King's Cross</h1>
+
+            <p class="book-text drop-cap">
+                The station is busy and crowded, full of people trying to go somewhere. Amongst the hustle and bustle, two large cages rattle on top of two laden trolleys. They're being pushed by two boys, James Potter and Albus Potter. Their mother, Ginny, follows close behind.
+            </p>
+
+            <p class="book-text">
+                A thirty-seven-year-old Harry carries his daughter, Lily, upon his shoulders. The family navigates the thick crowds, pushing toward the solid barrier between platforms nine and ten. The weight of the Potter legacy is heavy, but here at King's Cross, it all begins again.
+            </p>
+
+            <div class="book-quote" data-figma-type="frame" data-figma-effect="drop-shadow">
+                <strong>ALBUS:</strong> Dad. He keeps saying it.<br>
+                <strong>HARRY:</strong> James, give it a rest.<br>
+                <strong>JAMES:</strong> I only said he might be in Slytherin. And he might so...
+            </div>
+
+            <p class="book-text">
+                Harry looks at his youngest son, seeing the familiar fear in Albus's eyes—the very same fear that had plagued him all those years ago before the Sorting Hat was placed upon his head. The fear of not belonging.
+            </p>
+
+            <p class="book-text">
+                With a deep breath, they break into a run, hurtling toward the seemingly solid brick wall. The barrier swallows them whole, leaving the mundane muggle world behind as the majestic crimson steam engine of the Hogwarts Express comes into view, waiting patiently through the thick white steam.
+            </p>
+
+            <br><br><br> <!-- Spacing at the bottom -->
+            <br><br><br><br><br><br> <!-- Extra spacing to allow full scrolling to the end -->
+
+        </article>
+    </main>
+
+    <!-- Reading Progress Footer -->
+    <footer class="reader-footer" data-figma-type="frame" data-figma-layout="horizontal">
+        <div class="progress-container">
+            <span class="progress-text" id="progress-percent">0%</span>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+            <span class="progress-text">Chapter 1 / 12</span>
+        </div>
+    </footer>
+
+
+</html>

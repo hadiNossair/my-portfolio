@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Realm Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --surface: rgba(15, 15, 25, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            display: flex; height: 100vh; overflow: hidden;
+        }
+
+        .sidebar { width: 300px; padding: 48px 32px; border-right: 1px solid var(--border); background: rgba(5,5,10,0.8); backdrop-filter: var(--glass); }
+        .main { flex: 1; padding: 64px 80px; overflow-y: auto; }
+
+        .logo { font-family: var(--font-display); font-size: 24px; color: var(--cyan); margin-bottom: 64px; display: block; text-decoration: none; }
+        
+        .nav-item { padding: 14px 16px; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; font-weight: 700; border-radius: 12px; margin-bottom: 8px; display: block; transition: 0.3s; }
+        .nav-item.active { background: rgba(0, 240, 255, 0.1); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.1); }
+
+        .sec-title { font-family: var(--font-display); font-size: 32px; margin-bottom: 48px; }
+
+        .set-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px; margin-bottom: 32px;
+        }
+        .set-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .set-h h3 { font-family: var(--font-display); font-size: 20px; }
+
+        .set-ctrl { display: flex; align-items: center; gap: 16px; }
+        .toggle { width: 50px; height: 26px; background: #333; border-radius: 100px; position: relative; cursor: pointer; transition: 0.3s; }
+        .toggle.active { background: var(--cyan); }
+        .toggle::after { content: ''; position: absolute; left: 4px; top: 4px; width: 18px; height: 18px; background: #FFF; border-radius: 50%; transition: 0.3s; }
+        .toggle.active::after { left: 28px; }
+
+        .btn-save { padding: 16px 40px; border-radius: 12px; background: var(--cyan); color: #000; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-save:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <aside class="sidebar">
+        <a href="06_magical_home.html" class="logo">LUMINA</a>
+        <nav>
+            <a href="#" class="nav-item active">✦ Realm Preferences</a>
+            <a href="#" class="nav-item">✦ Arcane Security</a>
+            <a href="#" class="nav-item">✦ Notifications</a>
+            <a href="#" class="nav-item">✦ Subscriptions</a>
+            <a href="06_magical_home.html" class="nav-item" style="margin-top: 40px; color: var(--purple);">← Exit Settings</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <h1 class="sec-title">Realm Preferences</h1>
+
+        <div class="set-card">
+            <div class="set-h">
+                <div>
+                    <h3>Automated Nox Shift</h3>
+                    <p style="font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 4px;">Automatically switch to Nox mode during night hours.</p>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+
+        <div class="set-card">
+            <div class="set-h">
+                <div>
+                    <h3>Immersive Soundscapes</h3>
+                    <p style="font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 4px;">Play thematic background ambient audio in each realm.</p>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+
+        <div class="set-card">
+            <div class="set-h">
+                <div>
+                    <h3>Lore Master Assistance</h3>
+                    <p style="font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 4px;">Show real-time AI lore tooltips during reading mode.</p>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+
+        <button class="btn-save">Conserve Changes</button>
+    </main>
+
+</body>
+</html>

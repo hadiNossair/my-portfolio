@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>42 - Super Fantasy World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #090212; 
+            --magic-panel: rgba(20, 10, 45, 0.4);
+            --magic-border: rgba(212, 175, 55, 0.4);
+            --magic-gold: #D4AF37;
+            --magic-purple: #8B5CF6;
+            --text-pure: #FFFFFF;
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-gold: 0 0 60px rgba(212, 175, 55, 0.6);
+            --glow-purple: 0 0 80px rgba(139, 92, 246, 0.8);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure); overflow: hidden;  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            align-items: center; justify-content: center;
+        }
+
+        /* 1. MASSIVE CINEMATIC BACKGROUND */
+        .ambient-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1440'); /* Epic fantasy castle / library */
+            background-size: cover; background-position: center;
+            opacity: 0.4; z-index: 0; filter: contrast(1.2);
+        }
+
+        /* 2. GLOWING ANIMATED RUNES */
+        .rune-ring {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 800px; height: 800px; border-radius: 50%;
+            border: 2px dashed rgba(212, 175, 55, 0.3);
+            animation: spin 60s linear infinite; z-index: 5;
+            box-shadow: inset 0 0 100px rgba(139, 92, 246, 0.2);
+        }
+        .rune-ring-2 {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 1000px; height: 1000px; border-radius: 50%;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            animation: spin-reverse 90s linear infinite; z-index: 4;
+        }
+
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
+
+        /* 3. FLOATING BOOKS & UI */
+        .floating-layer { position: absolute; width: 100%; height: 100%; z-index: 20; pointer-events: none; }
+        
+        .floating-book {
+            position: absolute; width: 160px; aspect-ratio: 2/3; background-size: cover; border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(212,175,55,0.4);
+            border: 1px solid var(--magic-gold);
+            animation: float-book 6s ease-in-out infinite alternate; pointer-events: auto; cursor: pointer; transition: 0.3s;
+        }
+        .floating-book:hover { transform: scale(1.1) !important; box-shadow: var(--glow-gold); z-index: 100; }
+
+        @keyframes float-book { 0% { transform: translateY(0) rotate(-2deg); } 100% { transform: translateY(-30px) rotate(2deg); } }
+
+        /* Positions for floating elements */
+        .b1 { top: 20%; left: 15%; animation-delay: 0s; background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400'); }
+        .b2 { top: 50%; right: 15%; animation-delay: 1s; background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400'); }
+        .b3 { bottom: 15%; left: 25%; animation-delay: 2s; background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400'); }
+
+        /* 4. CENTRAL FOCUS UI */
+        .center-portal {
+            position: relative; z-index: 30;
+            background: var(--magic-panel); border: 1px solid rgba(139, 92, 246, 0.5);
+            padding: 64px; border-radius: 32px; backdrop-filter: var(--blur-heavy);
+            text-align: center; max-width: 600px;
+            box-shadow: 0 0 80px rgba(0,0,0,0.8), inset 0 0 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .portal-title { font-family: var(--font-magic); font-size: 64px; color: var(--magic-gold); margin-bottom: 16px; text-shadow: var(--glow-gold); line-height: 1; }
+        .portal-desc { font-size: 18px; color: #E2E8F0; line-height: 1.6; margin-bottom: 40px; font-weight: 300; }
+
+        .btn-magic {
+            padding: 20px 48px; background: linear-gradient(90deg, #8B5CF6, #D4AF37);
+            color: #000; border: none; border-radius: 100px;
+            font-family: var(--font-magic); font-size: 20px; font-weight: 900;
+            cursor: pointer; box-shadow: var(--glow-purple); transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .btn-magic:hover { filter: brightness(1.2); box-shadow: var(--glow-gold); transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="ambient-bg"></div>
+        <div class="rune-ring"></div>
+        <div class="rune-ring-2"></div>
+        
+        <div class="floating-layer">
+            <div class="floating-book b1"></div>
+            <div class="floating-book b2"></div>
+            <div class="floating-book b3"></div>
+        </div>
+
+        <div class="center-portal">
+            <h1 class="portal-title">The Grand Library</h1>
+            <p class="portal-desc">Step into the epicenter of magic. The artifacts floating around you contain raw, unfiltered power. Select a grimoire to open the portal.</p>
+            <button class="btn-magic">Summon Lore</button>
+        </div>
+    </main>
+</body>
+</html>

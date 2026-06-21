@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 - Movie Adaptation Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #0B0514; 
+            --magic-panel: rgba(0, 0, 0, 0.6);
+            --magic-border: rgba(255, 255, 255, 0.2);
+            --magic-red: #E50914; /* Cinematic Red */
+            --text-pure: #FFFFFF;
+            --text-dim: #D1D5DB; 
+            --font-ui: 'Inter', sans-serif;
+            --glow-red: 0 0 30px rgba(229, 9, 20, 0.6);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Full Screen Cinematic Background */
+        .cinematic-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1440');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        .cinematic-gradient {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%),
+                        linear-gradient(180deg, transparent 50%, rgba(0,0,0,1) 100%);
+            z-index: 1;
+        }
+
+        .header {
+            position: relative; z-index: 20; padding: 40px 64px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 32px; font-weight: 700; color: var(--magic-red); text-shadow: var(--glow-red); letter-spacing: 2px; }
+
+        .content {
+            position: relative; z-index: 20; padding: 120px 64px; flex: 1; max-width: 800px;
+            display: flex; flex-direction: column; gap: 32px;
+        }
+
+        .movie-title { font-size: 80px; font-weight: 700; line-height: 1.1; margin-bottom: 16px; }
+        
+        .meta-data { display: flex; gap: 16px; color: var(--text-dim); font-size: 16px; font-weight: 500; }
+        .match { color: #46D369; font-weight: 600; }
+        .age-rating { border: 1px solid var(--text-dim); padding: 2px 8px; border-radius: 4px; }
+
+        .movie-desc { font-size: 20px; line-height: 1.6; color: #FFF; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+
+        .actions { display: flex; gap: 24px; margin-top: 16px; }
+        .btn-play {
+            padding: 16px 48px; background: #FFF; color: #000; border: none; border-radius: 8px;
+            font-size: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 12px;
+        }
+        .btn-info {
+            padding: 16px 48px; background: rgba(109, 109, 110, 0.7); color: #FFF; border: none; border-radius: 8px;
+            font-size: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 12px;
+            backdrop-filter: var(--blur-heavy);
+        }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="cinematic-bg"></div>
+        <div class="cinematic-gradient"></div>
+        
+        <header class="header">
+            <div class="logo">LUMINA CINEMA</div>
+            <div style="font-weight: 600; color: #FFF;">Back to Books ↩</div>
+        </header>
+
+        <div class="content">
+            <h1 class="movie-title">DUNE: PART ONE</h1>
+            
+            <div class="meta-data">
+                <span class="match">98% Match</span>
+                <span>2021</span>
+                <span class="age-rating">PG-13</span>
+                <span>2h 35m</span>
+                <span style="border: 1px solid rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 4px;">Sci-Fi Epic</span>
+            </div>
+
+            <p class="movie-desc">
+                Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, must travel to the most dangerous planet in the universe to ensure the future of his family and his people.
+            </p>
+
+            <div class="actions">
+                <button class="btn-play">▶ Play Cinematic</button>
+                <button class="btn-info">ℹ Read the Book</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

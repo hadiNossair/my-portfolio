@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | User Nexus Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #020205;
+            --surface: rgba(15, 15, 25, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --cyan: #00F0FF;
+            --purple: #8B5CF6;
+            --gold: #D4AF37;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --glass: blur(40px);
+        }
+
+        /* Figma Optimized Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--void);
+            color: #FFF;
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 80px 64px;
+            background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1) 0%, var(--void) 60%);
+        }
+
+        /* --- MAIN PROFILE FRAME (Auto Layout) --- */
+        .profile-canvas {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 64px; /* Figma Auto Layout Gap */
+        }
+
+        /* Top Identity Frame -> Auto Layout */
+        .identity-header {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            background: var(--surface);
+            backdrop-filter: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 64px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        }
+
+        .avatar-frame {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+        .avatar-img {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400') center/cover;
+            border: 4px solid var(--cyan);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+        }
+        .lvl-tag {
+            position: absolute; bottom: 10px; right: 10px;
+            background: var(--purple); color: #FFF;
+            padding: 8px 16px; border-radius: 100px;
+            font-weight: 900; font-size: 12px; border: 3px solid var(--void);
+        }
+
+        .user-details { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+        .user-name { font-family: var(--font-display); font-size: 48px; font-weight: 900; }
+        .user-rank { color: var(--cyan); font-weight: 800; letter-spacing: 0.2em; font-size: 13px; text-transform: uppercase; }
+
+        /* HBO Style Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .stat-val { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--purple); }
+        .stat-lab { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* Content Rows (Netflix Style) */
+        .content-row {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .row-header { display: flex; justify-content: space-between; align-items: flex-end; }
+        .row-title { font-family: var(--font-display); font-size: 24px; }
+
+        .poster-scroll {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .poster-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .poster-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 16px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+        .prog-line { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--cyan); border-radius: 0 0 16px 16px; }
+
+        .ach-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .ach-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .ach-icon { font-size: 32px; width: 64px; height: 64px; background: rgba(139, 92, 246, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Main Frame -->
+    <main class="profile-canvas">
+        
+        <!-- Header Identity Frame -->
+        <header class="identity-header">
+            <div class="avatar-frame">
+                <div class="avatar-img"></div>
+                <div class="lvl-tag">LVL 42</div>
+            </div>
+            <div class="user-details">
+                <span class="user-rank">Ascended Grandmaster</span>
+                <h1 class="user-name">Elara Vance</h1>
+                <p style="color: rgba(255,255,255,0.5); font-size: 15px; max-width: 500px;">Chronicler of the Shattered Plains and Guardian of the High Fantasy Realm. Currently syncronizing with 12 active universes.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button style="padding: 14px 24px; background: #FFF; color: #000; border-radius: 10px; border: none; font-weight: 800; cursor: pointer;">Edit Nexus Profile</button>
+                <button style="padding: 14px 24px; background: rgba(255,255,255,0.05); color: #FFF; border-radius: 10px; border: 1px solid var(--border); font-weight: 800; cursor: pointer;" onclick="window.location.href='06_magical_home.html'">Back to Hall</button>
+            </div>
+        </header>
+
+        <!-- Stats Grid Frame -->
+        <section class="stats-grid">
+            <div class="stat-card"><span class="stat-val">142</span><span class="stat-lab">Artifacts Bound</span></div>
+            <div class="stat-card"><span class="stat-val">84k</span><span class="stat-lab">Minutes Syncronized</span></div>
+            <div class="stat-card"><span class="stat-val">4.9</span><span class="stat-lab">Aura Reputation</span></div>
+        </section>
+
+        <!-- Continue Watching Frame -->
+        <section class="content-row">
+            <div class="row-header"><h2 class="row-title">Continue Syncing</h2><span style="color: var(--cyan); font-weight: 800; font-size: 13px; cursor: pointer;">VIEW ALL</span></div>
+            <div class="poster-scroll">
+                <div class="poster-card">
+                    <div class="poster-thumb" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400')"><div class="prog-line" style="width: 75%;"></div></div>
+                    <div style="font-size: 14px; font-weight: 700;">The Way of Kings</div>
+                </div>
+                <div class="poster-card">
+                    <div class="poster-thumb" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400')"><div class="prog-line" style="width: 20%;"></div></div>
+                    <div style="font-size: 14px; font-weight: 700;">Dune</div>
+                </div>
+                <div class="poster-card">
+                    <div class="poster-thumb" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=400')"><div class="prog-line" style="width: 45%;"></div></div>
+                    <div style="font-size: 14px; font-weight: 700;">Neuromancer</div>
+                </div>
+                <div class="poster-card">
+                    <div class="poster-thumb" style="background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400')"><div class="prog-line" style="width: 10%;"></div></div>
+                    <div style="font-size: 14px; font-weight: 700;">The Demonologist</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Frame -->
+        <section class="content-row">
+            <div class="row-header"><h2 class="row-title">Nexus Achievements</h2></div>
+            <div class="ach-grid">
+                <div class="ach-item"><div class="ach-icon">🌌</div><div style="display: flex; flex-direction: column; gap: 4px;"><h4 style="font-size: 16px;">Cosmere Explorer</h4><p style="font-size: 12px; opacity: 0.5;">Bound 5 Fantasy artifacts.</p></div></div>
+                <div class="ach-item"><div class="ach-icon">🔥</div><div style="display: flex; flex-direction: column; gap: 4px;"><h4 style="font-size: 16px;">Sync Master</h4><p style="font-size: 12px; opacity: 0.5;">30-day active streak.</p></div></div>
+                <div class="ach-item" style="opacity: 0.4;"><div class="ach-icon">🔒</div><div style="display: flex; flex-direction: column; gap: 4px;"><h4 style="font-size: 16px;">Dark Weaver</h4><p style="font-size: 12px; opacity: 0.5;">Complete 3 Horror artifacts.</p></div></div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

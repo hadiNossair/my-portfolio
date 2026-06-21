@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 - Reading Settings Overlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --read-bg: #111827; 
+            --read-text: #F3F4F6;
+            --magic-panel: rgba(31, 41, 55, 0.95);
+            --magic-border: rgba(255, 255, 255, 0.1);
+            --font-read: 'Merriweather', serif;
+            --font-ui: 'Inter', sans-serif;
+            --blur-heavy: blur(20px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #E5E5E5; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--read-text);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--read-bg);
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Reading Canvas (Blurred in Background) */
+        .reading-canvas {
+            width: 800px;
+            padding: 120px 0 80px 0;
+            display: flex; flex-direction: column; gap: 32px;
+            filter: blur(5px);
+            opacity: 0.5;
+        }
+
+        .paragraph { font-family: var(--font-read); font-size: 20px; line-height: 2; color: var(--read-text); text-align: justify; }
+
+        /* Settings Modal Overlay */
+        .settings-modal {
+            position: absolute;
+            top: 100px; right: 100px;
+            width: 360px;
+            background: var(--magic-panel);
+            backdrop-filter: var(--blur-heavy);
+            border: 1px solid var(--magic-border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 24px; border-bottom: 1px solid var(--magic-border); padding-bottom: 16px; }
+
+        .setting-group { margin-bottom: 24px; }
+        .setting-label { font-size: 14px; color: #9CA3AF; margin-bottom: 12px; display: block; }
+
+        .theme-buttons { display: flex; gap: 12px; }
+        .theme-btn {
+            flex: 1; height: 48px; border-radius: 8px; cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .theme-light { background: #FFFFFF; }
+        .theme-sepia { background: #FDF6E3; }
+        .theme-dark { background: #111827; border-color: #3B82F6; }
+
+        .font-tools { display: flex; gap: 12px; align-items: center; }
+        .font-btn {
+            flex: 1; padding: 12px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--magic-border); border-radius: 8px;
+            color: #FFF; font-weight: 600; cursor: pointer; text-align: center;
+        }
+
+        .slider { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 16px; position: relative; }
+        .slider-thumb { width: 16px; height: 16px; background: #3B82F6; border-radius: 50%; position: absolute; top: -6px; left: 50%; }
+        
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        
+        <div class="reading-canvas">
+            <h1 style="font-family: var(--font-read); font-size: 32px; font-weight: 700; text-align: center;">Chapter 1: Stormblessed</h1>
+            <p class="paragraph">Kaladin survived. It was the only thing he was good at. He stood amidst the broken spears and bleeding men, the rain washing the blood from his hands. He didn't know why the Stormfather spared him, but he knew he couldn't stop fighting.</p>
+        </div>
+
+        <div class="settings-modal">
+            <h2 class="modal-title">Reading Appearance</h2>
+            
+            <div class="setting-group">
+                <span class="setting-label">Theme</span>
+                <div class="theme-buttons">
+                    <div class="theme-btn theme-light"></div>
+                    <div class="theme-btn theme-sepia"></div>
+                    <div class="theme-btn theme-dark"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">Typography</span>
+                <select style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); color: #FFF; border: 1px solid var(--magic-border); border-radius: 8px; margin-bottom: 12px; font-family: var(--font-ui);">
+                    <option>Merriweather (Serif)</option>
+                    <option>Inter (Sans-Serif)</option>
+                </select>
+                <div class="font-tools">
+                    <div class="font-btn">A-</div>
+                    <div style="font-size: 16px;">20px</div>
+                    <div class="font-btn">A+</div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <span class="setting-label">Screen Brightness</span>
+                <div class="slider">
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

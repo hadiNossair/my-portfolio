@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26 - Fantasy World (Premium)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-void: #050212; 
+            --magic-panel: rgba(20, 10, 45, 0.5);
+            --magic-border: rgba(139, 92, 246, 0.4);
+            --magic-cyan: #00F0FF; 
+            --magic-gold: #D4AF37;
+            --text-pure: #FFFFFF;
+            --text-dim: #A78BFA; 
+            --font-magic: 'Cinzel', serif;
+            --font-ui: 'Inter', sans-serif;
+            --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+            --glow-purple: 0 0 50px rgba(139, 92, 246, 0.7);
+            --blur-heavy: blur(60px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { background-color: #000; display: flex; justify-content: center; font-family: var(--font-ui); color: var(--text-pure);  width: 100vw; height: 100vh; margin: 0; }
+
+        .figma-frame {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: var(--magic-void);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Ambient Magical Environment */
+        .ambient-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1618944847023-38aa001235f0?q=80&w=1440'); /* Magical Castle / Dark Academia Vibe */
+            background-size: cover; background-position: center;
+            opacity: 0.25; z-index: 0; mix-blend-mode: screen;
+        }
+
+        .ambient-gradient {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(5,2,18,0.2) 0%, rgba(5,2,18,0.9) 100%);
+            z-index: 1;
+        }
+
+        .navbar {
+            position: absolute; top: 0; left: 0; width: 100%; z-index: 50;
+            padding: 32px 64px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { font-family: var(--font-magic); font-size: 32px; text-shadow: var(--glow-purple); }
+        .nav-links { display: flex; gap: 32px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        .nav-links a { color: #FFF; text-decoration: none; opacity: 0.7; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--magic-cyan); text-shadow: var(--glow-cyan); }
+
+        /* Premium Featured Cinematic Hero */
+        .premium-hero {
+            position: relative; z-index: 20; width: 100%; height: 800px;
+            display: flex; align-items: center; padding: 0 64px;
+        }
+
+        .hero-content { max-width: 700px; }
+        .premium-tag { display: inline-block; padding: 6px 16px; border: 1px solid var(--magic-gold); background: rgba(212, 175, 55, 0.1); color: var(--magic-gold); border-radius: 100px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        
+        .hero-title { font-family: var(--font-magic); font-size: 80px; line-height: 1.1; margin-bottom: 24px; text-shadow: 0 0 40px rgba(0,0,0,0.8); }
+        .hero-desc { font-size: 20px; line-height: 1.6; color: #E2E8F0; margin-bottom: 40px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+
+        .hero-actions { display: flex; gap: 24px; }
+        .btn-primary { padding: 20px 48px; background: var(--magic-cyan); color: #000; border: none; border-radius: 100px; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: var(--glow-cyan); }
+        .btn-secondary { padding: 20px 48px; background: var(--magic-panel); color: #FFF; border: 1px solid var(--magic-border); border-radius: 100px; font-size: 18px; font-weight: 600; cursor: pointer; backdrop-filter: var(--blur-heavy); }
+
+        /* Floating Spell Particles Layer */
+        .spell-particles {
+            position: absolute; right: 100px; top: 150px; z-index: 10;
+            width: 400px; height: 600px;
+            background-image: url('https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?q=80&w=600'); /* abstract light / magic */
+            background-size: cover; mix-blend-mode: color-dodge; opacity: 0.8;
+            filter: blur(2px); animation: float 6s infinite ease-in-out;
+            border-radius: 50%;
+        }
+
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-30px); } 100% { transform: translateY(0); } }
+
+        /* Enhanced Book Card Grid */
+        .content-section { position: relative; z-index: 20; padding: 0 64px 100px 64px; }
+        .section-title { font-family: var(--font-magic); font-size: 32px; margin-bottom: 32px; border-bottom: 1px solid var(--magic-border); padding-bottom: 16px; }
+
+        .book-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+
+        /* The New Enhanced Card Structure */
+        .enhanced-card {
+            background: var(--magic-panel);
+            border: 1px solid var(--magic-border);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: var(--blur-heavy);
+            display: flex; flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .enhanced-card:hover { transform: translateY(-12px); box-shadow: var(--glow-purple); border-color: var(--magic-cyan); }
+
+        .card-cover {
+            width: 100%; height: 300px;
+            background-size: cover; background-position: center;
+            position: relative;
+        }
+
+        .card-rating { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 6px 12px; border-radius: 100px; border: 1px solid var(--magic-gold); color: var(--magic-gold); font-weight: 700; display: flex; align-items: center; gap: 4px; }
+
+        .card-body { padding: 24px; display: flex; flex-direction: column; flex: 1;  width: 100vw; height: 100vh; margin: 0; }
+        
+        .card-meta { display: flex; gap: 16px; color: var(--text-dim); font-size: 12px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; }
+        .age-badge { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; }
+
+        .card-title { font-family: var(--font-magic); font-size: 24px; color: #FFF; margin-bottom: 4px; }
+        .card-author { font-size: 14px; color: var(--magic-cyan); margin-bottom: 16px; }
+
+        .card-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .tag { padding: 4px 12px; border: 1px solid var(--magic-border); border-radius: 100px; font-size: 12px; color: var(--text-dim); }
+
+        .card-ai-summary { font-size: 14px; line-height: 1.6; color: #D1D5DB; background: rgba(0,0,0,0.3); padding: 16px; border-radius: 12px; border-left: 2px solid var(--magic-cyan); margin-top: auto; }
+
+    </style>
+</head>
+<body>
+    <main class="figma-frame">
+        <div class="ambient-bg"></div>
+        <div class="ambient-gradient"></div>
+        
+        <nav class="navbar">
+            <div class="nav-logo">LUMINA WORLDS</div>
+            <div class="nav-links">
+                <a href="#" class="active">Fantasy</a>
+                <a href="#">Sci-Fi</a>
+                <a href="#">Drama</a>
+                <a href="#">History</a>
+                <a href="#">Psychology</a>
+            </div>
+        </nav>
+
+        <section class="premium-hero">
+            <div class="spell-particles"></div>
+            
+            <div class="hero-content">
+                <div class="premium-tag">Premium Universe</div>
+                <h1 class="hero-title">Harry Potter and the Cursed Child</h1>
+                <p class="hero-desc">The official eighth story in the epic saga. Nineteen years later, Albus Severus Potter struggles with the weight of a family legacy he never wanted, as past and present fuse ominously in the wizarding world.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary">Enter the Magic</button>
+                    <button class="btn-secondary">Explore Lore Map</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Enchanted Artifacts</h2>
+            
+            <div class="book-grid">
+                <!-- Enhanced Book Card 1 -->
+                <div class="enhanced-card">
+                    <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1629196914210-67c8dc911bb5?q=80&w=600');">
+                        <div class="card-rating">★ 4.9</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span>2007</span>
+                            <span class="age-badge">PG-13</span>
+                            <span>Epic Fantasy</span>
+                        </div>
+                        <h3 class="card-title">The Name of the Wind</h3>
+                        <p class="card-author">By Patrick Rothfuss</p>
+                        
+                        <div class="card-tags">
+                            <span class="tag">Magic School</span>
+                            <span class="tag">Music</span>
+                            <span class="tag">Lore Heavy</span>
+                        </div>
+
+                        <div class="card-ai-summary">
+                            <strong>AI Synopsis:</strong> A gifted young man grows up to be the most notorious wizard his world has ever seen, telling his life story from a quiet inn.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Book Card 2 -->
+                <div class="enhanced-card">
+                    <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600');">
+                        <div class="card-rating">★ 4.8</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span>2010</span>
+                            <span class="age-badge">16+</span>
+                            <span>High Fantasy</span>
+                        </div>
+                        <h3 class="card-title">The Way of Kings</h3>
+                        <p class="card-author">By Brandon Sanderson</p>
+                        
+                        <div class="card-tags">
+                            <span class="tag">Stormlight</span>
+                            <span class="tag">Warfare</span>
+                            <span class="tag">Epic Scope</span>
+                        </div>
+
+                        <div class="card-ai-summary">
+                            <strong>AI Synopsis:</strong> In a world scoured by brutal storms, an enslaved soldier, an idealistic highprince, and an ambitious scholar intertwine in a sweeping epic.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Book Card 3 -->
+                <div class="enhanced-card">
+                    <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600');">
+                        <div class="card-rating">★ 4.7</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span>2006</span>
+                            <span class="age-badge">PG-13</span>
+                            <span>Dark Fantasy</span>
+                        </div>
+                        <h3 class="card-title">Mistborn: The Final Empire</h3>
+                        <p class="card-author">By Brandon Sanderson</p>
+                        
+                        <div class="card-tags">
+                            <span class="tag">Heist</span>
+                            <span class="tag">Allomancy</span>
+                            <span class="tag">Dystopian</span>
+                        </div>
+
+                        <div class="card-ai-summary">
+                            <strong>AI Synopsis:</strong> A brilliant thief and his powerful apprentice plot a daring heist to overthrow an immortal tyrant in an ash-covered world.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+</body>
+</html>

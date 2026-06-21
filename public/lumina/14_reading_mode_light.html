@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Mode - The Cursed Child (Light)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Eye-Comfort Slytherin / Dark Magic Theme */
+            --bg-nox: #121513;
+            --bg-lumos: #fbf9f1;
+            --text-nox: #e4dec8;
+            --text-lumos: #2c2820;
+            --slytherin-green: #215a36;
+            --slytherin-silver: #bbbbbb;
+            --magic-glow: 0 0 25px rgba(33, 90, 54, 0.8);
+            
+            --font-magic: 'Cinzel Decorative', serif;
+            --font-text: 'Crimson Text', serif;
+            
+            /* Dynamic variables for JS toggle (DEFAULT TO LIGHT MODE HERE) */
+            --current-bg: var(--bg-lumos);
+            --current-text: var(--text-lumos);
+            --current-accent: var(--slytherin-green);
+            --base-size: 22px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--current-bg);
+            color: var(--current-text);
+            font-family: var(--font-text);
+            overflow-x: hidden;
+            transition: background-color 1.5s ease, color 1.5s ease;
+            position: relative;
+        }
+
+        /* WATERMARK - POV IMMERSION */
+        .watermark {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-family: 'Brush Script MT', cursive, var(--font-magic);
+            font-size: 15vw;
+            color: rgba(26, 71, 42, 0.03);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+        body.lumos-mode .watermark { color: rgba(0, 0, 0, 0.03); }
+
+        /* DARK MAGIC MIST EFFECT */
+        .mist {
+            position: fixed;
+            bottom: -50px; left: 0; width: 100%; height: 40vh;
+            background: linear-gradient(to top, rgba(10, 20, 15, 0.9), transparent);
+            filter: blur(20px);
+            pointer-events: none;
+            z-index: 5;
+            animation: drift 15s infinite alternate ease-in-out;
+            opacity: 0.8;
+        }
+        body.lumos-mode .mist { opacity: 0; } /* Hide mist in light mode */
+
+        @keyframes drift {
+            0% { transform: translateX(-5%) scaleY(1); }
+            100% { transform: translateX(5%) scaleY(1.2); }
+        }
+
+        /* TOP NAVIGATION UX */
+        .reading-nav {
+            position: fixed; top: 20px; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px;
+            background: linear-gradient(to bottom, var(--current-bg) 50%, transparent);
+            z-index: 100;
+            transition: 1.5s;
+        }
+        .nav-back {
+            color: var(--current-text); text-decoration: none; 
+            font-family: var(--font-magic); font-size: 16px; 
+            display: flex; align-items: center; gap: 8px; opacity: 0.7; transition: 0.3s;
+        }
+        .nav-back:hover { opacity: 1; transform: translateX(-5px); }
+
+        /* LUMOS / NOX TOGGLE & FONT UX */
+        .spell-toggle {
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+            font-family: var(--font-magic); font-size: 14px; opacity: 0.7; transition: 0.3s;
+        }
+        .spell-toggle:hover { opacity: 1; text-shadow: var(--magic-glow); }
+        .wand-icon {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 1px solid var(--current-text);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 14px;
+        }
+        
+        .font-controls {
+            display: flex; gap: 10px; align-items: center;
+            margin-right: 20px;
+        }
+        .font-btn {
+            background: none; border: 1px solid rgba(255,255,255,0.2);
+            color: var(--current-text); border-radius: 4px; padding: 4px 8px;
+            cursor: pointer; font-family: var(--font-text); font-size: 16px; transition: 0.2s;
+        }
+        .font-btn:hover { background: rgba(255,255,255,0.1); }
+        body.lumos-mode .font-btn { border-color: rgba(0,0,0,0.2); }
+        body.lumos-mode .font-btn:hover { background: rgba(0,0,0,0.05); }
+
+        /* WAND PROGRESS BAR */
+        .progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.1); z-index: 200;
+        }
+        .progress-bar {
+            height: 100%; background: var(--hp-gold, #D4AF37); width: 0%;
+            box-shadow: 0 0 10px var(--hp-gold, #D4AF37);
+        }
+
+        /* LORE TOOLTIPS (TRICKS FOR READERS) */
+        .lore-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed var(--current-accent);
+            color: var(--current-accent);
+            font-weight: 600;
+        }
+        .lore-tooltip::after {
+            content: attr(data-lore);
+            position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) translateY(10px);
+            background: #111; color: #f4ecd8; padding: 10px 15px; border-radius: 6px;
+            font-size: 16px; font-family: var(--font-text); font-weight: normal;
+            width: max-content; max-width: 250px; text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid var(--hp-gold, #D4AF37);
+            opacity: 0; pointer-events: none; transition: 0.3s ease; z-index: 100;
+        }
+        .lore-tooltip:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+        body.lumos-mode .lore-tooltip::after { background: #fff; color: #222; }
+
+        /* MAGICAL DINKUS (SECTION DIVIDERS) */
+        .dinkus {
+            text-align: center; margin: 40px 0; opacity: 0.5;
+        }
+        .dinkus svg {
+            width: 40px; height: 40px; fill: var(--current-text);
+        }
+
+        /* READING CONTAINER */
+        .book-container {
+            position: relative;
+            z-index: 10;
+            max-width: 720px; /* Golden reading width */
+            margin: 120px auto 100px auto;
+            padding: 60px 80px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            transition: 1.5s;
+        }
+        body.lumos-mode .book-container {
+            background: #fffdf5;
+            border-color: #e5dac1;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+        }
+
+        /* TYPOGRAPHY */
+        .chapter-title {
+            font-family: var(--font-magic);
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            color: var(--slytherin-silver);
+        }
+        body.lumos-mode .chapter-title { color: #555; }
+
+        .scene-title {
+            text-align: center;
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 60px;
+            opacity: 0.6;
+        }
+
+        .text-content {
+            font-size: var(--base-size);
+            line-height: 1.85; /* Eye comfort */
+            text-align: justify;
+        }
+
+        /* Drop Cap for first letter */
+        .text-content > p:first-of-type::first-letter {
+            float: left;
+            font-family: var(--font-magic);
+            font-size: 80px;
+            line-height: 60px;
+            padding-top: 4px;
+            padding-right: 12px;
+            color: var(--slytherin-green);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        body.lumos-mode .text-content > p:first-of-type::first-letter {
+            text-shadow: none;
+        }
+
+        .text-content p {
+            margin-bottom: 24px;
+        }
+
+        .character-name {
+            font-family: var(--font-magic);
+            font-size: 20px;
+            color: var(--slytherin-silver);
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        body.lumos-mode .character-name { color: #333; }
+        
+        .dialogue {
+            text-align: center;
+            font-size: 24px;
+            font-style: italic;
+            font-weight: 600;
+        }
+        
+        .stage-direction {
+            opacity: 0.7;
+            font-size: 18px;
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 2px solid var(--slytherin-green);
+        }
+
+        /* TIME TURNER SCROLL INDICATOR */
+        .scroll-indicator {
+            position: fixed;
+            right: 40px; top: 50%;
+            transform: translateY(-50%);
+            width: 60px; height: 60px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Time_Turner.jpg/640px-Time_Turner.jpg'); /* Placeholder for time turner */
+            background-size: cover;
+            border-radius: 50%;
+            border: 2px solid var(--hp-gold);
+            box-shadow: var(--glow-gold);
+            z-index: 100;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            mix-blend-mode: screen;
+        }
+        .scroll-indicator:hover { opacity: 1; }
+
+    </style>
+</head>
+<body class="lumos-mode"> <!-- DEFAULT TO LIGHT MODE -->
+
+    <div class="watermark">Property of Albus Severus Potter</div>
+    <div class="mist"></div>
+    <div class="scroll-indicator" id="timeTurner"></div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="readingProgress"></div>
+    </div>
+
+    <nav class="reading-nav">
+        <a href="12_cursed_child_book.html" class="nav-back">
+            <span>←</span> Close Book
+        </a>
+        <div style="display: flex; align-items: center;">
+            <div class="font-controls">
+                <button class="font-btn" onclick="changeFontSize(-2)">A-</button>
+                <button class="font-btn" onclick="changeFontSize(2)">A+</button>
+            </div>
+            <div class="spell-toggle" onclick="toggleSpell()">
+                <!-- DEFAULT BUTTON TEXT IS NOW NOX -->
+                <span id="spellText">Nox (Dark Mode)</span>
+                <div class="wand-icon">🪄</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="book-container">
+        <h1 class="chapter-title">ACT ONE</h1>
+        <h2 class="scene-title">SCENE ONE: KING’S CROSS</h2>
+
+        <div class="text-content">
+            <div class="stage-direction">
+                A busy and crowded station. Full of people trying to go somewhere. Amongst the hustle and bustle, two large cages rattle on top of two laden trolleys. They’re being pushed by two boys, JAMES POTTER and ALBUS POTTER, their mother, GINNY, follows after. A thirty-seven-year-old HARRY has his daughter, LILY, on his shoulders.
+            </div>
+
+            <p>
+                The platform is thick with smoke, thick with the chatter of excited witches and wizards. You stand there, Albus, feeling the cold metal of your trolley handle pressing into your palms. The noise around you is deafening, but all you can hear is the frantic, terrified beating of your own heart. Your brother James has already run ahead, disappearing into the solid brick barrier between <span class="lore-tooltip" data-lore="A secret magical platform hidden at King's Cross Station, London.">platforms nine and ten</span>.
+            </p>
+
+            <div class="dinkus">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg> <!-- Train icon -->
+            </div>
+
+            <p>
+                You look up at your father. The great Harry Potter. The man everyone whispers about as he passes. He smiles down at you, but you wonder if he can see the fear behind your eyes. What if you're not like him? What if the sorting hat places you... somewhere else?
+            </p>
+
+            <span class="character-name">ALBUS</span>
+            <p class="dialogue">"Dad. He keeps saying it."</p>
+
+            <span class="character-name">HARRY</span>
+            <p class="dialogue">"James, give it a rest."</p>
+
+            <span class="character-name">JAMES</span>
+            <p class="dialogue">"I only said he might be in <span class="lore-tooltip" data-lore="One of the four Hogwarts Houses. Known for ambition and cunning. Symbol: Snake.">Slytherin</span>. And he might so..." (He catches his dad’s eye) "Fine."</p>
+
+            <div class="stage-direction">
+                You watch James run off, arrogant and confident. You grip the trolley tighter. The word "<span class="lore-tooltip" data-lore="Founded by Salazar Slytherin. Many dark wizards came from here.">Slytherin</span>" hangs in the air like a curse. You look at your father again, desperation creeping into your voice.
+            </div>
+
+            <span class="character-name">ALBUS</span>
+            <p class="dialogue">"You’ll write to me, won’t you?"</p>
+
+            <span class="character-name">HARRY</span>
+            <p class="dialogue">"Every day if you want us to."</p>
+
+            <span class="character-name">ALBUS</span>
+            <p class="dialogue">"No. Not every day. James says most people only get letters from home about once a month."</p>
+
+            <div class="stage-direction">
+                Harry crouches down to your level. For a moment, the bustling station fades away. It's just you and him. The Boy Who Lived, and the boy who wishes he was anyone else.
+            </div>
+
+            <span class="character-name">HARRY</span>
+            <p class="dialogue">"Albus Severus, you were named for two headmasters of <span class="lore-tooltip" data-lore="School of Witchcraft and Wizardry.">Hogwarts</span>. One of them was a Slytherin and he was probably the bravest man I ever knew."</p>
+
+            <div class="dinkus">
+                <svg viewBox="0 0 24 24"><path d="M11 2v9H2l10 11v-9h9L11 2z"/></svg> <!-- Lightning Bolt -->
+            </div>
+
+            <p>
+                His words are supposed to comfort you, but as you stare at the barrier, the green mist of anxiety in your mind only thickens. You take a deep breath. It's time. You run toward the barrier, closing your eyes, waiting for the crash. Instead, you emerge into a world of steam, magic, and a legacy that threatens to swallow you whole.
+            </p>
+            
+            <div style="text-align: center; margin-top: 60px; font-family: var(--font-magic); color: var(--slytherin-green);">
+                ~ End of Scene One ~
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Lumos / Nox Toggle Logic (Starts in LIGHT MODE)
+        let isLumos = true;
+        const body = document.body;
+        const spellText = document.getElementById('spellText');
+
+        function toggleSpell() {
+            isLumos = !isLumos;
+            if (isLumos) {
+                body.classList.replace('nox-mode', 'lumos-mode');
+                body.style.setProperty('--current-bg', 'var(--bg-lumos)');
+                body.style.setProperty('--current-text', 'var(--text-lumos)');
+                spellText.innerText = "Nox (Dark Mode)";
+            } else {
+                body.classList.replace('lumos-mode', 'nox-mode');
+                body.style.setProperty('--current-bg', 'var(--bg-nox)');
+                body.style.setProperty('--current-text', 'var(--text-nox)');
+                spellText.innerText = "Lumos (Light Mode)";
+            }
+        }
+
+        // Time Turner Rotation on Scroll & Progress Bar
+        const timeTurner = document.getElementById('timeTurner');
+        const progressBar = document.getElementById('readingProgress');
+        
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollPos / docHeight) * 100;
+            
+            // Update Time Turner
+            const rotation = scrollPos * 0.3; 
+            timeTurner.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+            
+            // Update Magic Wand Progress Bar
+            progressBar.style.width = scrollPercent + '%';
+        });
+
+        // Font Size Controls (Eye Comfort)
+        let currentSize = 22;
+        function changeFontSize(delta) {
+            currentSize += delta;
+            if (currentSize < 16) currentSize = 16;
+            if (currentSize > 32) currentSize = 32;
+            document.documentElement.style.setProperty('--base-size', currentSize + 'px');
+        }
+    </script>
+</body>
+</html>

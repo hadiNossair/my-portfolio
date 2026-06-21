@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Sovereign Multiverse</title>
+    <!-- FIGMA GRADE TYPOGRAPHY -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #020205;
+            --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --font-display: 'Cinzel Decorative', serif;
+            --font-classic: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--void); }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
+        
+        body { 
+            background-color: var(--void); 
+            color: #FFF; 
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            background: radial-gradient(circle at center top, #0A0A1F 0%, var(--void) 100%);
+        }
+
+        /* --- HEADER HUD (FIGMA READY) --- */
+        .header {
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            background: linear-gradient(180deg, var(--void) 0%, rgba(2,2,5,0.8) 70%, transparent 100%);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo { 
+            font-family: var(--font-display); font-size: 32px; letter-spacing: 12px; 
+            color: var(--gold); text-decoration: none; font-weight: 900; 
+            text-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .meta-nav { display: flex; gap: 30px; align-items: center; }
+        .meta-badge {
+            padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        .page-title {
+            padding: 0 60px 40px 60px;
+            text-align: center;
+        }
+        .page-title h1 {
+            font-family: var(--font-classic);
+            font-size: 40px;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+        }
+        .page-title p {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- THE MULTIVERSE GRID (16 CATEGORIES) --- */
+        .multiverse-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 0 60px 80px 60px;
+        }
+
+        .realm-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.5s var(--ease-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 380px;
+        }
+
+        .realm-bg {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.2);
+            transition: transform 0.8s var(--ease-smooth), filter 0.5s;
+            z-index: 0;
+        }
+
+        .realm-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+            z-index: 1;
+        }
+
+        .realm-content {
+            position: relative;
+            z-index: 10;
+            padding: 40px 30px;
+            text-align: left;
+        }
+
+        .realm-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            color: #FFF;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            transition: 0.3s;
+        }
+
+        .realm-desc {
+            font-family: var(--font-classic);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .realm-stats {
+            display: flex;
+            gap: 20px;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+        .stat-val { font-family: var(--font-classic); font-size: 14px; font-weight: 700; color: #FFF; }
+
+        /* --- HOVER EFFECTS --- */
+        .realm-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px var(--gold-glow); z-index: 20; }
+        .realm-card:hover .realm-bg { transform: scale(1.1); filter: brightness(0.8) contrast(1.1); }
+        .realm-card:hover .realm-title { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+        .realm-card:hover .realm-stats { opacity: 1; }
+
+        /* --- FLASH TRANSITION --- */
+        .flash { position: fixed; inset: 0; background: #FFF; z-index: 2000; opacity: 0; pointer-events: none; transition: 0.4s; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1400px) {
+            .multiverse-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 1000px) {
+            .multiverse-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body figma-frame="LUMINA_FULL_CATALOG_GATEWAY">
+
+    <div class="flash" id="flash"></div>
+
+    <header class="header" figma-component="HeaderHUD">
+        <a href="#" class="logo">LUMINA</a>
+        <div class="meta-nav">
+            <div class="meta-badge">SYS_CORE: ONLINE</div>
+            <div class="meta-badge" style="color: var(--gold); border-color: var(--gold);">16 REALMS DETECTED</div>
+            <div style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gold); background: url('https://images.weserv.nl/?url=https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=60&w=150') center/cover;"></div>
+        </div>
+    </header>
+
+    <div class="page-title">
+        <h1>THE MULTIVERSE CATALOG</h1>
+        <p>Explore the complete convergence of books, movies, and series across all dimensions.</p>
+    </div>
+
+    <main class="multiverse-grid" figma-section="RealmGrid">
+        
+        <!-- FANTASY -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/498/1245274.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">FANTASY</h2>
+                <div class="realm-desc">The Magical Realm</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">12,402</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">98%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCI-FI -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/445/1114081.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">SCI-FI</h2>
+                <div class="realm-desc">The Techno-Void</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">8,930</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">94%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HORROR -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/498/1246083.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">HORROR</h2>
+                <div class="realm-desc">The Forbidden Rift</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">5,120</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">88%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MYSTERY / ACADEMIA -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/490/1226764.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">MYSTERY</h2>
+                <div class="realm-desc">The Dark Academia</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">7,400</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">99%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROMANCE -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/614/1535959.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">ROMANCE</h2>
+                <div class="realm-desc">The Emotional Core</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">15,300</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">96%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PSYCHOLOGY -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/501/1253490.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">PSYCHOLOGY</h2>
+                <div class="realm-desc">The Dream State</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">3,200</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">92%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTION -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/0/2330.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">ACTION</h2>
+                <div class="realm-desc">The High Energy</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">10,800</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">95%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADVENTURE -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/501/1253498.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">ADVENTURE</h2>
+                <div class="realm-desc">The Great Journey</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">6,500</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">97%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BIOGRAPHY / MEMOIR -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/480/1201097.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">BIOGRAPHY</h2>
+                <div class="realm-desc">The Human Journey</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">4,120</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">99%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORICAL -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/501/1253509.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">HISTORICAL</h2>
+                <div class="realm-desc">The Echoes of Time</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">7,890</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">96%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRIME / DETECTIVE -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/501/1253519.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">CRIME</h2>
+                <div class="realm-desc">The Shadows of Truth</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">8,200</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">91%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMEDY -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/481/1204342.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">COMEDY</h2>
+                <div class="realm-desc">The Light Heart</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">11,400</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">95%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCUMENTARY / NON-FICTION -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/6/15320.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">DOCUMENTARY</h2>
+                <div class="realm-desc">The Absolute Reality</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">5,600</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">100%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANIMATION / FAMILY -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/536/1340287.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">ANIMATION</h2>
+                <div class="realm-desc">The Pure Imagination</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">9,350</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">98%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MYTHOLOGY -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/289/722622.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">MYTHOLOGY</h2>
+                <div class="realm-desc">The Ancient Gods</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">3,800</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">94%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DYSTOPIAN -->
+        <div class="realm-card" onclick="enterRealm()" figma-component="RealmCard">
+            <img src="https://images.weserv.nl/?url=https://static.tvmaze.com/uploads/images/original_untouched/564/1411764.jpg&w=800" class="realm-bg">
+            <div class="realm-overlay"></div>
+            <div class="realm-content">
+                <h2 class="realm-title">DYSTOPIAN</h2>
+                <div class="realm-desc">The Fallen Future</div>
+                <div class="realm-stats">
+                    <div class="stat"><span class="stat-label">Convergence</span><span class="stat-val">6,100</span></div>
+                    <div class="stat"><span class="stat-label">Resonance</span><span class="stat-val">97%</span></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer style="padding: 60px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+        <p style="color: rgba(255,255,255,0.3); font-size: 11px; letter-spacing: 5px; text-transform: uppercase;">16 Realms • Infinite Possibilities • Lumina OS</p>
+    </footer>
+
+    <script>
+        function enterRealm() {
+            const flash = document.getElementById('flash');
+            flash.style.opacity = '1';
+            setTimeout(() => {
+                window.location.href = '07_universe_experience.html';
+            }, 400);
+        }
+    </script>
+</body>
+</html>

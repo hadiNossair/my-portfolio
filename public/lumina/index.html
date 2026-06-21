@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Active View User Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #020205;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 70px);
+            border: none;
+            display: block;
+        }
+        .flow-nav {
+            height: 70px;
+            background: rgba(2, 2, 5, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            color: white;
+            box-shadow: 0 -10px 40px rgba(0, 240, 255, 0.05);
+        }
+        .flow-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .flow-title {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00F0FF, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flow-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+        }
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00F0FF;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+        .step-indicator {
+            font-size: 14px;
+            font-weight: 600;
+            color: #FFD700;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe id="prototype-frame" src=""></iframe>
+
+    <div class="flow-nav">
+        <div class="flow-info">
+            <div class="flow-title" id="flow-title">Loading...</div>
+            <div class="flow-desc" id="flow-desc">Please wait</div>
+        </div>
+        <div class="nav-controls">
+            <button class="nav-btn" id="prev-btn" onclick="prevStep()">&#8592; Previous</button>
+            <div class="step-indicator" id="step-indicator">1 / 5</div>
+            <button class="nav-btn" id="next-btn" onclick="nextStep()">Next &#8594;</button>
+        </div>
+    </div>
+
+    <script>
+        const userFlow = [
+            {
+                file: "01_magical_splash.html",
+                title: "1. Cinematic Entry",
+                desc: "The immersive splash screen setting the void aesthetic."
+            },
+            {
+                file: "06_lumina_masterpiece.html",
+                title: "2. The Sovereign Multiverse",
+                desc: "The ultimate masterpiece hub showing cross-genre navigation."
+            },
+            {
+                file: "08_wizarding_world.html",
+                title: "3. Fantasy Realm Portal",
+                desc: "A dedicated immersive environment for the Fantasy genre."
+            },
+            {
+                file: "09_psychology_nexus.html",
+                title: "4. Psychology Nexus",
+                desc: "Alternative aesthetic layout tailored for Psychology literature."
+            },
+            {
+                file: "32_horror_reading_mode.html",
+                title: "5. Immersive Reading Mode",
+                desc: "A specialized reading interface adapting to the Horror genre."
+            },
+            {
+                file: "09_cart_checkout.html",
+                title: "6. Multiverse Checkout",
+                desc: "Glassmorphism UI elements utilized in the e-commerce flow."
+            }
+        ];
+
+        let currentStep = 0;
+
+        const iframe = document.getElementById('prototype-frame');
+        const titleEl = document.getElementById('flow-title');
+        const descEl = document.getElementById('flow-desc');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const indicator = document.getElementById('step-indicator');
+
+        function loadStep(index) {
+            const step = userFlow[index];
+            iframe.src = step.file;
+            titleEl.textContent = step.title;
+            descEl.textContent = step.desc;
+            indicator.textContent = `${index + 1} / ${userFlow.length}`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === userFlow.length - 1;
+        }
+
+        function nextStep() {
+            if (currentStep < userFlow.length - 1) {
+                currentStep++;
+                loadStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                loadStep(currentStep);
+            }
+        }
+
+        // Initialize
+        loadStep(currentStep);
+    </script>
+</body>
+</html>

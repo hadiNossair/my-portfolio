@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | Initiating The Sanctum</title>
+    <!-- Fonts - Cinematic Serif & Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #020205;
+            --hogwarts-gold: #D4AF37;
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* html.to.design Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--void);
+            color: #FFFFFF;
+            font-family: var(--font-sans);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .magical-canvas {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: radial-gradient(circle at center, #0A0A1F 0%, var(--void) 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .particles-container { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+        .particle {
+            position: absolute; width: 3px; height: 3px; background: var(--hogwarts-gold);
+            border-radius: 50%; opacity: 0.6; filter: blur(1px);
+            animation: float-up 10s infinite linear;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(1); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        }
+
+        .content {
+            position: relative; z-index: 20; text-align: center;
+            display: flex; flex-direction: column; gap: 40px;
+        }
+
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 140px;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            background: linear-gradient(180deg, #FFFFFF 0%, var(--hogwarts-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 10px 40px rgba(212, 175, 55, 0.4));
+        }
+
+        .tagline {
+            font-family: var(--font-accent);
+            font-style: italic;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .loader-system {
+            margin-top: 60px; display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+        .track { width: 320px; height: 2px; background: rgba(255,255,255,0.05); position: relative; }
+        .fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--hogwarts-gold); box-shadow: 0 0 15px var(--hogwarts-gold); transition: width 0.1s linear; }
+
+        .status-text { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; color: rgba(255,255,255,0.3); }
+
+    </style>
+</head>
+<body>
+
+    <main class="magical-canvas">
+        <div class="particles-container" id="particles"></div>
+        
+        <div class="content">
+            <p class="tagline">The Sovereign Archives of Ancient Lore</p>
+            <h1 class="logo-title">LUMINA</h1>
+            
+            <div class="loader-system">
+                <div class="track"><div class="fill" id="fill"></div></div>
+                <p class="status-text" id="status">Summoning The Forbidden Sections...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const pContainer = document.getElementById('particles');
+        for(let i = 0; i < 60; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            pContainer.appendChild(p);
+        }
+
+        const fill = document.getElementById('fill');
+        const status = document.getElementById('status');
+        const messages = [
+            "Harmonizing Magical Frequencies...",
+            "Consulting The Sorting Oracle...",
+            "Bypassing The Restricted Wards...",
+            "Igniting The Great Hall...",
+            "Welcome To The Sanctum."
+        ];
+        
+        let progress = 0;
+        let msgIdx = 0;
+        const interval = setInterval(() => {
+            progress += 1;
+            fill.style.width = progress + '%';
+            if(progress % 20 === 0 && msgIdx < messages.length - 1) {
+                msgIdx++;
+                status.innerText = messages[msgIdx];
+            }
+            if(progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => window.location.href = '02_magical_landing.html', 1000);
+            }
+        }, 40);
+    </script>
+</body>
+</html>

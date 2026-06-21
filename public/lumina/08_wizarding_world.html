@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Magical Multiverse Portal</title>
+    <!-- FIGMA GRADE TYPOGRAPHY -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #010103;
+            --accent-light: #D4AF37; /* Gold */
+            --accent-dark: #8E0000; /* Vampire Crimson */
+            --glow-light: rgba(212, 175, 55, 0.4);
+            --glow-dark: rgba(142, 0, 0, 0.6);
+            --font-magic: 'Cinzel Decorative', serif;
+            --font-lore: 'Playfair Display', serif;
+            --font-ui: 'Plus Jakarta Sans', sans-serif;
+            --ease-cine: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 0px; } /* HIDE SCROLLBAR FOR IMMERSION */
+        
+        .artifact-scroll::-webkit-scrollbar { height: 6px; }
+        .artifact-scroll::-webkit-scrollbar-track { background: transparent; }
+        .artifact-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        body {
+            background-color: var(--bg-base);
+            color: #FFF;
+            font-family: var(--font-ui);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* --- IMMERSIVE SECTIONS (FIGMA HIGH-FIDELITY OPTIMIZED) --- */
+        .realm-section {
+            position: relative;
+            width: 100vw; 
+            height: 100vh; /* Viewport height for browser */
+            min-height: 900px; /* Safe minimum for Figma bounding boxes */
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 100px;
+            background-color: #000;
+            overflow: hidden;
+            /* Default fallback transition */
+            transition: all 1s ease;
+        }
+
+        /* Restoring the beautiful blurred background layers safely for Figma */
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 0;
+            filter: blur(20px) brightness(0.3) scale(1.1);
+        }
+
+        .overlay-gradient {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* --- MAGIC UI COMPONENTS (FLEXBOX ONLY, NO ABSOLUTE HACKS) --- */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-start; 
+            text-align: left; 
+            gap: 20px;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .arcane-title {
+            font-family: var(--font-magic); 
+            font-size: 80px; 
+            letter-spacing: 15px;
+            text-transform: uppercase; 
+            color: #FFF; 
+            line-height: 1.1;
+            text-shadow: 0 0 40px var(--glow-light), 0 5px 10px rgba(0,0,0,0.9);
+            margin: 0;
+        }
+
+        .lore-text {
+            font-family: var(--font-lore); 
+            font-size: 22px; 
+            font-style: italic; 
+            line-height: 1.4;
+            color: rgba(255,255,255,0.7); 
+            letter-spacing: 4px; 
+            margin: 0 0 40px 0; 
+            max-width: 800px;
+        }
+
+        /* --- ARTIFACT CARDS (PURE FLEX ROW FOR FIGMA) --- */
+        .artifact-scroll { 
+            display: flex; 
+            flex-direction: row;
+            gap: 30px; 
+            width: 100%; 
+            overflow-x: auto; 
+            padding: 20px 0 60px 0; 
+            align-items: center;
+        }
+        
+        .artifact-card {
+            width: 280px; 
+            height: 420px; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            cursor: pointer;
+            transition: 0.8s var(--ease-cine); 
+            flex-shrink: 0;
+            
+            /* Figma imports this as a Frame with an Image Fill */
+            background-position: center top;
+            background-size: cover;
+            background-repeat: no-repeat;
+            
+            /* Align content to bottom left for Figma */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+        
+        .artifact-card:hover { 
+            border-color: var(--accent-light); 
+            box-shadow: 0 0 40px var(--glow-light); 
+            transform: translateY(-15px); 
+        }
+        
+        /* The text container inside the card */
+        .artifact-info { 
+            width: 100%; 
+            padding: 60px 20px 20px 20px; 
+            background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 40%, transparent 100%); 
+            text-align: left; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; 
+        }
+        
+        .artifact-title { font-family: var(--font-magic); font-size: 20px; color: #FFF; margin: 0; line-height: 1.2; }
+        .artifact-meta { font-family: var(--font-ui); font-size: 9px; letter-spacing: 3px; color: var(--accent-light); text-transform: uppercase; line-height: 1.5; margin: 0; }
+
+        /* --- BOOK SPECIFIC CARD STYLES --- */
+        .book-card {
+            width: 250px; 
+            height: 380px; 
+            border-radius: 5px 20px 20px 5px;
+            box-shadow: inset 15px 0 40px rgba(0,0,0,0.9), 10px 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- FLOATING NAVIGATION RUNES --- */
+        .rune-nav { position: fixed; right: 40px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 20px; z-index: 500; }
+        .rune-dot {
+            width: 15px; height: 15px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3);
+            cursor: pointer; transition: 0.4s; position: relative;
+        }
+        .rune-dot.active { background: var(--accent-light); border-color: var(--accent-light); box-shadow: 0 0 15px var(--glow-light); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+
+    <!-- RUNIC NAVIGATION -->
+    <div class="rune-nav">
+        <div class="rune-dot active" onclick="scrollToRealm(0)"></div>
+        <div class="rune-dot" onclick="scrollToRealm(1)"></div>
+        <div class="rune-dot" onclick="scrollToRealm(2)"></div>
+        <div class="rune-dot" onclick="scrollToRealm(3)"></div>
+        <div class="rune-dot" onclick="scrollToRealm(4)"></div>
+    </div>
+        
+    <!-- 1. THE GREAT HALL (HOGWARTS / MOVIES) -->
+    <section class="realm-section">
+        <div class="bg-layer" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Studio_model_of_Hogwarts_at_Leavesden_Studios.jpg/1920px-Studio_model_of_Hogwarts_at_Leavesden_Studios.jpg');"></div>
+        <div class="overlay-gradient" style="background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%), linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.95) 100%);"></div>
+        
+        <div class="content-layer">
+            <h1 class="arcane-title">THE GREAT HALL</h1>
+            <p class="lore-text">"Where cinematic legends are born and magical realms converge."</p>
+
+            <div class="artifact-scroll">
+                <!-- HARRY POTTER -->
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMjAxY2M0NzAtZDZmZS00OTMxLWExODEtZTBlYmZkZjNiNzQzXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Harry Potter Universe</h3>
+                        <p class="artifact-meta">8 Cinematic Chapters</p>
+                    </div>
+                </div>
+                <!-- HARRY POTTER AND THE CURSED CHILD -->
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNTU1MzgyMDMtMzBlZS00YzczLThmYWEtMjU3YmFlOWEyMjE1XkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">The Cursed Child</h3>
+                        <p class="artifact-meta">The Theatrical Sequel</p>
+                    </div>
+                </div>
+                <!-- FANTASTIC BEASTS -->
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Fantastic Beasts</h3>
+                        <p class="artifact-meta">The Magizoologist Archive</p>
+                    </div>
+                </div>
+                <!-- LORD OF THE RINGS -->
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNzIxMDQ2YTctNDY4MC00ZTRhLTk4ODQtMTVlOWY4NTdiYmMwXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Lord of the Rings</h3>
+                        <p class="artifact-meta">The Middle-earth Saga</p>
+                    </div>
+                </div>
+                <!-- THE CHRONICLES OF NARNIA -->
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMTc0NTUwMTU5OV5BMl5BanBnXkFtZTcwNjAwNzQzMw@@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">The Chronicles of Narnia</h3>
+                        <p class="artifact-meta">Beyond the Wardrobe</p>
+                    </div>
+                </div>
+                <!-- PERCY JACKSON -->
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMTI3YmIzNzYtOTcwNy00ZTZiLTg5NmQtMTUyNGY1ZWVmZDJiXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Percy Jackson</h3>
+                        <p class="artifact-meta">Camp Half-Blood</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. THE FORBIDDEN LIBRARY (BOOKS & LORE) -->
+    <section class="realm-section">
+        <div class="bg-layer" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Bibliotheca_Bodleiana.jpg/1920px-Bibliotheca_Bodleiana.jpg'); filter: blur(20px) brightness(0.25) sepia(0.5) scale(1.1);"></div>
+        <div class="overlay-gradient" style="background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%), linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.95) 100%);"></div>
+        
+        <div class="content-layer">
+            <h1 class="arcane-title">FORBIDDEN LIBRARY</h1>
+            <p class="lore-text">"Floating manuscripts and the original sacred texts of our universe."</p>
+            
+            <div class="artifact-scroll">
+                <!-- Books render as ancient texts -->
+                <div class="artifact-card book-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0747532745-L.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title" style="font-size: 16px;">The Philosopher's Stone</h3>
+                        <p class="artifact-meta">Original Text • 1997</p>
+                    </div>
+                </div>
+                <div class="artifact-card book-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0747538492-L.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title" style="font-size: 16px;">The Chamber of Secrets</h3>
+                        <p class="artifact-meta">Original Text • 1998</p>
+                    </div>
+                </div>
+                <div class="artifact-card book-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0747546290-L.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title" style="font-size: 16px;">The Prisoner of Azkaban</h3>
+                        <p class="artifact-meta">Original Text • 1999</p>
+                    </div>
+                </div>
+                <div class="artifact-card book-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/074754624X-L.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title" style="font-size: 16px;">The Goblet of Fire</h3>
+                        <p class="artifact-meta">Original Text • 2000</p>
+                    </div>
+                </div>
+                <div class="artifact-card book-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0747551006-L.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title" style="font-size: 16px;">The Order of the Phoenix</h3>
+                        <p class="artifact-meta">Original Text • 2003</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. VAMPIRE KINGDOMS -->
+    <section class="realm-section">
+        <div class="bg-layer" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Castelul_Bran2.jpg/1920px-Castelul_Bran2.jpg'); filter: blur(20px) sepia(0.5) hue-rotate(-30deg) brightness(0.25) scale(1.1);"></div>
+        <div class="overlay-gradient" style="background: radial-gradient(circle at center, transparent 0%, rgba(20,0,0,0.9) 100%), linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.95) 100%);"></div>
+        
+        <div class="content-layer">
+            <h1 class="arcane-title" style="color: #9B59B6; text-shadow: 0 0 40px #8E44AD;">VAMPIRE KINGDOMS</h1>
+            <p class="lore-text">"Immortality, bloodlines, and the curse of the Mikaelson legacy."</p>
+            
+            <div class="artifact-scroll">
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMTQ2NzUxMTAxN15BMl5BanBnXkFtZTcwMzEyMTIwMg@@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">The Twilight Saga</h3>
+                        <p class="artifact-meta">Forks Covenant</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZGViZTA1ODktNmMyYy00YjBmLWFkMjgtMTYxNjgzMjEyODlkXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">True Blood</h3>
+                        <p class="artifact-meta">Bon Temps Territory</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. WEREWOLF TERRITORY (TEEN WOLF) -->
+    <section class="realm-section">
+        <div class="bg-layer" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Blick_vom_Hohfelsen.jpg/1920px-Blick_vom_Hohfelsen.jpg'); filter: blur(20px) brightness(0.25) contrast(1.5) scale(1.1);"></div>
+        <div class="overlay-gradient" style="background: radial-gradient(circle at center, transparent 0%, rgba(10,10,0,0.9) 100%), linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.95) 100%);"></div>
+        
+        <div class="content-layer">
+            <h1 class="arcane-title" style="color: #F39C12; text-shadow: 0 0 40px #D35400;">THE DARK FOREST</h1>
+            <p class="lore-text">"Where the moonlight awakens the primal beasts of Beacon Hills."</p>
+            
+            <div class="artifact-scroll">
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNjc2NGJkMzgtYzMxNy00YWZiLTk0MjUtNTRmNGU3NzA2NDc2XkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Teen Wolf</h3>
+                        <p class="artifact-meta">The Lycanthrope Pack</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZWIxOGQyYjYtOGEwOC00YWNjLWJmNTktZjJlM2RmNTdjMmVlXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">The Order</h3>
+                        <p class="artifact-meta">Magical Secret Society</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMTcxMTgwNDk5MV5BMl5BanBnXkFtZTgwODE3MzY0NTE@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Bitten</h3>
+                        <p class="artifact-meta">The Last Female Wolf</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMjc3NjgwZDktZGNlZS00YzA5LWEyMTctYjVhMGU3Yjg1N2ZiXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Hemlock Grove</h3>
+                        <p class="artifact-meta">Supernatural Horror</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. DRAGON REALMS (HOUSE OF THE DRAGON) -->
+    <section class="realm-section">
+        <div class="bg-layer" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Schloss_Neuschwanstein_2013.jpg/1920px-Schloss_Neuschwanstein_2013.jpg'); filter: blur(20px) brightness(0.25) contrast(1.2) scale(1.1);"></div>
+        <div class="overlay-gradient" style="background: radial-gradient(circle at center, transparent 0%, rgba(50,0,0,0.9) 100%), linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.95) 100%);"></div>
+        
+        <div class="content-layer">
+            <h1 class="arcane-title" style="color: #FF5733; text-shadow: 0 0 40px #C0392B;">DRAGON REALMS</h1>
+            <p class="lore-text">"Fire and blood. The ancient empires of the sky riders."</p>
+            
+            <div class="artifact-scroll">
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMjJkZjE4NjMtNWVjMC00YzIzLWIwYmUtNTBmY2Q0OTQxYTVjXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">House of the Dragon</h3>
+                        <p class="artifact-meta">The Targaryen Dynasty</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://static.tvmaze.com/uploads/images/original_untouched/498/1245274.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Game of Thrones</h3>
+                        <p class="artifact-meta">A Song of Ice and Fire</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BOTQzMzNmMzUtODgwNS00YTdhLTg5N2MtOWU1YTc4YWY3NjRlXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">The Witcher</h3>
+                        <p class="artifact-meta">The Continent Archive</p>
+                    </div>
+                </div>
+                <div class="artifact-card" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNzIxMDQ2YTctNDY4MC00ZTRhLTk4ODQtMTVlOWY4NTdiYmMwXkEyXkFqcGc@._V1_.jpg');">
+                    <div class="artifact-info">
+                        <h3 class="artifact-title">Eragon</h3>
+                        <p class="artifact-meta">Dragon Rider</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const sections = document.querySelectorAll('.realm-section');
+        function scrollToRealm(index) {
+            sections[index].scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

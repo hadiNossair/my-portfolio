@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | The Psychology Nexus</title>
+    <!-- FIGMA GRADE TYPOGRAPHY -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #050505;
+            --accent-primary: #8E44AD; /* Psychological Purple */
+            --accent-secondary: #E74C3C; /* Visceral Red */
+            --accent-light: #F1C40F; /* Spark of Life */
+            --glass-bg: rgba(20, 20, 25, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-lore: 'Playfair Display', serif;
+            --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 0px; } /* HIDE SCROLLBAR FOR IMMERSION */
+        
+        .horizontal-scroll::-webkit-scrollbar { height: 6px; }
+        .horizontal-scroll::-webkit-scrollbar-track { background: transparent; }
+        .horizontal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        body {
+            background-color: var(--bg-base);
+            color: #FFF;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* --- FIGMA AUTO-LAYOUT SECTIONS --- */
+        .psy-section {
+            position: relative;
+            width: 100vw; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 100px;
+            overflow: hidden;
+            background-color: var(--bg-base);
+        }
+
+        /* Safe Background Layers for Figma */
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 0;
+            filter: blur(30px) brightness(0.25);
+            transform: scale(1.1);
+        }
+
+        .overlay-gradient {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* Flexbox Content Container */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 40px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .content-layer.left-align {
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .mega-title {
+            font-size: 85px;
+            font-weight: 900;
+            line-height: 1.2;
+            background: linear-gradient(45deg, #FFF, #A9A9A9, #FFF);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: -2px;
+            animation: textShine 5s linear infinite;
+        }
+
+        @keyframes textShine {
+            to { background-position: 200% center; }
+        }
+
+        .quote-text {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.6;
+            color: #FFF;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            margin: 0;
+            max-width: 1000px;
+        }
+
+        .sub-text {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.6);
+            margin: 0;
+            max-width: 800px;
+        }
+
+        .author-tag {
+            font-family: var(--font-main);
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-top: -20px;
+        }
+
+        /* --- CREATIVE TEXT REVEAL TRICKS --- */
+        /* Initial hidden states */
+        .badge { opacity: 0; transform: translateX(-30px); transition: all 0.8s var(--ease-out); }
+        .mega-title { opacity: 0; transform: translateY(40px); transition: all 1s var(--ease-out) 0.2s; }
+        .quote-text { opacity: 0; filter: blur(15px); transform: scale(0.95); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s; }
+        .sub-text { opacity: 0; transform: translateY(20px); transition: all 1s var(--ease-out) 0.6s; }
+        .author-tag { opacity: 0; letter-spacing: 10px; transition: all 1s var(--ease-out) 0.5s; }
+
+        /* Animated states when scrolled into view */
+        .content-layer.in-view .badge { opacity: 1; transform: translateX(0); }
+        .content-layer.in-view .mega-title { opacity: 1; transform: translateY(0); }
+        .content-layer.in-view .quote-text { opacity: 1; filter: blur(0); transform: scale(1); }
+        .content-layer.in-view .sub-text { opacity: 1; transform: translateY(0); }
+        .content-layer.in-view .author-tag { opacity: 1; letter-spacing: 4px; }
+
+        /* --- GLASSMORPHISM CARDS (UX/UI SHOWCASE) --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        /* --- HORIZONTAL SCROLL (MEDIA) --- */
+        .horizontal-scroll {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0 60px 0;
+            align-items: center;
+        }
+
+        /* Books (Vertical) */
+        .media-card {
+            width: 260px;
+            height: 390px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            flex-shrink: 0;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+        }
+
+        .media-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(142, 68, 173, 0.4);
+            border-color: rgba(142, 68, 173, 0.5);
+        }
+
+        /* Movies (Horizontal Widescreen Figma UX) */
+        .cinema-card {
+            position: relative;
+            width: 440px;
+            height: 250px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.6s var(--ease-out);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .cinema-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+            z-index: 1;
+            transition: all 0.6s var(--ease-out);
+        }
+
+        .cinema-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(142, 68, 173, 0.3), inset 0 0 0 1px rgba(255,255,255,0.2);
+        }
+
+        .cinema-card:hover::after {
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(142, 68, 173, 0.4) 100%);
+        }
+
+        /* Info panels */
+        .media-info {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 40px 20px 20px 20px;
+            background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            text-align: left;
+        }
+
+        .cinema-card .media-info {
+            padding: 20px;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            transform: translateY(10px);
+            transition: all 0.6s var(--ease-out);
+        }
+
+        .cinema-card:hover .media-info {
+            transform: translateY(0);
+        }
+
+        .media-title { font-family: var(--font-main); font-weight: 700; font-size: 18px; color: #FFF; line-height: 1.3; margin: 0; }
+        .media-type { font-family: var(--font-main); font-size: 10px; letter-spacing: 2px; color: var(--accent-light); text-transform: uppercase; margin: 0; }
+
+        /* --- UI ELEMENTS --- */
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+            width: 100%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            background: rgba(142, 68, 173, 0.2);
+            border: 1px solid rgba(142, 68, 173, 0.5);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #D2B4DE;
+            text-transform: uppercase;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: THE CORE PHILOSOPHY (HERO) -->
+    <section id="section-hero" class="psy-section" data-figma-type="frame" data-figma-layout="vertical">
+        <!-- Abstract psychological background -->
+        <div class="bg-layer" data-figma-type="image-fill" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Le_Penseur_by_Rodin_%28Kunsthalle_Bielefeld%29_2014-04-10.JPG/1920px-Le_Penseur_by_Rodin_%28Kunsthalle_Bielefeld%29_2014-04-10.JPG'); filter: blur(40px) brightness(0.2) sepia(0.3) hue-rotate(250deg);"></div>
+        <div class="overlay-gradient" data-figma-type="gradient-fill" style="background: radial-gradient(circle at center, transparent 0%, #050505 100%);"></div>
+        
+        <div class="content-layer">
+            <div class="badge" data-figma-prototype-animate="smart">LIFE PHILOSOPHY</div>
+            <h1 class="mega-title">THE POWER OF WILL</h1>
+            <p class="quote-text">"You only live once. Live it your way and do not let anyone ruin it. The strong survive, and loving life is the greatest win."</p>
+            <p class="sub-text">Weakness is not an option. Stand up, face your fears, and create your own reality.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE TOXIC ENVIRONMENT QUOTE (GLASSMORPHISM UX) -->
+    <section id="section-toxic" class="psy-section" style="padding: 100px;" data-figma-type="frame" data-figma-layout="vertical">
+        <div class="bg-layer" data-figma-type="image-fill" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/1920px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg'); filter: blur(50px) brightness(0.15);"></div>
+        <div class="overlay-gradient" data-figma-type="gradient-fill" style="background: linear-gradient(180deg, #050505 0%, transparent 50%, #050505 100%);"></div>
+
+        <div class="content-layer">
+            <div class="glass-panel" style="max-width: 1000px;" data-figma-effect="background-blur">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2" style="margin-bottom: -10px;">
+                    <path d="M10 11h-4a3 3 0 0 1 -3 -3v-2a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3z" />
+                    <path d="M10 11l-2 9" />
+                    <path d="M21 11h-4a3 3 0 0 1 -3 -3v-2a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3z" />
+                    <path d="M21 11l-2 9" />
+                </svg>
+                <p class="quote-text" style="font-size: 38px; color: #E8DAEF;">"Before you think you are depressed or have low self-esteem, make sure you are not just surrounded by toxic people."</p>
+                <p class="author-tag">William Gibson / Sigmund Freud (Pop-Psychology)</p>
+                <p class="sub-text" style="font-size: 18px;">Often, the problem is not in your mind. It is the toxic people around you draining your energy. Walking away from them is the first step to healing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE ABYSS & SURVIVAL (DARK PSYCHOLOGY) -->
+    <section id="section-abyss" class="psy-section" data-figma-type="frame" data-figma-layout="vertical">
+        <div class="bg-layer" data-figma-type="image-fill" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg/1920px-Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg'); filter: blur(40px) brightness(0.2) sepia(0.5) hue-rotate(-20deg);"></div>
+        <div class="overlay-gradient" data-figma-type="gradient-fill" style="background: radial-gradient(circle at bottom, rgba(142,0,0,0.2) 0%, #050505 100%);"></div>
+
+        <div class="content-layer">
+            <div class="badge" style="background: rgba(231, 76, 60, 0.1); border-color: rgba(231, 76, 60, 0.5); color: #F5B7B1;">FACING THE DARKNESS</div>
+            <p class="quote-text" style="font-size: 42px;">"Giving up is not the answer. True strength is looking into the darkness and fighting back. You are stronger than your pain."</p>
+            <p class="sub-text">The human mind is built to survive. Mental pain is a signal to change, not a signal to end. A strong person builds themselves from broken pieces.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: MASTERPIECES OF PSYCHOLOGY (BOOKS) -->
+    <section id="section-library" class="psy-section" style="justify-content: flex-start; padding-top: 100px;" data-figma-type="frame" data-figma-layout="vertical">
+        <div class="bg-layer" data-figma-type="image-fill" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Bibliotheca_Bodleiana.jpg/1920px-Bibliotheca_Bodleiana.jpg'); filter: blur(50px) brightness(0.15);"></div>
+        
+        <div class="content-layer left-align">
+            <div class="section-header">
+                <div class="badge">THE PSYCHOLOGY LIBRARY</div>
+                <h2 class="mega-title" style="font-size: 45px;">FAMOUS PSYCHOLOGY BOOKS</h2>
+                <p class="sub-text">The greatest books that explain the human mind and human behavior.</p>
+            </div>
+
+            <div class="horizontal-scroll" data-figma-scroll="horizontal" data-figma-prototype="scroll-overflow">
+                <!-- Thinking, Fast and Slow -->
+                <div class="media-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0374275637-L.jpg');">
+                    <div class="media-info">
+                        <h3 class="media-title">Thinking, Fast and Slow</h3>
+                        <p class="media-type">Daniel Kahneman</p>
+                    </div>
+                </div>
+                <!-- Man's Search for Meaning -->
+                <div class="media-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/080701429X-L.jpg');">
+                    <div class="media-info">
+                        <h3 class="media-title">Man's Search for Meaning</h3>
+                        <p class="media-type">Viktor E. Frankl</p>
+                    </div>
+                </div>
+                <!-- The Body Keeps the Score -->
+                <div class="media-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0143127748-L.jpg');">
+                    <div class="media-info">
+                        <h3 class="media-title">The Body Keeps the Score</h3>
+                        <p class="media-type">Bessel van der Kolk</p>
+                    </div>
+                </div>
+                <!-- The Interpretation of Dreams -->
+                <div class="media-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0465019773-L.jpg');">
+                    <div class="media-info">
+                        <h3 class="media-title">The Interpretation of Dreams</h3>
+                        <p class="media-type">Sigmund Freud</p>
+                    </div>
+                </div>
+                <!-- The Laws of Human Nature -->
+                <div class="media-card" style="background-image: url('https://covers.openlibrary.org/b/isbn/0525428143-L.jpg');">
+                    <div class="media-info">
+                        <h3 class="media-title">The Laws of Human Nature</h3>
+                        <p class="media-type">Robert Greene</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PSYCHOLOGICAL CINEMA (MOVIES) -->
+    <section id="section-cinema" class="psy-section" style="justify-content: flex-start;" data-figma-type="frame" data-figma-layout="vertical">
+        <div class="bg-layer" data-figma-type="image-fill" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/1755_james_ayscough.jpg/1920px-1755_james_ayscough.jpg'); filter: blur(50px) brightness(0.15) sepia(0.2);"></div>
+        
+        <div class="content-layer left-align">
+            <div class="section-header">
+                <div class="badge">PSYCHOLOGICAL CINEMA</div>
+                <h2 class="mega-title" style="font-size: 45px;">MASTERPIECE MOVIES</h2>
+                <p class="sub-text">Brilliant movies that dive deep into the human mind, trauma, and complex disorders.</p>
+            </div>
+
+            <div class="horizontal-scroll" data-figma-scroll="horizontal" data-figma-prototype="scroll-overflow">
+                <!-- Shutter Island -->
+                <a href="#section-toxic" class="cinema-card" style="background-image: url('https://img.youtube.com/vi/5iaYLCiq5RM/hqdefault.jpg'); text-decoration: none;" data-figma-prototype-click="navigate">
+                    <div class="media-info" data-figma-effect="background-blur">
+                        <h3 class="media-title">Shutter Island</h3>
+                        <p class="media-type">Psychological Thriller</p>
+                    </div>
+                </a>
+                <!-- Fight Club -->
+                <a href="#section-hero" class="cinema-card" style="background-image: url('https://img.youtube.com/vi/qtRKdVHc-cE/hqdefault.jpg'); text-decoration: none;" data-figma-prototype-click="navigate">
+                    <div class="media-info" data-figma-effect="background-blur">
+                        <h3 class="media-title">Fight Club</h3>
+                        <p class="media-type">Identity & Consumerism</p>
+                    </div>
+                </a>
+                <!-- Black Swan -->
+                <a href="#section-abyss" class="cinema-card" style="background-image: url('https://img.youtube.com/vi/5jaI1XOB-bs/hqdefault.jpg'); text-decoration: none;" data-figma-prototype-click="navigate">
+                    <div class="media-info" data-figma-effect="background-blur">
+                        <h3 class="media-title">Black Swan</h3>
+                        <p class="media-type">Obsession & Perfection</p>
+                    </div>
+                </a>
+                <!-- Good Will Hunting -->
+                <a href="#section-library" class="cinema-card" style="background-image: url('https://img.youtube.com/vi/ReIJ1lbL-Q8/hqdefault.jpg'); text-decoration: none;" data-figma-prototype-click="navigate">
+                    <div class="media-info" data-figma-effect="background-blur">
+                        <h3 class="media-title">Good Will Hunting</h3>
+                        <p class="media-type">Trauma & Genius</p>
+                    </div>
+                </a>
+                <!-- Requiem for a Dream -->
+                <a href="#section-cinema" class="cinema-card" style="background-image: url('https://img.youtube.com/vi/jzk-lmU4KZ4/hqdefault.jpg'); text-decoration: none;" data-figma-prototype-click="navigate">
+                    <div class="media-info" data-figma-effect="background-blur">
+                        <h3 class="media-title">Requiem for a Dream</h3>
+                        <p class="media-type">Addiction & Despair</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // UX TRICK: Intersection Observer for cinematic scroll reveals
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    }
+                });
+            }, { threshold: 0.25 }); // Trigger when 25% of the section is visible
+
+            // Observe all content layers
+            document.querySelectorAll('.content-layer').forEach(layer => {
+                observer.observe(layer);
+            });
+        });
+    </script>
+</body>
+</html>
