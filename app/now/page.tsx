@@ -16,7 +16,7 @@ const staggerContainer = {
 
 export default function NowPage() {
   return (
-    <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col gap-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 flex flex-col gap-10 md:gap-16">
       {/* Hero */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
@@ -25,7 +25,7 @@ export default function NowPage() {
         className="flex flex-col gap-4 items-start"
       >
         <div className="flex flex-col gap-4">
-          <h1 className="text-5xl font-bold text-foreground">Now</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">Now</h1>
           <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
             <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
@@ -44,8 +44,8 @@ export default function NowPage() {
         className="grid grid-cols-1 md:grid-cols-2 gap-8"
       >
         {/* What I'm Building */}
-        <motion.section variants={fadeInUp} className="glass-card p-8 flex flex-col gap-6">
-          <h2 className="text-2xl font-bold text-foreground border-b border-border pb-4">
+        <motion.section variants={fadeInUp} className="glass-card p-5 sm:p-8 flex flex-col gap-4 sm:gap-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground border-b border-border pb-3 sm:pb-4">
             What I'm Building
           </h2>
           <ul className="flex flex-col gap-6">

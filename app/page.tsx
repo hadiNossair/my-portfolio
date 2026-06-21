@@ -27,7 +27,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#F7F7F7] font-sans selection:bg-[#1F95A3]/30">
       {/* ── SECTION 1: HERO ── */}
-      <section className="relative min-h-screen w-full bg-gradient-to-b from-[#1C1C1E] to-[#2D2D30] overflow-hidden flex items-center justify-center pt-20 pb-20">
+      <section className="relative min-h-screen w-full bg-gradient-to-b from-[#1C1C1E] to-[#2D2D30] overflow-hidden flex items-center justify-center pt-24 pb-16">
         {/* Background Blobs */}
         <div
           className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full mix-blend-screen filter blur-[100px] opacity-20 pointer-events-none"
@@ -42,7 +42,7 @@ export default function HomePage() {
           style={{ backgroundColor: colors.purple }}
         />
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10 w-full">
           {/* LEFT COLUMN */}
           <motion.div
             initial="hidden"
@@ -63,14 +63,14 @@ export default function HomePage() {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter text-white leading-[1.1]"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter text-white leading-[1.1]"
             >
               Building systems people actually love to use.
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-xl text-white/60 max-w-lg leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-white/60 max-w-lg leading-relaxed"
             >
               Software Engineering Student building enterprise ERP, beautiful interfaces, and products that solve real problems.
             </motion.p>
@@ -81,16 +81,16 @@ export default function HomePage() {
               <span className="px-4 py-1.5 rounded-full text-sm font-bold text-white bg-[#5B3280]/20 border border-[#5B3280]/40">⚙️ Flask</span>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="flex flex-wrap gap-4 mt-6">
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row flex-wrap gap-3 mt-6 w-full sm:w-auto">
               <Link
                 href="/projects"
-                className="px-8 py-4 bg-white text-black font-black rounded-full hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300"
+                className="w-full sm:w-auto text-center px-8 py-4 bg-white text-black font-black rounded-full hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300"
               >
                 View My Work
               </Link>
               <Link
                 href="/engineering"
-                className="px-8 py-4 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+                className="w-full sm:w-auto text-center px-8 py-4 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
               >
                 Engineering Philosophy
               </Link>
@@ -103,10 +103,10 @@ export default function HomePage() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
-            className="relative lg:h-[500px] flex flex-col items-center justify-center lg:items-end w-full"
+            className="relative lg:h-[500px] flex flex-col items-center justify-center lg:items-end w-full mt-4 lg:mt-0"
           >
             {/* Code Window */}
-            <div className="w-full max-w-lg bg-[#1E1E1E]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-[float_4s_ease-in-out_infinite] lg:-translate-y-4">
+            <div className="w-full max-w-lg bg-[#1E1E1E]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden lg:animate-[float_4s_ease-in-out_infinite] lg:-translate-y-4">
               {/* Window Header */}
               <div className="bg-black/40 px-4 py-3 flex items-center gap-2 border-b border-white/5">
                 <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
@@ -115,7 +115,7 @@ export default function HomePage() {
                 <span className="ml-2 text-white/40 text-xs font-mono">system_architecture.ts</span>
               </div>
               {/* Code Content */}
-              <div className="p-6 text-sm font-mono leading-relaxed overflow-x-auto">
+              <div className="p-4 sm:p-6 text-xs sm:text-sm font-mono leading-relaxed overflow-x-auto">
                 <div className="flex text-white/50"><span className="w-8 text-right mr-4 select-none">1</span><span className="text-[#5B3280]">import</span> {'{'} <span className="text-white">CleanArchitecture</span> {'}'} <span className="text-[#5B3280]">from</span> <span className="text-[#1F95A3]">'@/core'</span>;</div>
                 <div className="flex text-white/50"><span className="w-8 text-right mr-4 select-none">2</span><span className="text-[#5B3280]">import</span> {'{'} <span className="text-white">UserExperience</span> {'}'} <span className="text-[#5B3280]">from</span> <span className="text-[#1F95A3]">'@/design'</span>;</div>
                 <div className="flex text-white/50"><span className="w-8 text-right mr-4 select-none">3</span></div>
@@ -143,15 +143,15 @@ export default function HomePage() {
       </section>
 
       {/* ── SECTION 1.5: IMPACT METRICS ── */}
-      <section className="w-full bg-white py-16 border-b border-black/5">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 text-center">
+      <section className="w-full bg-white py-12 md:py-16 border-b border-black/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col items-center justify-center">
-            <span className="text-6xl md:text-7xl font-black mb-3 tracking-tighter" style={{ color: colors.coral }}>4+</span>
-            <span className="text-sm font-bold text-[#3A3A3C]">Projects Built</span>
+            <span className="text-5xl md:text-6xl lg:text-7xl font-black mb-2 tracking-tighter" style={{ color: colors.coral }}>4+</span>
+            <span className="text-xs sm:text-sm font-bold text-[#3A3A3C]">Projects Built</span>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col items-center justify-center">
-            <span className="text-6xl md:text-7xl font-black mb-3 tracking-tighter" style={{ color: colors.teal }}>OCP</span>
-            <span className="text-sm font-bold text-[#3A3A3C]">Oracle Certified</span>
+            <span className="text-5xl md:text-6xl lg:text-7xl font-black mb-2 tracking-tighter" style={{ color: colors.teal }}>OCP</span>
+            <span className="text-xs sm:text-sm font-bold text-[#3A3A3C]">Oracle Certified</span>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col items-center justify-center">
             {/* AESS Logo */}
@@ -168,14 +168,14 @@ export default function HomePage() {
             <span className="text-[10px] font-bold text-[#1F95A3] uppercase tracking-widest mt-1">Sustainability</span>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col items-center justify-center">
-            <span className="text-6xl md:text-7xl font-black mb-3 tracking-tighter text-[#3A3A3C]">96.5%</span>
-            <span className="text-sm font-bold text-[#3A3A3C]/70">Academy Score</span>
+            <span className="text-5xl md:text-6xl lg:text-7xl font-black mb-2 tracking-tighter text-[#3A3A3C]">96.5%</span>
+            <span className="text-xs sm:text-sm font-bold text-[#3A3A3C]/70">Academy Score</span>
           </motion.div>
         </div>
       </section>
 
       {/* ── SECTION 2: WHAT I BUILD ── */}
-      <section className="py-32 px-6 max-w-7xl mx-auto bg-[#F7F7F7]">
+      <section className="py-16 md:py-24 lg:py-32 px-4 sm:px-6 max-w-7xl mx-auto bg-[#F7F7F7]">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -184,10 +184,10 @@ export default function HomePage() {
           className="mb-16"
         >
           <span className="text-sm font-bold tracking-widest text-[#3A3A3C]/50 uppercase mb-4 block">CAPABILITIES</span>
-          <h2 className="text-4xl md:text-5xl font-black text-[#3A3A3C] tracking-tight">The intersection of design and deep technical architecture.</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#3A3A3C] tracking-tight">The intersection of design and deep technical architecture.</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
           {/* Card 1 */}
           <motion.div
             initial="hidden"
@@ -242,7 +242,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SECTION 3: FEATURED PROJECTS ── */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-16 md:py-24 lg:py-32 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -252,10 +252,10 @@ export default function HomePage() {
             className="mb-16"
           >
             <span className="text-sm font-bold tracking-widest text-[#3A3A3C]/50 uppercase mb-4 block">FEATURED PROJECTS</span>
-            <h2 className="text-4xl md:text-5xl font-black text-[#3A3A3C] tracking-tight">Shipped. Tested. Real.</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#3A3A3C] tracking-tight">Shipped. Tested. Real.</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-12">
             {[
               {
                 id: "shakos",
@@ -305,16 +305,16 @@ export default function HomePage() {
                 {/* Top colored bar */}
                 <div className="h-1.5 w-full" style={{ backgroundColor: p.color }} />
                 
-                <div className="p-8 md:p-10 flex-1 flex flex-col">
+                <div className="p-6 sm:p-8 md:p-10 flex-1 flex flex-col">
                   <div className="flex items-center gap-3 mb-6">
                     <span className="px-3 py-1 bg-white rounded-full text-xs font-bold text-[#3A3A3C] shadow-sm">{p.year}</span>
                     <div className="h-px flex-1 bg-black/5" />
                   </div>
                   
-                  <h3 className="text-3xl font-black text-[#3A3A3C] mb-4">{p.title}</h3>
-                  <p className="text-[#3A3A3C]/70 font-medium mb-8 flex-1">{p.desc}</p>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-[#3A3A3C] mb-3">{p.title}</h3>
+                  <p className="text-sm sm:text-base text-[#3A3A3C]/70 font-medium mb-6 flex-1">{p.desc}</p>
                   
-                  <div className="flex flex-wrap gap-2 mb-10">
+                  <div className="flex flex-wrap gap-2 mb-6 md:mb-10">
                     {p.tags.map(tag => (
                       <span key={tag} className="font-mono text-xs font-bold text-[#3A3A3C]/60 bg-black/5 px-2.5 py-1 rounded-md">{tag}</span>
                     ))}
@@ -345,7 +345,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SECTION 4: ENGINEERING CURIOSITY HOOK ── */}
-      <section className="py-32 px-6 bg-[#F7F7F7]">
+      <section className="py-16 md:py-24 lg:py-32 px-4 sm:px-6 bg-[#F7F7F7]">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial="hidden"
@@ -354,17 +354,17 @@ export default function HomePage() {
             variants={fadeInUp}
             className="flex flex-col items-center gap-8"
           >
-            <h2 className="text-4xl md:text-6xl font-black text-[#3A3A3C] tracking-tight">
-              I don't just write code. I think about <span className="underline decoration-4" style={{ textDecorationColor: colors.coral }}>why.</span>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-[#3A3A3C] tracking-tight">
+              I don&apos;t just write code. I think about <span className="underline decoration-4" style={{ textDecorationColor: colors.coral }}>why.</span>
             </h2>
-            <p className="text-xl text-[#3A3A3C]/60 font-medium leading-relaxed max-w-2xl">
+            <p className="text-base sm:text-lg md:text-xl text-[#3A3A3C]/60 font-medium leading-relaxed max-w-2xl">
               My Engineering page documents trade-offs, research notes, and the reasoning behind every technical decision.
             </p>
 
-            <div className="w-full max-w-3xl bg-white p-10 md:p-14 rounded-[2rem] shadow-sm border border-black/5 relative mt-8">
+            <div className="w-full max-w-3xl bg-white p-6 sm:p-10 md:p-14 rounded-[2rem] shadow-sm border border-black/5 relative mt-8">
               <span className="text-6xl font-serif absolute top-6 left-6 text-[#1F95A3]/20">"</span>
-              <p className="text-2xl md:text-3xl font-black text-[#3A3A3C] leading-snug italic relative z-10 mb-6">
-                Why Flask over Django? Because I want to understand what happens, not what's abstracted away.
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-[#3A3A3C] leading-snug italic relative z-10 mb-6">
+                Why Flask over Django? Because I want to understand what happens, not what&apos;s abstracted away.
               </p>
               <p className="text-[#3A3A3C]/50 font-bold uppercase tracking-widest text-sm relative z-10">
                 — Engineering Philosophy
@@ -384,7 +384,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SECTION 5: IMPACT NUMBERS + CTA ── */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-16 md:py-24 lg:py-32 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* Stats Row */}
           <motion.div
@@ -392,41 +392,41 @@ export default function HomePage() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-32"
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16 md:mb-24 lg:mb-32"
           >
             <motion.div variants={fadeInUp} className="text-center">
-              <div className="text-5xl md:text-7xl font-black mb-2" style={{ color: colors.coral }}>4+</div>
-              <div className="text-[#3A3A3C] font-bold tracking-wide">Projects Built</div>
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2" style={{ color: colors.coral }}>4+</div>
+              <div className="text-sm sm:text-base text-[#3A3A3C] font-bold tracking-wide">Projects Built</div>
             </motion.div>
             <motion.div variants={fadeInUp} className="text-center">
-              <div className="text-5xl md:text-7xl font-black mb-2" style={{ color: colors.teal }}>OCP</div>
-              <div className="text-[#3A3A3C] font-bold tracking-wide">Oracle Certified</div>
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2" style={{ color: colors.teal }}>OCP</div>
+              <div className="text-sm sm:text-base text-[#3A3A3C] font-bold tracking-wide">Oracle Certified</div>
             </motion.div>
             <motion.div variants={fadeInUp} className="text-center">
-              <div className="text-5xl md:text-7xl font-black mb-2" style={{ color: colors.purple }}>IEEE</div>
-              <div className="text-[#3A3A3C] font-bold tracking-wide">Vice President</div>
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2" style={{ color: colors.purple }}>IEEE</div>
+              <div className="text-sm sm:text-base text-[#3A3A3C] font-bold tracking-wide">Vice President</div>
             </motion.div>
             <motion.div variants={fadeInUp} className="text-center">
-              <div className="text-5xl md:text-7xl font-black mb-2 text-[#3A3A3C]">96.5%</div>
-              <div className="text-[#3A3A3C]/60 font-bold tracking-wide">Academy Score</div>
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2 text-[#3A3A3C]">96.5%</div>
+              <div className="text-sm sm:text-base text-[#3A3A3C]/60 font-bold tracking-wide">Academy Score</div>
             </motion.div>
           </motion.div>
 
           {/* CTA Footer Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center bg-[#F7F7F7] p-12 md:p-20 rounded-[3rem] border border-black/5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center bg-[#F7F7F7] p-6 sm:p-10 md:p-16 lg:p-20 rounded-2xl sm:rounded-[3rem] border border-black/5">
             <div>
-              <h2 className="text-4xl md:text-5xl font-black text-[#3A3A3C] mb-6">Ready to build something great together?</h2>
-              <div className="flex flex-wrap gap-4 mt-8">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#3A3A3C] mb-4 sm:mb-6">Ready to build something great together?</h2>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-6 sm:mt-8">
                 <Link
                   href="/contact"
-                  className="px-8 py-4 bg-[#3A3A3C] text-white font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-md"
+                  className="w-full sm:w-auto text-center px-8 py-4 bg-[#3A3A3C] text-white font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-md"
                 >
                   Contact Me
                 </Link>
                 <a
                   href="/cv_hadi_nossair.html"
                   target="_blank"
-                  className="px-8 py-4 bg-white text-[#3A3A3C] border border-black/10 font-bold rounded-full hover:bg-gray-50 transition-colors duration-300"
+                  className="w-full sm:w-auto text-center px-8 py-4 bg-white text-[#3A3A3C] border border-black/10 font-bold rounded-full hover:bg-gray-50 transition-colors duration-300"
                 >
                   Download Resume
                 </a>
